@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
+import {DigitalMedicalChit} from "../../../model/digital-medical-chit";
 
 @Component({
   selector: 'app-dmc-single',
@@ -9,16 +10,34 @@ import {Observable} from "rxjs";
 export class DmcSingleComponent implements OnInit {
 
   people$: any[];
+  merchants: any[];
+
   selectedPersonId = '123';
+  selectAllMerchants = 'ALL';
+  selectedCemtres = [];
+
+  dmc: DigitalMedicalChit;
+
+  showMerchantSelect = false;
 
   constructor() {
   }
 
   ngOnInit() {
+    this.dmc = new DigitalMedicalChit();
+
     this.people$ = [
-      {id: '123', ok:'ok'},
-      {id: '456', ok:'456'}
-      ];
+      {id: '123', name: 'Outpatient Care Plan A'},
+      {id: '456', name: 'Outpatient Care Plan B'}
+    ];
+    this.merchants = [
+      {id: '123', name: 'Tuas South Clinic'},
+      {id: '456', name: 'Some Clinic'}
+    ];
+  }
+
+  validate() {
+
   }
 
 }

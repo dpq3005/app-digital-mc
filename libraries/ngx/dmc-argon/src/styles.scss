@@ -10,6 +10,6 @@
   border-radius: 5px;
 }
 
-.ng-select-container.ng-has-value {
+.ng-select-container.ng-has-value, .ng-select .ng-select-container {
   border-color: white;
 }
