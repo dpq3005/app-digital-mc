@@ -58,13 +58,13 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="ni ni-sound-wave"></i></span>
                   </div>
-                  <ng-select [items]="people$"
+                  <ng-select [items]="products"
                              bindLabel="name"
                              autofocus
                              bindValue="id"
                              required="required"
                              name="product-id"
-                             [(ngModel)]="selectedPersonId"
+                             [(ngModel)]="dmc.productId"
                              #productId="ngModel"
                   >
                   </ng-select>
@@ -78,7 +78,8 @@
               </div>
 
               <div *ngIf="!showMerchantSelect" class="form-group text-center">
-                <button (click)="showMerchantSelect = true" type="button" class="btn btn-outline-primary">Limit this
+                <button (click)="showMerchantSelect = true" type="button" class="btn-limit-mc btn btn-outline-primary">
+                  <input type="checkbox"/> Limit this
                   medical chit to only certain centres
                 </button>
               </div>

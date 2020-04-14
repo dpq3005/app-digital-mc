@@ -5,3 +5,7 @@ ng-select {
   width: 1%;
   margin-bottom: 0;
 }
+
+.btn-limit-mc {
+  white-space: normal;
+}

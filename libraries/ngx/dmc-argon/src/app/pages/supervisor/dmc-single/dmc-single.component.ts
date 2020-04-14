@@ -9,10 +9,9 @@ import {DigitalMedicalChit} from "../../../model/digital-medical-chit";
 })
 export class DmcSingleComponent implements OnInit {
 
-  people$: any[];
+  products: any[];
   merchants: any[];
 
-  selectedPersonId = '123';
   selectAllMerchants = 'ALL';
   selectedCemtres = [];
 
@@ -25,8 +24,9 @@ export class DmcSingleComponent implements OnInit {
 
   ngOnInit() {
     this.dmc = new DigitalMedicalChit();
+    this.dmc.productId = '123';
 
-    this.people$ = [
+    this.products = [
       {id: '123', name: 'Outpatient Care Plan A'},
       {id: '456', name: 'Outpatient Care Plan B'}
     ];
