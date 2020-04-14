@@ -18,7 +18,7 @@
               <div class="form-group">
                 <div class="input-group input-group-alternative mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="ni ni-credit-card"></i></span>
+                    <span class="input-group-text"><i class="ni ni-badge"></i></span>
                   </div>
                   <input class="form-control" placeholder="NRIC/FIN Number" type="text">
                 </div>
@@ -41,6 +41,19 @@
                              autofocus
                              bindValue="id"
                              [(ngModel)]="selectedPersonId" name="product-id">
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                  </div>
+                  <ng-select [items]="people$"
+                             bindLabel="ok"
+                             autofocus
+                             bindValue="id"
+                             [(ngModel)]="selectedPersonId" name="clinic-id">
                   </ng-select>
                 </div>
               </div>
