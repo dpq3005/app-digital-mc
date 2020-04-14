@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+.bg-gradient-magenta
+{
+  background: linear-gradient(87deg, #007802 0, #25b568 100%) !important;
+}
+
+.border-radius-5 {
+  border-radius: 5px;
+}
