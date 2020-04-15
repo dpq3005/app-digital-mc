@@ -19,6 +19,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 import { DmcListComponent } from '../../pages/supervisor/dmc-list/dmc-list.component';
 import { DmcSingleComponent } from '../../pages/supervisor/dmc-single/dmc-single.component';
+import { NotFoundComponent } from '../../pages/not-found/not-found.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { DmcSingleComponent } from '../../pages/supervisor/dmc-single/dmc-single
     IconsComponent,
     MapsComponent,
     DmcListComponent,
-    DmcSingleComponent
+    DmcSingleComponent,
+    NotFoundComponent
   ]
 })
 

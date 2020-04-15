@@ -8,6 +8,8 @@ import {TablesComponent} from '../../pages/tables/tables.component';
 
 import {DmcListComponent} from '../../pages/supervisor/dmc-list/dmc-list.component';
 import {DmcSingleComponent} from '../../pages/supervisor/dmc-single/dmc-single.component';
+import {SupervisorAuthGuard} from "../../security/supervisor/supervisor-auth.guard";
+import { NotFoundComponent } from '../../pages/not-found/not-found.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -15,7 +17,8 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'tables', component: TablesComponent},
   {path: 'icons', component: IconsComponent},
   {path: 'maps', component: MapsComponent},
-  {path: 'supervisor/dmc/list', component: DmcListComponent},
+  {path: 'not-found', component: NotFoundComponent},
+  {path: 'supervisor/dmc/list', component: DmcListComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
   {path: 'supervisor/dmc/create', component: DmcSingleComponent},
   {path: 'supervisor/dmc/edit/:id', component: DmcSingleComponent},
 ];
