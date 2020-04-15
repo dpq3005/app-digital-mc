@@ -23,7 +23,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '#', title: 'Centre', icon: 'ni-planet text-blue', class: '', children: [
       {path: '/merchant/login', title: 'Login', icon: 'ni-single-02 text-yellow', class: '', children: []},
-      {path: '/supervisor/dmc/list', title: 'Redeem Digital Medical Chit', icon: 'ni-check-bold text-red', class: '', children: []},
+      {path: '/merchant/dmc/list', title: 'Redeem Digital Medical Chit', icon: 'ni-check-bold text-red', class: '', children: []},
       // {path: '/supervisor/dmc/redeem', title: 'Create Digital Medical Chit', icon: 'ni-fat-add text-yellow', class: '', children: []},
     ]
   },
