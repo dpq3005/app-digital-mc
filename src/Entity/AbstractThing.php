@@ -114,7 +114,7 @@ abstract class AbstractThing extends \Bean\Thing\Model\Thing
     }
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
+     * @ORM\Column(type="string", length=128, nullable=true, unique=true)
      */
     protected $code;
 
@@ -211,7 +211,7 @@ abstract class AbstractThing extends \Bean\Thing\Model\Thing
     protected $deleted = false;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=128, unique=true)
      */
     protected $uuid;
 
