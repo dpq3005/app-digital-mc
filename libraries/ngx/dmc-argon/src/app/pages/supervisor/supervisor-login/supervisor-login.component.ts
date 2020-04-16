@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Credentials, SupervisorCredentials} from "../../../security/credentials";
 import {AuthService} from "../../../security/auth.service";
+import {catchError} from "rxjs/operators";
+import {Observable, ObservableInput} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-supervisor-login',
@@ -10,22 +13,31 @@ import {AuthService} from "../../../security/auth.service";
 export class SupervisorLoginComponent implements OnInit {
 
   loading = false;
-
+  errorMessage = '';
   credentials: SupervisorCredentials;
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService, private router: Router) {
     this.credentials = new SupervisorCredentials();
   }
 
   ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['supervisor', 'dmc', 'list']);
+    }
   }
 
   login() {
     this.loading = true;
-    this.authService.authenticate(this.credentials).subscribe(jwt => {
+    this.errorMessage = '';
+    this.authService.authenticate(this.credentials).pipe(catchError((err, caught): ObservableInput<any> => {
+      this.loading = false;
+      this.errorMessage = err.message;
+      return new Observable();
+    })).subscribe(jwt => {
       this.loading = false;
       localStorage.setItem('token', jwt.token);
       localStorage.setItem('credentials', JSON.stringify(this.credentials));
+      this.router.navigate(['supervisor', 'dmc', 'list']);
     });
   }
 }

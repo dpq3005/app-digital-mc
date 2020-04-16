@@ -37,8 +37,11 @@
 <!--          <div class="text-center text-muted mb-4">-->
 <!--            <small>Or sign in with credentials</small>-->
 <!--          </div>-->
+          <div *ngIf="!loading && errorMessage.length > 0" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+          </div>
           <div *ngIf="loading" class="text-center">
-            <h3>Please wait just a heart bit!</h3>
+            <h3>Please wait just a heart beat!</h3>
             <div class="lds-heart"><div></div></div>
           </div>
           <form *ngIf="!loading" role="form">
