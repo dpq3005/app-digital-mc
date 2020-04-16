@@ -3,6 +3,7 @@ export class Configuration {
 }
 
 export class ApiEndpoint {
+  version: number;
   global: string;
   dmc: string;
 }
