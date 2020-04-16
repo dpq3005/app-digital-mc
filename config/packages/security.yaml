@@ -1,4 +1,11 @@
 security:
+    role_hierarchy:
+        ROLE_MERCHANT_USER: ROLE_USER
+        ROLE_SUPERVISOR: ROLE_USER
+        ROLE_ORG_ADMIN:   [ROLE_SUPERVISOR, ROLE_MERCHANT_USER]
+        ROLE_ADMIN:       ROLE_ORG_ADMIN
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
     encoders:
         App\Entity\Security\User:
             algorithm: auto
