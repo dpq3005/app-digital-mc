@@ -1,7 +1,9 @@
 export class Configuration {
-  api: ApiEndpoint;
+  public api: ApiEndpoint;
 
-  public getApiEndpoint(name: string) {
+  public getApiEndpoint(name: string): string {
+    if (this.api.supervisor === null || typeof this.api.supervisor == "undefined") this.api.supervisor = this.api.global;
+    console.log('aaa',this.api, this.api[name]);
     return this.api[name];
   }
 }
@@ -9,5 +11,5 @@ export class Configuration {
 export class ApiEndpoint {
   version: number;
   global: string;
-  dmc: string;
+  supervisor: string;
 }

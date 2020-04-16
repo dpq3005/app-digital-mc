@@ -49,29 +49,43 @@ class CompanyCodeUsernamePasswordAuthenticator extends AbstractGuardAuthenticato
     {
 //        return 'app_login' === $request->attributes->get('_route')
 //            && $request->isMethod('POST');
-        return !empty($request->request->get('org-code'))
-            && !empty($request->request->get('username'))
-            && !empty($request->request->get('password'))
-
+        return
+            ($request->getContentType() === 'application/json'
+                ||
+                (!empty($request->request->get('org-code'))
+                    && !empty($request->request->get('username'))
+                    && !empty($request->request->get('password'))
+                )
+            )
             && $request->isMethod('POST');
     }
 
     public function getCredentials(Request $request)
     {
-        $orgCode = $request->request->get('org-code');
-        $uid = 0;
-        $credentials = [
-            'org-code' => $orgCode,
-            'username' => $request->request->get('username'),
-            'password' => $request->request->get('password'),
-        ];
+        if ($request->getContentType() === 'application/json') {
+            $dataJson = $request->getContent();
+            $data = json_decode($dataJson, true);
+            $orgCode = $data['org-code'];
+            $credentials = [
+                'org-code' => $orgCode,
+                'username' => $data['username'],
+                'password' => $data['password'],
+            ];
+        } else {
+            $orgCode = $request->request->get('org-code');
+            $credentials = [
+                'org-code' => $orgCode,
+                'username' => $request->request->get('username'),
+                'password' => $request->request->get('password'),
+            ];
+        }
 
         return $credentials;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $orgCode =  $credentials['org-code'];
+        $orgCode = $credentials['org-code'];
         if (!empty($orgCode)) {
             /** @var Organisation $org */
             $org = $this->entityManager->getRepository(Organisation::class)->findOneBy(['supervisorCode' => $orgCode]);
