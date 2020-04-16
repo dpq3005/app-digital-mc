@@ -4,3 +4,7 @@
 supervisor_token:
   path: /supervisor-token
   methods: ['POST']
+
+merchant_pin_token:
+  path: /merchant-pin-token
+  methods: ['POST']

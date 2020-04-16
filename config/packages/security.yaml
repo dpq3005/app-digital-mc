@@ -29,6 +29,14 @@ security:
                 authenticators:
                     - App\Security\CompanyCodeUsernamePasswordAuthenticator
 
+        merchant_pin_login:
+            pattern:  ^/merchant-pin-token
+            stateless: true
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\MerchantPinAuthenticator
+
         main:
             stateless: true
             anonymous: true
