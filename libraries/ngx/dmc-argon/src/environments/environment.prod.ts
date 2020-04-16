@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiGlobal: 'http://api.digital-medical-chit.magenta-wellness.com'
 };

@@ -1,5 +1,9 @@
 export class Configuration {
-  api: ApiEndpoint
+  api: ApiEndpoint;
+
+  public getApiEndpoint(name: string) {
+    return this.api[name];
+  }
 }
 
 export class ApiEndpoint {
