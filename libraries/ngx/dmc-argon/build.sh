@@ -1,1 +1,1 @@
-ng build --prod --output-path ../../public/dmc-argon
+ng build --prod --output-path ../../../public/dmc-argon
