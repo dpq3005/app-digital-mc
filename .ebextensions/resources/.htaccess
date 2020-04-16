@@ -1,4 +1,4 @@
-# Deployed from .ebextensions
+# Using vhosts.conf will ignore settings in this file
 
     <IfModule mod_rewrite.c>
             Options -MultiViews
