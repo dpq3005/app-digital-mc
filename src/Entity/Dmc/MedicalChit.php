@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Dmc\MedicalChitRepository")
+ * @ORM\Table(name="dmc__medical_chit")
  */
 class MedicalChit extends AbstractThing
 {

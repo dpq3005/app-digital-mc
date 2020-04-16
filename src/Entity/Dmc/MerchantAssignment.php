@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Dmc\MerchantAssignmentRepository")
+ * @ORM\Table(name="dmc__merchant_assignment")
  */
 class MerchantAssignment extends AbstractThing
 {

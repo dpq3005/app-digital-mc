@@ -17,6 +17,7 @@ import { ComponentsModule } from './components/components.module';
   imports: [
     BrowserAnimationsModule,
     FormsModule,
+    // import HttpClientModule after BrowserModule.
     HttpClientModule,
     ComponentsModule,
     NgbModule,
