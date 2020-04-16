@@ -49,15 +49,23 @@ class CompanyCodeUsernamePasswordAuthenticator extends AbstractGuardAuthenticato
     {
 //        return 'app_login' === $request->attributes->get('_route')
 //            && $request->isMethod('POST');
+        if (!$request->isMethod('POST')) {
+            return false;
+        }
+        if ($request->getContentType() === 'json') {
+            $content = $request->getContent();
+            $data = json_decode($content, true);
+            return
+                array_key_exists('org-code', $data) && !empty($data['org-code'])
+                &&
+                array_key_exists('username', $data) && !empty($data['username'])
+                &&
+                array_key_exists('password', $data) && !empty($data['password']);
+        }
         return
-            ($request->getContentType() === 'json'
-                ||
-                (!empty($request->request->get('org-code'))
-                    && !empty($request->request->get('username'))
-                    && !empty($request->request->get('password'))
-                )
-            )
-            && $request->isMethod('POST');
+            !empty($request->request->get('org-code'))
+            && !empty($request->request->get('username'))
+            && !empty($request->request->get('password'));
     }
 
     public function getCredentials(Request $request)

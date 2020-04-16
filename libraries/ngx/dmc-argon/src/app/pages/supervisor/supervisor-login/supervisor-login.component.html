@@ -37,7 +37,11 @@
 <!--          <div class="text-center text-muted mb-4">-->
 <!--            <small>Or sign in with credentials</small>-->
 <!--          </div>-->
-          <form role="form">
+          <div *ngIf="loading" class="text-center">
+            <h3>Please wait just a heart bit!</h3>
+            <div class="lds-heart"><div></div></div>
+          </div>
+          <form *ngIf="!loading" role="form">
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">

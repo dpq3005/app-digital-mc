@@ -34,13 +34,13 @@ export class AuthService {
   }
 
   public authenticate(credentials: Credentials): Observable<any> {
-    console.log('hey cren', credentials);
+
     if (credentials instanceof SupervisorCredentials) {
-      console.log('hey SUPERCRE', credentials);
+
       let keys = credentials.getKeys();
       let values = credentials.getValues();
       let loginUrl = this.config.getApiEndpoint('supervisor') + '/supervisor-token';
-      console.log('loginURL', loginUrl);
+
       return this.http.post(loginUrl, {
         'org-code': credentials.companyCode,
         'username': credentials.username,

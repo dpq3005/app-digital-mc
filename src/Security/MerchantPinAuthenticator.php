@@ -50,15 +50,21 @@ class MerchantPinAuthenticator extends AbstractGuardAuthenticator
     {
 //        return 'app_login' === $request->attributes->get('_route')
 //            && $request->isMethod('POST');
+        if (!$request->isMethod('POST')) {
+            return false;
+        }
+        if ($request->getContentType() === 'json') {
+            $content = $request->getContent();
+            $data = json_decode($content, true);
+            return
+                array_key_exists('uuid', $data) && !empty($data['uuid'])
+                &&
+                array_key_exists('pin', $data) && !empty($data['pin']);
+        }
 
         return
-            ($request->getContentType() === 'json'
-                ||
-                (!empty($request->request->get('uuid'))
-                    && !empty($request->request->get('pin'))
-                )
-            )
-            && $request->isMethod('POST');
+            !empty($request->request->get('uuid'))
+            && !empty($request->request->get('pin'));
     }
 
     public function getCredentials(Request $request)

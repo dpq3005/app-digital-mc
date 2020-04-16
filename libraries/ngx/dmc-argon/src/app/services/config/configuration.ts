@@ -3,7 +3,6 @@ export class Configuration {
 
   public getApiEndpoint(name: string): string {
     if (this.api.supervisor === null || typeof this.api.supervisor == "undefined") this.api.supervisor = this.api.global;
-    console.log('aaa',this.api, this.api[name]);
     return this.api[name];
   }
 }

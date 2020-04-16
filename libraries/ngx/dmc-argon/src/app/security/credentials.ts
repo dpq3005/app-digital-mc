@@ -1,16 +1,38 @@
 export abstract class Credentials {
+  protected type: CredentialsType;
   protected keys: string[];
   protected values: string[];
+
+  static restoreFromJson(json: string): Credentials | null {
+    let c = JSON.parse(json);
+    switch (c.type) {
+      case CredentialsType.SUPERVISOR:
+        return Object.assign(new SupervisorCredentials(), c);
+      case CredentialsType.MERCHANT:
+        break;
+    }
+    return null;
+  }
 
   abstract getKeys(): string[];
 
   abstract getValues(): string[];
 }
 
+export enum CredentialsType {
+  SUPERVISOR = 'SUPERVISOR',
+  MERCHANT = 'MERCHANT',
+}
+
 export class SupervisorCredentials extends Credentials {
   public companyCode: string;
   public username: string;
   public password: string;
+
+  constructor() {
+    super();
+    this.type = CredentialsType.SUPERVISOR
+  }
 
   getKeys(): string[] {
     this.keys = [];
