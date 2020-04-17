@@ -21,7 +21,7 @@ class BeneficiaryNricDecorator implements NormalizerInterface
             'name' => 'nric',
             'description' => 'get Benficiary with Nric from BenefitProvider Id',
             'default' => 'id',
-            'in' => 'body', // body or query
+            'in' => 'path', // body or query
         ];
 
         $path = '/benefit-providers/{id}/find-one-beneficiary-by-nric/{nric}';
@@ -32,7 +32,7 @@ class BeneficiaryNricDecorator implements NormalizerInterface
             'name' => 'id',
             'description' => 'BenefitProvider Uuidd',
             'default' => 'id',
-            'in' => 'body',
+            'in' => 'path',
         ];
 
         // e.g. remove an existing parameter
