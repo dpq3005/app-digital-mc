@@ -23,7 +23,7 @@ class FindOneBeneficiaryByNric
 
         $beneficiaries = $res['body'];
         if (empty($beneficiaries)) {
-            throw new NotFoundHttpException('Beneficiary not found!');
+            throw new NotFoundHttpException('Beneficiary not found for '.$id.' - '.$nric);
         }
         $beneficiary = $beneficiaries[0];
         $ben = new Beneficiary();

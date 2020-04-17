@@ -69,7 +69,7 @@ class HttpService
                 }
                 $data = null;
             } else {
-                var_dump($exception);exit();
+                throw $exception;
             }
         }
 
