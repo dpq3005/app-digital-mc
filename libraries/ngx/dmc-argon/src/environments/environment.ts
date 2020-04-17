@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  apiGlobal: 'http://api.digital-medical-chit.dev.magenta-wellness.com',
-  apiEntity: 'http://dev.persistence.magenta-wellness.com'
+  apiGlobal: 'http://api.digital-medical-chit.dev.magenta-wellness.com'
 };
 
 /*

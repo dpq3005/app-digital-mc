@@ -26,7 +26,6 @@ export class ConfigService {
       config = new Configuration();
       config.api = new ApiEndpoint();
       config.api.global = environment.apiGlobal;
-      config.api.entity = environment.apiEntity;
       config.api.version = 1;
       localStorage.setItem('config', JSON.stringify(config));
     }

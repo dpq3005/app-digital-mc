@@ -36,6 +36,7 @@ export class SupervisorLoginComponent implements OnInit {
     })).subscribe(jwt => {
       this.loading = false;
       localStorage.setItem('token', jwt.token);
+      localStorage.setItem('benefitProviderUuid', jwt.benefitProviderUuid);
       localStorage.setItem('credentials', JSON.stringify(this.credentials));
       this.router.navigate(['supervisor', 'dmc', 'list']);
     });

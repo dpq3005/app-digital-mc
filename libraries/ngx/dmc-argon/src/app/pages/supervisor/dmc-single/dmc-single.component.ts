@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DigitalMedicalChit} from "../../../model/digital-medical-chit";
+import {HttpService} from "../../../services/http/http.service";
 
 @Component({
   selector: 'app-dmc-single',
@@ -21,7 +22,7 @@ export class DmcSingleComponent implements OnInit {
 
   showMerchantSelect = false;
 
-  constructor() {
+  constructor(private http: HttpService) {
   }
 
   ngOnInit() {
@@ -45,7 +46,9 @@ export class DmcSingleComponent implements OnInit {
   handleNric() {
     this.loading = true;
     alert(this.dmc.memberNric);
-    // this.loading = false;
+    this.dmc.populateFromNric(this.http);
+    this.loading = false;
+    this.isNricReady = true;
   }
 
 }
