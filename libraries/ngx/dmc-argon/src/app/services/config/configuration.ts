@@ -11,4 +11,5 @@ export class ApiEndpoint {
   version: number;
   global: string;
   supervisor: string;
+  entity: string;
 }

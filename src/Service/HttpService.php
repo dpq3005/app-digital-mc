@@ -69,7 +69,7 @@ class HttpService
             }
         }
 
-        return ['data' => $data, 'header' => $headers,
+        return ['body' => $data, 'headers' => $headers,
         ];
     }
 

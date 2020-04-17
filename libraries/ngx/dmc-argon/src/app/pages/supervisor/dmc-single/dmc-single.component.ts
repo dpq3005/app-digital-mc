@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
 import {DigitalMedicalChit} from "../../../model/digital-medical-chit";
 
 @Component({
@@ -8,6 +7,9 @@ import {DigitalMedicalChit} from "../../../model/digital-medical-chit";
   styleUrls: ['./dmc-single.component.css']
 })
 export class DmcSingleComponent implements OnInit {
+
+  isNricReady: boolean = false;
+  loading: boolean = false;
 
   products: any[];
   merchants: any[];
@@ -38,6 +40,12 @@ export class DmcSingleComponent implements OnInit {
 
   validate() {
 
+  }
+
+  handleNric() {
+    this.loading = true;
+    alert(this.dmc.memberNric);
+    // this.loading = false;
   }
 
 }

@@ -15,13 +15,16 @@
           </div>
           <div class="card-body px-lg-5 py-lg-5">
             <form #dmcForm="ngForm" role="form">
-              <div class="form-group">
+              <div *ngIf="!isNricReady"  class="form-group">
+                <div *ngIf="loading" class="text-center">
+                  <div class="lds-facebook"><div></div><div></div><div></div></div>
+                </div>
                 <div class="input-group input-group-alternative mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="ni ni-badge"></i></span>
                   </div>
                   <input class="form-control" placeholder="NRIC/FIN Number (*)" type="text" required="required"
-                         name="member-nric" [(ngModel)]="dmc.memberNric" #memberNric="ngModel" />
+                         name="member-nric" [(ngModel)]="dmc.memberNric" #memberNric="ngModel"/>
                 </div>
                 <div *ngIf="memberNric.invalid && (memberNric.dirty || memberNric.touched)"
                      class="alert alert-danger">
@@ -30,92 +33,94 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group">
-                <div class="input-group input-group-alternative mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+              <div *ngIf="isNricReady">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Name (*)" type="text" required="required"
+                           name="member-name" [(ngModel)]="dmc.memberName" #memberName="ngModel">
                   </div>
-                  <input class="form-control" placeholder="Name (*)" type="text" required="required"
-                         name="member-name" [(ngModel)]="dmc.memberName" #memberName="ngModel">
-                </div>
-                <div *ngIf="memberName.invalid && (memberName.dirty || memberName.touched)"
-                     class="alert alert-danger">
+                  <div *ngIf="memberName.invalid && (memberName.dirty || memberName.touched)"
+                       class="alert alert-danger">
 
-                  <div *ngIf="memberName.errors.required">
-                    Name is required.
-                  </div>
-                  <div *ngIf="memberName.errors.minlength">
-                    Name must be at least 4 characters long.
-                  </div>
-                  <div *ngIf="memberName.errors.forbiddenName">
-                    Name cannot be Bob.
-                  </div>
+                    <div *ngIf="memberName.errors.required">
+                      Name is required.
+                    </div>
+                    <div *ngIf="memberName.errors.minlength">
+                      Name must be at least 4 characters long.
+                    </div>
+                    <div *ngIf="memberName.errors.forbiddenName">
+                      Name cannot be Bob.
+                    </div>
 
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group input-group-alternative">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="ni ni-sound-wave"></i></span>
-                  </div>
-                  <ng-select [items]="products"
-                             bindLabel="name"
-                             autofocus
-                             bindValue="id"
-                             required="required"
-                             name="product-id"
-                             [(ngModel)]="dmc.productId"
-                             #productId="ngModel"
-                  >
-                  </ng-select>
-                </div>
-                <div *ngIf="productId.invalid && (productId.dirty || productId.touched)"
-                     class="alert alert-danger mt-1">
-                  <div *ngIf="productId.errors.required">
-                    Product is required.
                   </div>
                 </div>
-              </div>
-
-              <div *ngIf="!showMerchantSelect" class="form-group text-center">
-                <button (click)="showMerchantSelect = true" type="button" class="btn-limit-mc btn btn-outline-primary">
-                  <input type="checkbox"/> Limit this
-                  medical chit to only certain centres
-                </button>
-              </div>
-
-              <div *ngIf="showMerchantSelect" class="form-group">
-                <div class="input-group input-group-alternative">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-sound-wave"></i></span>
+                    </div>
+                    <ng-select [items]="products"
+                               bindLabel="name"
+                               autofocus
+                               bindValue="id"
+                               required="required"
+                               name="product-id"
+                               [(ngModel)]="dmc.productId"
+                               #productId="ngModel"
+                    >
+                    </ng-select>
                   </div>
-                  <ng-select [items]="merchants"
-                             placeholder="Select applicable centres"
-                             [multiple]="true"
-                             bindLabel="name"
-                             autofocus
-                             bindValue="id"
-                             [(ngModel)]="selectedCemtres" name="merchant-ids">
-                    <!--                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">-->
-                    <!--                      <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.name}}-->
-                    <!--                    </ng-template>-->
-                  </ng-select>
+                  <div *ngIf="productId.invalid && (productId.dirty || productId.touched)"
+                       class="alert alert-danger mt-1">
+                    <div *ngIf="productId.errors.required">
+                      Product is required.
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <!--              <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small> </div>-->
-              <div class="row my-4">
-                <!--                <div class="col-12">-->
-                <!--                  <div class="custom-control custom-control-alternative custom-checkbox">-->
-                <!--                    <input class="custom-control-input" id="customCheckRegister" type="checkbox">-->
-                <!--                    <label class="custom-control-label" for="customCheckRegister">-->
-                <!--                      <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>-->
-                <!--                    </label>-->
-                <!--                  </div>-->
-                <!--                </div>-->
+                <div *ngIf="!showMerchantSelect" class="form-group text-center">
+                  <button (click)="showMerchantSelect = true" type="button"
+                          class="btn-limit-mc btn btn-outline-primary">
+                    <input type="checkbox"/> Limit this
+                    medical chit to only certain centres
+                  </button>
+                </div>
+                <div *ngIf="showMerchantSelect" class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-building"></i></span>
+                    </div>
+                    <ng-select [items]="merchants"
+                               placeholder="Select applicable centres"
+                               [multiple]="true"
+                               bindLabel="name"
+                               autofocus
+                               bindValue="id"
+                               [(ngModel)]="selectedCemtres" name="merchant-ids">
+                      <!--                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">-->
+                      <!--                      <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.name}}-->
+                      <!--                    </ng-template>-->
+                    </ng-select>
+                  </div>
+                </div>
+                <!--              <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small> </div>-->
+                <div class="row my-4">
+                  <!--                <div class="col-12">-->
+                  <!--                  <div class="custom-control custom-control-alternative custom-checkbox">-->
+                  <!--                    <input class="custom-control-input" id="customCheckRegister" type="checkbox">-->
+                  <!--                    <label class="custom-control-label" for="customCheckRegister">-->
+                  <!--                      <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>-->
+                  <!--                    </label>-->
+                  <!--                  </div>-->
+                  <!--                </div>-->
+                </div>
               </div>
               <div class="text-center">
-                <button type="button" class="btn btn-primary mt-4" [disabled]="dmcForm.invalid">Create MC</button>
                 <a routerLink="/supervisor/dmc/list" class="btn btn-default mt-4">Cancel</a>
+                <button *ngIf="!isNricReady" [disabled]="dmcForm.invalid" (click)="handleNric()" type="button" class="btn btn-primary mt-4" >Next >></button>
+                <button *ngIf="isNricReady" type="button" class="btn btn-primary mt-4" [disabled]="dmcForm.invalid">Create MC</button>
               </div>
             </form>
           </div>

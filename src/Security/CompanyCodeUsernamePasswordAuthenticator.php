@@ -122,7 +122,12 @@ class CompanyCodeUsernamePasswordAuthenticator extends AbstractGuardAuthenticato
         $jwt = $this->jwtManager->create($user);
 
         $response = new JWTAuthenticationSuccessResponse($jwt);
-        $event = new AuthenticationSuccessEvent(['token' => $jwt, 'orgUuid' => $user->getOrganisation()->getUuid()], $user, $response);
+        if ($org = $user->getOrganisation()) {
+            $benefitProviderUuid = $org->getBenefitProvider()->getUuid();
+        } else {
+            $benefitProviderUuid = null;
+        }
+        $event = new AuthenticationSuccessEvent(['token' => $jwt, 'benefitProviderUuid' => $benefitProviderUuid, 'orgUuid' => $org->getUuid()], $user, $response);
 
         $this->dispatcher->dispatch($event, Events::AUTHENTICATION_SUCCESS);
 

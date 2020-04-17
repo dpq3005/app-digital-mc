@@ -21,6 +21,7 @@ import {DmcListComponent} from '../../pages/supervisor/dmc-list/dmc-list.compone
 import {DmcSingleComponent} from '../../pages/supervisor/dmc-single/dmc-single.component';
 import {NotFoundComponent} from '../../pages/not-found/not-found.component';
 import {DmcListComponent as MerchantDmcListComponent} from '../../pages/merchant/dmc-list/dmc-list.component';
+import {JwtModule} from "@auth0/angular-jwt";
 
 @NgModule({
   imports: [
@@ -30,7 +31,14 @@ import {DmcListComponent as MerchantDmcListComponent} from '../../pages/merchant
     HttpClientModule,
     NgbModule,
     ClipboardModule,
-    NgSelectModule
+    NgSelectModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem("token");
+        },
+      }
+    })
   ],
   declarations: [
     DashboardComponent,

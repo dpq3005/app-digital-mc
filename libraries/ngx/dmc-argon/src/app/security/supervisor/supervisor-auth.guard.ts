@@ -6,14 +6,19 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
-  CanActivate
+  CanActivate, Router
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import {AuthService} from "../auth.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class SupervisorAuthGuard implements CanLoad, CanActivate {
+
+  constructor(private authService: AuthService, private router: Router) {
+  }
+
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
@@ -24,7 +29,9 @@ export class SupervisorAuthGuard implements CanLoad, CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log('routeeeeeeeeee ', route);
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['supervisor', 'login']);
+    }
     return true;
   }
 }

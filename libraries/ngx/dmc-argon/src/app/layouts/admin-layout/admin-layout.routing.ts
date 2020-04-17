@@ -20,8 +20,8 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'maps', component: MapsComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: 'supervisor/dmc/list', component: DmcListComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
-  {path: 'supervisor/dmc/create', component: DmcSingleComponent},
-  {path: 'supervisor/dmc/edit/:id', component: DmcSingleComponent},
+  {path: 'supervisor/dmc/create', component: DmcSingleComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
+  {path: 'supervisor/dmc/edit/:id', component: DmcSingleComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
 
   {path: 'merchant/dmc/list', component: MerchantDmcListComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
 ];
