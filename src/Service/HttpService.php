@@ -55,6 +55,8 @@ class HttpService
             $apiEndpoint = $this->getParameter('app.persistence.'.$persistence).'/'.$resourcePath;
         }
 
+        $error = [];
+
         try {
             $response = $this->httpClient->request('GET', $apiEndpoint);
             $content = $response->getContent();
@@ -66,6 +68,8 @@ class HttpService
                     $headers = [];
                 }
                 $data = null;
+            } else {
+                var_dump($exception);exit();
             }
         }
 
