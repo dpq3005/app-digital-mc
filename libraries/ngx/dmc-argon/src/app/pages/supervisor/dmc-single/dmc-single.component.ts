@@ -27,7 +27,9 @@ export class DmcSingleComponent implements OnInit {
 
   ngOnInit() {
     this.dmc = new DigitalMedicalChit();
-    this.dmc.productId = '123';
+    this.dmc.initServices(this.http);
+    // this.dmc.productId = '123';
+    this.dmc.populateProductOptions();
 
     this.products = [
       {id: '123', name: 'Outpatient Care Plan A'},
@@ -45,8 +47,7 @@ export class DmcSingleComponent implements OnInit {
 
   handleNric() {
     this.loading = true;
-    alert(this.dmc.memberNric);
-    this.dmc.populateFromNric(this.http);
+    this.dmc.populateFromNric();
     this.loading = false;
     this.isNricReady = true;
   }

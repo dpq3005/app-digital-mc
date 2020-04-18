@@ -39,5 +39,6 @@ export class HttpService {
 
 export enum Endpoint {
   SUPERVISOR = 'supervisor',
-  ENTITY = 'entity'
+  ENTITY = 'entity',
+  PRODUCT = 'product'
 }

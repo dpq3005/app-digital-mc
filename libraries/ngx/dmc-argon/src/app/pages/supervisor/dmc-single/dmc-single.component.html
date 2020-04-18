@@ -70,7 +70,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-sound-wave"></i></span>
                     </div>
-                    <ng-select [items]="products"
+                    <ng-select [items]="dmc.productOptions"
+                               placeholder="Please select a Product/Service"
                                bindLabel="name"
                                autofocus
                                bindValue="id"
