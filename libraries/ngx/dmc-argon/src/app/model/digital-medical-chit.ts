@@ -1,5 +1,6 @@
 import {Endpoint, HttpService} from "../services/http/http.service";
-import {Observable} from "rxjs";
+import {concat, Observable, of, Subject} from "rxjs";
+import {catchError, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
 
 export class DigitalMedicalChit {
   id: string;
@@ -8,8 +9,12 @@ export class DigitalMedicalChit {
   productId = null;
   merchants: Merchant[] = null;
 
+  merchantLoading = false;
+
   productOptions: Product[] = [];
-  merchantOptions: Merchant[] = [];
+  merchantOptions: Merchant[];
+  merchantOptions$: Observable<Merchant[]>;
+  merchantOptionInput$ = new Subject<string>();
 
   http: HttpService = null;
 
@@ -30,6 +35,37 @@ export class DigitalMedicalChit {
 
     }
   }
+
+  populateMerchantOptions() {
+    // scheduled([o1, o2, o3], scheduler).pipe(concatAll()
+    this.merchantOptions$ = <Observable<Merchant[]>>concat(
+      of([]), // default items
+      this.merchantOptionInput$.pipe(
+        distinctUntilChanged(),
+        tap(() => this.merchantLoading = true),
+        switchMap(term => this.http.get(Endpoint.PRODUCT, "products/" + this.productId + "/find-merchants-by-product-uuid?organisationName=" + term + "&pageSize=10").pipe(
+          catchError(() => of([])), // empty list on error
+          tap(() => this.merchantLoading = false)
+        ))
+      )
+    );
+
+    try {
+      this.http.get(Endpoint.PRODUCT, "products/" + this.productId + "/find-merchants-by-product-uuid?pageSize=1000").subscribe((res: any) => {
+        this.merchantOptions = [];
+        let p: Product;
+        for (let i = 0; i < res.length; i++) {
+          p = new Merchant();
+          p.id = res[i].uuid;
+          p.name = res[i].name;
+          this.merchantOptions.push(p);
+        }
+
+      });
+    } catch (error) {
+    }
+  }
+
 
   populateProductOptions() {
     let uuid = localStorage.getItem('benefitProviderUuid');
@@ -54,23 +90,6 @@ export class DigitalMedicalChit {
     }
   }
 
-  populateMerchantOptions() {
-    let uuid = this.productId;
-    try {
-      this.http.get(Endpoint.PRODUCT, "products/" + uuid + "/find-merchants-by-product-uuid?pageSize=1000").subscribe((res: any) => {
-        this.merchantOptions = [];
-        let p: Product;
-        for (let i = 0; i < res.length; i++) {
-          p = new Merchant();
-          p.id = res[i].uuid;
-          p.name = res[i].name;
-          this.merchantOptions.push(p);
-        }
-
-      });
-    } catch (error) {
-    }
-  }
 }
 
 export class Product {

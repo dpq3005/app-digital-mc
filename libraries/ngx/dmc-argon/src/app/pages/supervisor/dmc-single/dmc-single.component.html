@@ -15,9 +15,13 @@
           </div>
           <div class="card-body px-lg-5 py-lg-5">
             <form #dmcForm="ngForm" role="form">
-              <div *ngIf="!isNricReady"  class="form-group">
+              <div *ngIf="!isNricReady" class="form-group">
                 <div *ngIf="loading" class="text-center">
-                  <div class="lds-facebook"><div></div><div></div><div></div></div>
+                  <div class="lds-facebook">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
                 </div>
                 <div class="input-group input-group-alternative mb-3">
                   <div class="input-group-prepend">
@@ -70,7 +74,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-sound-wave"></i></span>
                     </div>
-                    <ng-select [items]="dmc.productOptions"
+                    <ng-select (change)="onProductChange($event)" [items]="dmc.productOptions"
                                placeholder="Please select a Product/Service"
                                bindLabel="name"
                                autofocus
@@ -101,7 +105,21 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-building"></i></span>
                     </div>
-                    <ng-select [items]="dmc.merchantOptions"
+                    <ng-select *ngIf="dmc.merchantOptions >= 50" [items]="dmc.merchantOptions$ | async"
+                               bindLabel="name"
+                               [addTag]="false"
+                               [multiple]="true"
+                               [hideSelected]="true"
+                               [trackByFn]="trackByFn"
+                               [minTermLength]="2"
+                               [loading]="dmc.merchantLoading"
+                               typeToSearchText="Please enter 2 or more characters"
+                               [typeahead]="dmc.merchantOptionInput$"
+                               [(ngModel)]="dmc.merchants"
+                               name="merchants"
+                    >
+                    </ng-select>
+                    <ng-select *ngIf="dmc.merchantOptions < 50" [items]="dmc.merchantOptions"
                                placeholder="Select applicable centres"
                                [multiple]="true"
                                bindLabel="name"
@@ -128,8 +146,12 @@
               </div>
               <div class="text-center">
                 <a routerLink="/supervisor/dmc/list" class="btn btn-default mt-4">Cancel</a>
-                <button *ngIf="!isNricReady" [disabled]="dmcForm.invalid" (click)="handleNric()" type="button" class="btn btn-primary mt-4" >Next >></button>
-                <button *ngIf="isNricReady" type="button" class="btn btn-primary mt-4" [disabled]="dmcForm.invalid">Create MC</button>
+                <button *ngIf="!isNricReady" [disabled]="dmcForm.invalid" (click)="handleNric()" type="button"
+                        class="btn btn-primary mt-4">Next >>
+                </button>
+                <button *ngIf="isNricReady" type="button" class="btn btn-primary mt-4" [disabled]="dmcForm.invalid">
+                  Create MC
+                </button>
               </div>
             </form>
           </div>

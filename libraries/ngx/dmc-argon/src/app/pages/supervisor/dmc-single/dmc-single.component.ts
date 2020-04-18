@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DigitalMedicalChit} from "../../../model/digital-medical-chit";
+import {DigitalMedicalChit, Merchant} from "../../../model/digital-medical-chit";
 import {HttpService} from "../../../services/http/http.service";
 
 @Component({
@@ -22,11 +22,21 @@ export class DmcSingleComponent implements OnInit {
   constructor(private http: HttpService) {
   }
 
+  trackByFn(item: Merchant) {
+    return item.id;
+  }
+
   ngOnInit() {
     this.dmc = new DigitalMedicalChit();
     this.dmc.initServices(this.http);
     // this.dmc.productId = '123';
     this.dmc.populateProductOptions();
+  }
+
+  onProductChange($event) {
+    if (this.dmc.productId !== null) {
+      this.dmc.populateMerchantOptions();
+    }
   }
 
   validate() {

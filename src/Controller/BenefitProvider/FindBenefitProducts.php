@@ -45,7 +45,7 @@ class FindBenefitProducts
         foreach ($benefitProducts as $benefitProduct) {
             $bProduct = new BenefitProduct();
             $bProduct->setName($benefitProduct->name);
-            $bProduct->setUuid($benefitProduct->uuid);
+            $bProduct->setUuid($benefitProduct->productUuid);
 
             $bProducts[] = $bProduct;
         }
