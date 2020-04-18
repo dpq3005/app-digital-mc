@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     app.persistence.entity: '%env(resolve:APP_PERSISTENCE_ENTITY_URL)%'
+    app.persistence.product: '%env(resolve:APP_PERSISTENCE_PRODUCT_URL)%'
 
 services:
     # default configuration for services in *this* file
@@ -59,4 +60,9 @@ services:
     'App\OpenApi\BeneficiaryNricDecorator':
         decorates: 'api_platform.swagger.normalizer.api_gateway'
         arguments: [ '@App\OpenApi\BeneficiaryNricDecorator.inner' ]
+        autoconfigure: false
+
+    'App\OpenApi\BenefitProductDecorator':
+        decorates: 'api_platform.swagger.normalizer.api_gateway'
+        arguments: [ '@App\OpenApi\BenefitProductDecorator.inner' ]
         autoconfigure: false

@@ -27,6 +27,11 @@ export class ConfigService {
       config.api = new ApiEndpoint();
       config.api.global = environment.apiGlobal;
       config.api.version = 1;
+
+      if (config.api.supervisor === null || typeof config.api.supervisor == "undefined") config.api.supervisor = config.api.global;
+      if (config.api.entity === null || typeof config.api.entity == "undefined") config.api.entity = config.api.global;
+      if (config.api.product === null || typeof config.api.product == "undefined") config.api.product = config.api.global;
+
       localStorage.setItem('config', JSON.stringify(config));
     }
   }
