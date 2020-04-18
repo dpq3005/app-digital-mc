@@ -66,3 +66,8 @@ services:
         decorates: 'api_platform.swagger.normalizer.api_gateway'
         arguments: [ '@App\OpenApi\BenefitProductDecorator.inner' ]
         autoconfigure: false
+
+    'App\OpenApi\MerchantProductUuidDecorator':
+        decorates: 'api_platform.swagger.normalizer.api_gateway'
+        arguments: [ '@App\OpenApi\MerchantProductUuidDecorator.inner' ]
+        autoconfigure: false
