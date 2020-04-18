@@ -15,9 +15,6 @@ export class DmcSingleComponent implements OnInit {
   products: any[];
   merchants: any[];
 
-  selectAllMerchants = 'ALL';
-  selectedCemtres = [];
-
   dmc: DigitalMedicalChit;
 
   showMerchantSelect = false;
@@ -30,15 +27,6 @@ export class DmcSingleComponent implements OnInit {
     this.dmc.initServices(this.http);
     // this.dmc.productId = '123';
     this.dmc.populateProductOptions();
-
-    this.products = [
-      {id: '123', name: 'Outpatient Care Plan A'},
-      {id: '456', name: 'Outpatient Care Plan B'}
-    ];
-    this.merchants = [
-      {id: '123', name: 'Tuas South Clinic'},
-      {id: '456', name: 'Some Clinic'}
-    ];
   }
 
   validate() {

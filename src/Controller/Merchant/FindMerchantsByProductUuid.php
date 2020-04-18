@@ -4,6 +4,7 @@ namespace App\Controller\Merchant;
 
 use App\Dto\Merchant;
 use App\Service\HttpService;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -32,9 +33,19 @@ class FindMerchantsByProductUuid
      *     }
      * )
      */
-    public function __invoke($id)
+    public function __invoke($id, Request $request)
     {
-        $res = $this->http->get(sprintf('merchants?productUuid=%s', $id), null, false, 'product');
+        $query = sprintf('merchants?productUuid=%s', $id);
+        if ($orgName = $request->query->get('organisationName', null)) {
+            $query .= '&organisationName='.$orgName;
+        }
+
+        $pageSize = $request->query->getInt('pageSize', 0);
+        if ($pageSize > 0) {
+            $query .= '&pageSize='.$pageSize;
+        }
+
+        $res = $this->http->get($query, null, false, 'product');
 
         $merchants = $res['body'];
         if ($merchants === null) {

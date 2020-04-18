@@ -6,8 +6,10 @@ export class DigitalMedicalChit {
   memberNric: string = null;
   memberName: string = null;
   productId = null;
+  merchants: Merchant[] = null;
 
   productOptions: Product[] = [];
+  merchantOptions: Merchant[] = [];
 
   http: HttpService = null;
 
@@ -51,9 +53,32 @@ export class DigitalMedicalChit {
 
     }
   }
+
+  populateMerchantOptions() {
+    let uuid = this.productId;
+    try {
+      this.http.get(Endpoint.PRODUCT, "products/" + uuid + "/find-merchants-by-product-uuid?pageSize=1000").subscribe((res: any) => {
+        this.merchantOptions = [];
+        let p: Product;
+        for (let i = 0; i < res.length; i++) {
+          p = new Merchant();
+          p.id = res[i].uuid;
+          p.name = res[i].name;
+          this.merchantOptions.push(p);
+        }
+
+      });
+    } catch (error) {
+    }
+  }
 }
 
 export class Product {
+  id: string;
+  name: string;
+}
+
+export class Merchant {
   id: string;
   name: string;
 }

@@ -23,6 +23,7 @@ use App\Controller\BenefitProvider\FindOneBeneficiaryByNric;
  *     "find_merchants_by_product_uuid"
  *     }
  * )
+ * @ApiFilter(SimpleDtoFilter::class, properties={"organisationName": "exact"})
  */
 class Merchant
 {
