@@ -28,7 +28,7 @@ export class DigitalMedicalChit {
     this.http = http;
   }
 
-  save() {
+  save(callback?) {
     if (this.id == null) {
       this.http.post(Endpoint.GLOBAL, ['digital-medical-chits'], {
         beneficiaryNric: this.beneficiaryNric,
@@ -37,6 +37,9 @@ export class DigitalMedicalChit {
         merchants: this.merchants
       }).subscribe(res => {
         console.log('save done', res);
+        if (callback) {
+          callback();
+        }
       });
     }
   }

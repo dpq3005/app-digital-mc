@@ -36,6 +36,12 @@ class DigitalMedicalChit
     /**
      * @var string|null
      * @ApiProperty()
+     */
+    protected $productName;
+
+    /**
+     * @var string|null
+     * @ApiProperty()
      * @Groups("write")
      */
     protected $beneficiaryName;
@@ -229,5 +235,21 @@ class DigitalMedicalChit
     public function setExpired(?bool $expired): void
     {
         $this->expired = $expired;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProductName(): ?string
+    {
+        return $this->productName;
+    }
+
+    /**
+     * @param string|null $productName
+     */
+    public function setProductName(?string $productName): void
+    {
+        $this->productName = $productName;
     }
 }

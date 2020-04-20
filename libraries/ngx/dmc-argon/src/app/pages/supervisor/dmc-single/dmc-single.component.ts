@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DigitalMedicalChit, Merchant} from "../../../model/digital-medical-chit";
 import {HttpService} from "../../../services/http/http.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dmc-single',
@@ -19,7 +20,7 @@ export class DmcSingleComponent implements OnInit {
 
   showMerchantSelect = false;
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpService, private router: Router) {
   }
 
   trackByFn(item: Merchant) {
@@ -41,7 +42,9 @@ export class DmcSingleComponent implements OnInit {
 
   createDmc() {
     console.log('create dmc', this.dmc);
-    this.dmc.save();
+    this.dmc.save(() => {
+      this.router.navigate(['supervisor', 'dmc', 'list']);
+    });
   }
 
   handleNric() {
