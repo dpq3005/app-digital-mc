@@ -21,9 +21,9 @@ export class DmcListComponent implements OnInit {
 
   ngOnInit(): void {
     this.dmcCollection.initServices(this.http);
+    this.dmcCollection.loadItemsFromNextPage();
   }
 
-  sum = 100;
   throttle = 300;
   scrollDistance = 1;
   scrollUpDistance = 2;

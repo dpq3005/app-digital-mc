@@ -6,9 +6,7 @@ use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\Exception\ResourceClassNotSupportedException;
 use App\Dto\BenefitProvider\Beneficiary;
-use App\Dto\BenefitProvider\BenefitProvider;
 use App\Dto\Dmc\DigitalMedicalChit;
-use App\Dto\Merchant\Merchant;
 use App\Entity\Dmc\MedicalChit;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
@@ -60,6 +58,7 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
         $pageSize = $request->query->getInt('pageSize', 100);
         $pageIndex = $page - 1;
 
+        $qb->orderBy('dmc.id', 'DESC');
         $qb->setMaxResults($pageSize)->setFirstResult($pageIndex * $pageSize);
 
         $medicalChits = $qb->getQuery()->getResult();

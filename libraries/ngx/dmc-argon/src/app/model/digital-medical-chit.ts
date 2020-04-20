@@ -6,6 +6,10 @@ export class DigitalMedicalChit {
   id: string;
   beneficiaryNric: string = null;
   beneficiaryName: string = null;
+  code: string = null;
+  isExpired: boolean;
+  isRedeemed: boolean;
+
   productId = null;
   productName = null;
   merchants: Merchant[] = null;
@@ -128,10 +132,12 @@ export class DigitalMedicalChitCollection {
   }
 
   loadItemsFromNextPage() {
+    this.isLoading = true;
+
     // if (!this.isLoading) {
     this.currentPage++;
     this.http.get(Endpoint.GLOBAL, ["digital-medical-chits?pageSize=20&page=" + this.currentPage]).pipe(catchError((err) => {
-      // this.isLoading = false;
+      this.isLoading = false;
       return (err);
     })).subscribe(res => {
 
@@ -144,8 +150,13 @@ export class DigitalMedicalChitCollection {
         dmc.productId = item.product;
         dmc.productName = item.productName;
 
+        dmc.code = item.code;
+        dmc.isExpired = item.expired;
+        dmc.isRedeemed = item.redeemed;
         this.appendItem(dmc);
       }
+      this.isLoading = false;
+
     })
     // }
   }

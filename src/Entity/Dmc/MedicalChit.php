@@ -38,10 +38,10 @@ class MedicalChit extends AbstractThing
         if (empty($this->code)) {
             $now = new \DateTime();
             $this->code = 'DMC';
-            $this->code .= $now->format('ym');
-            $this->code .= $now->format('dH');
-            $this->code .= ThingService::generate4DigitCode();
-            $this->code .= ThingService::generate4DigitCode();
+            $this->code .= '-'.$now->format('ym');
+            $this->code .= '-'.$now->format('dH');
+            $this->code .= '-'.ThingService::generate4DigitCode();
+            $this->code .= '-'.ThingService::generate4DigitCode();
         }
     }
 
