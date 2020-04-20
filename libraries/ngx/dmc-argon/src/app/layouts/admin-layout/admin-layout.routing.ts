@@ -11,6 +11,7 @@ import {DmcSingleComponent} from '../../pages/supervisor/dmc-single/dmc-single.c
 import {SupervisorAuthGuard} from "../../security/supervisor/supervisor-auth.guard";
 import { NotFoundComponent } from '../../pages/not-found/not-found.component';
 import {DmcListComponent as MerchantDmcListComponent} from '../../pages/merchant/dmc-list/dmc-list.component';
+import {LogoutComponent} from "../../pages/logout/logout.component";
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -24,4 +25,6 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'supervisor/dmc/edit/:id', component: DmcSingleComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
 
   {path: 'merchant/dmc/list', component: MerchantDmcListComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
+  {path: 'logout', component: LogoutComponent},
+
 ];
