@@ -27,7 +27,7 @@ use App\Controller\BenefitProvider\FindOneBeneficiaryByNric;
  *       }
  *     }
  * )
- * @ApiFilter(SimpleDtoFilter::class, properties={"organisationUuid": "exact"})
+ * @ApiFilter(SimpleDtoFilter::class, properties={})
  */
 class Beneficiary
 {
@@ -63,23 +63,6 @@ class Beneficiary
     public function setUuid(string $uuid): self
     {
         $this->uuid = $uuid;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getOrganisationUuid(): ?string
-    {
-        return $this->organisationUuid;
-    }
-
-    /**
-     * @param string|null $organisationUuid
-     */
-    public function setOrganisationUuid(?string $organisationUuid): self
-    {
-        $this->organisationUuid = $organisationUuid;
         return $this;
     }
 
