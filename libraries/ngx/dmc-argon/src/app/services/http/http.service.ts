@@ -61,6 +61,23 @@ export class HttpService {
     }
     return this.http.get(url, httpGetOptions);
   }
+
+  public delete(endpoint: Endpoint, pathSegments: [string], headers?): Observable<any> {
+    let url = null;
+    let path = null;
+    if (Array.isArray(pathSegments)) {
+      if (pathSegments.length > 0) {
+        path = pathSegments.pop();
+      }
+    }
+
+    if (path == null || typeof path == "undefined") {
+      url = this.config.getApiEndpoint(endpoint);
+    } else {
+      url = this.config.getApiEndpoint(endpoint) + '/' + path;
+    }
+    return this.http.delete(url, httpOptions);
+  }
 }
 
 export enum Endpoint {

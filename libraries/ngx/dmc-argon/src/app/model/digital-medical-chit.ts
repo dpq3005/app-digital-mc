@@ -4,6 +4,7 @@ import {catchError, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
 
 export class DigitalMedicalChit {
   id: string;
+  isDeleted: boolean = false;
   beneficiaryNric: string = null;
   beneficiaryName: string = null;
   code: string = null;
@@ -37,6 +38,19 @@ export class DigitalMedicalChit {
       }).subscribe(res => {
         console.log('save done', res);
       });
+    }
+  }
+
+  delete(callback?) {
+    try {
+      return this.http.delete(Endpoint.GLOBAL, ["digital-medical-chits/" + this.id]).subscribe((res: any) => {
+        this.isDeleted = true;
+        if (callback) {
+          callback();
+        }
+      });
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -131,6 +145,17 @@ export class DigitalMedicalChitCollection {
     this.medicalChits.push(dmc);
   }
 
+  deleteItem(dmc: DigitalMedicalChit) {
+    console.log('deleteItem')
+    dmc.delete(() => {
+      let i = this.medicalChits.indexOf(dmc);
+      console.log('i is ' + i);
+      if (i >= 0) {
+        this.medicalChits.splice(i, 1);
+      }
+    });
+  }
+
   loadItemsFromNextPage() {
     this.isLoading = true;
 
@@ -144,6 +169,8 @@ export class DigitalMedicalChitCollection {
       for (let i = 0; i < res.length; i++) {
         let item = res[i];
         let dmc = new DigitalMedicalChit();
+        dmc.initServices(this.http);
+
         dmc.beneficiaryName = item.beneficiaryName;
         dmc.id = item.uuid;
         dmc.beneficiaryNric = item.beneficiaryNric;

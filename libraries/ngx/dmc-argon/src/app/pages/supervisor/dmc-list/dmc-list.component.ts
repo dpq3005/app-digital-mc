@@ -2,7 +2,7 @@
 
 import {Component, OnInit} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {DigitalMedicalChitCollection} from "../../../model/digital-medical-chit";
+import {DigitalMedicalChit, DigitalMedicalChitCollection} from "../../../model/digital-medical-chit";
 import {HttpService} from "../../../services/http/http.service";
 
 @Component({
@@ -35,9 +35,13 @@ export class DmcListComponent implements OnInit {
     this.direction = 'down'
   }
 
-  openModal(content) {
+  confirmDelete(content, dmc: DigitalMedicalChit) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      if (result === 'YES') {
+        console.log('let s detete');
+        this.dmcCollection.deleteItem(dmc);
+      }
       console.log('this.closeResult', this.closeResult);
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

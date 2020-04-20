@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataProvider\BenefitProvider;
+namespace App\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
@@ -23,7 +23,7 @@ final class DigitalMedicalChitItemDataProvider implements ItemDataProviderInterf
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return Beneficiary::class === $resourceClass;
+        return DigitalMedicalChit::class === $resourceClass;
     }
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?DigitalMedicalChit
@@ -39,9 +39,8 @@ final class DigitalMedicalChitItemDataProvider implements ItemDataProviderInterf
             ->setUuid($medicalChit->getUuid());
 
         $dmc
-            ->setBeneficiaryName($medicalChit->getName())
-            ->setBeneficiaryNric($medicalChit->getNric())
-        ;
+            ->setBeneficiaryName($medicalChit->getBeneficiaryName())
+            ->setBeneficiaryNric($medicalChit->getBeneficiaryNric());
 
         return $dmc;
     }
