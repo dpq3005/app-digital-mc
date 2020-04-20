@@ -28,7 +28,7 @@ export class HttpService {
     this.config = configService.getConfiguration();
   }
 
-  public post(endpoint: Endpoint, pathSegments: [], postBody: any, headers?): Observable<any> {
+  public post(endpoint: Endpoint, pathSegments: [string], postBody: any, headers?): Observable<any> {
     let url = null;
     let path = null;
     if (Array.isArray(pathSegments)) {

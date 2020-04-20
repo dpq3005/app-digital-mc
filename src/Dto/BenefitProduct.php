@@ -41,6 +41,12 @@ class BenefitProduct
     protected $name;
 
     /**
+     * @var string|null
+     * @ApiProperty()
+     */
+    protected $productUuid;
+
+    /**
      * @return string
      */
     public function getUuid(): string
@@ -70,5 +76,21 @@ class BenefitProduct
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProductUuid(): ?string
+    {
+        return $this->productUuid;
+    }
+
+    /**
+     * @param string|null $productUuid
+     */
+    public function setProductUuid(?string $productUuid): void
+    {
+        $this->productUuid = $productUuid;
     }
 }

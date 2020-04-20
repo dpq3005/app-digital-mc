@@ -67,9 +67,9 @@ class SimpleDtoFilter implements FilterInterface
             'is_collection' => '[]' === substr((string) $filterParameterName, -2),
         ];
 
-        $example = sprintf('%1$s[]={propertyName}&%1$s[]={anotherPropertyName}&%1$s[{nestedPropertyParent}][]={nestedProperty}',
-            $this->parameterName
-        );
+        $example = '';// sprintf('',
+        //$this->parameterName
+        //);
 //        return $description;
         $properties = [];
         foreach ($this->properties as $property => $config) {

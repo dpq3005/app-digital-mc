@@ -93,7 +93,7 @@ export class DigitalMedicalChit {
         }
 
         if (res.length === 1) {
-          this.productId = res[0].uuid;
+          this.productId = res[0].productUuid;
           this.populateMerchantOptions();
         }
 
