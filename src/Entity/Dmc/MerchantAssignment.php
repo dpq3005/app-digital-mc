@@ -12,6 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class MerchantAssignment extends AbstractThing
 {
+
+    public function initUuid($prefix = null)
+    {
+        $prefix = 'MA';
+        parent::initUuid($prefix);
+    }
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Dmc\MedicalChit", inversedBy="merchantAssignments")
      * @ORM\JoinColumn(name="id_medical_chit", referencedColumnName="id", onDelete="CASCADE", nullable=false)

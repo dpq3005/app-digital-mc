@@ -8,7 +8,12 @@ framework:
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
+            async_normal:
+                dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
+                options:
+                    queue_name: normal_priority
 
         routing:
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
+            'App\Message\Dmc\AssociateMerchant': async_normal
