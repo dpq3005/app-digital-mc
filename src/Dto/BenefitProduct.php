@@ -18,7 +18,6 @@ use App\Controller\BenefitProvider\FindBenefitProducts;
  *     "get"={
  *     "requirements"={"id"=".+"},
  *         "read"=false,
-
  *     }},
  *     collectionOperations={
  *     "get",

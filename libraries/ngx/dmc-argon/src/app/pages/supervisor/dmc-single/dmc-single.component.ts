@@ -39,8 +39,9 @@ export class DmcSingleComponent implements OnInit {
     }
   }
 
-  validate() {
-
+  createDmc() {
+    console.log('create dmc', this.dmc);
+    this.dmc.save();
   }
 
   handleNric() {

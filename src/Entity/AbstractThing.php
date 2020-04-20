@@ -84,11 +84,15 @@ abstract class AbstractThing extends \Bean\Thing\Model\Thing
         return $this;
     }
 
-    public function initUuid()
+    public function initUuid($prefix = null)
     {
         if (empty($this->uuid)) {
-            $reflect = new \ReflectionClass($this);
-            $this->uuid = ThingService::generateUuid($reflect->getShortName());
+            if (empty($prefix)) {
+                $reflect = new \ReflectionClass($this);
+                $shortClassName = $reflect->getShortName();
+                $prefix = strtoupper(ThingService::decamelise($shortClassName));
+            }
+            $this->uuid = ThingService::generateUuid($prefix);
         }
     }
 

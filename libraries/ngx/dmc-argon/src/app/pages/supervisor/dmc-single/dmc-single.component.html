@@ -105,7 +105,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-building"></i></span>
                     </div>
-                    <ng-select *ngIf="dmc.merchantOptions >= 50" [items]="dmc.merchantOptions$ | async"
+                    <ng-select *ngIf="dmc.merchantOptions.length >= 50" [items]="dmc.merchantOptions$ | async"
                                bindLabel="name"
                                [addTag]="false"
                                [multiple]="true"
@@ -119,7 +119,7 @@
                                name="merchants"
                     >
                     </ng-select>
-                    <ng-select *ngIf="dmc.merchantOptions < 50" [items]="dmc.merchantOptions"
+                    <ng-select *ngIf="dmc.merchantOptions.length < 50" [items]="dmc.merchantOptions"
                                placeholder="Select applicable centres"
                                [multiple]="true"
                                bindLabel="name"
@@ -149,7 +149,7 @@
                 <button *ngIf="!isNricReady" [disabled]="dmcForm.invalid" (click)="handleNric()" type="button"
                         class="btn btn-primary mt-4">Next >>
                 </button>
-                <button *ngIf="isNricReady" type="button" class="btn btn-primary mt-4" [disabled]="dmcForm.invalid">
+                <button *ngIf="isNricReady" type="button" class="btn btn-primary mt-4" [disabled]="dmcForm.invalid" (click)="createDmc()">
                   Create MC
                 </button>
               </div>

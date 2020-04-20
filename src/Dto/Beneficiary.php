@@ -41,12 +41,6 @@ class Beneficiary
      * @var string|null
      * @ApiProperty()
      */
-    protected $organisationUuid;
-
-    /**
-     * @var string|null
-     * @ApiProperty()
-     */
     protected $name;
 
     /**

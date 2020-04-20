@@ -3,6 +3,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ConfigService} from "../config/config.service";
 import {Configuration} from "../config/configuration";
 import {Observable} from "rxjs";
+import {catchError} from "rxjs/operators";
+import {isArray} from "util";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -26,6 +28,23 @@ export class HttpService {
     this.config = configService.getConfiguration();
   }
 
+  public post(endpoint: Endpoint, pathSegments: [], postBody: any, headers?): Observable<any> {
+    let url = null;
+    let path = null;
+    if (Array.isArray(pathSegments)) {
+      if (pathSegments.length > 0) {
+        path = pathSegments.pop();
+      }
+    }
+
+    if (path == null || typeof path == "undefined") {
+      url = this.config.getApiEndpoint(endpoint);
+    } else {
+      url = this.config.getApiEndpoint(endpoint) + '/' + path;
+    }
+    return this.http.post(url, postBody, httpOptions);
+  }
+
   public get(endpoint: Endpoint, path, headers?): Observable<any> {
     let url = null;
     if (path == null || typeof path == "undefined") {
@@ -38,6 +57,7 @@ export class HttpService {
 }
 
 export enum Endpoint {
+  GLOBAL = 'global',
   SUPERVISOR = 'supervisor',
   ENTITY = 'entity',
   PRODUCT = 'product'

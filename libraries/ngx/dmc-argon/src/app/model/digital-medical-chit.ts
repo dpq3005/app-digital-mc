@@ -22,6 +22,19 @@ export class DigitalMedicalChit {
     this.http = http;
   }
 
+  save() {
+    if (this.id == null) {
+      this.http.post(Endpoint.GLOBAL, ['digital-medical-chits'],{
+        nric: this.memberNric,
+        name: this.memberName,
+        product: this.productId,
+        merchants: this.merchants
+      }).subscribe(res => {
+        console.log('save done', res);
+      });
+    }
+  }
+
   populateFromNric() {
     // /benefit-providers/15e6f99ba1de1c/find-one-beneficiary-by-nric/13/lalana(NAING)042215
     let uuid = localStorage.getItem('benefitProviderUuid');
@@ -51,7 +64,7 @@ export class DigitalMedicalChit {
     );
 
     try {
-      this.http.get(Endpoint.PRODUCT, "products/" + this.productId + "/find-merchants-by-product-uuid?pageSize=1000").subscribe((res: any) => {
+      this.http.get(Endpoint.PRODUCT, "products/" + this.productId + "/find-merchants-by-product-uuid?pageSize=100").subscribe((res: any) => {
         this.merchantOptions = [];
         let p: Product;
         for (let i = 0; i < res.length; i++) {
@@ -65,7 +78,6 @@ export class DigitalMedicalChit {
     } catch (error) {
     }
   }
-
 
   populateProductOptions() {
     let uuid = localStorage.getItem('benefitProviderUuid');
@@ -82,6 +94,7 @@ export class DigitalMedicalChit {
 
         if (res.length === 1) {
           this.productId = res[0].uuid;
+          this.populateMerchantOptions();
         }
 
       });
