@@ -15,7 +15,42 @@
   <div class="container-fluid">
     <div class="header-body">
       <!-- Card stats -->
-      <div class="row">
+      <div
+        infiniteScroll
+        [infiniteScrollDistance]="scrollDistance"
+        [infiniteScrollUpDistance]="scrollUpDistance"
+        [infiniteScrollThrottle]="throttle"
+        (scrolled)="onScrollDown($event)"
+        class="row">
+        <div *ngFor="let dmc of dmcCollection.medicalChits" class="col-sm-6 col-lg-4">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Out-patient Care Plan A</h5>
+                  <span class="h2 font-weight-bold mb-0">{{dmc.beneficiaryName}}</span>
+                </div>
+                <div class="col-auto text-center">
+                  <div class="icon icon-shape bg-success text-white rounded-circle shadow">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div><small>Claimable</small></div>
+                </div>
+              </div>
+              <div class="mt-0 mb-0 text-muted text-sm">
+                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> XXXX4321</div>
+                <div class="text-primary mr-2"><i class="fa fa-barcode"></i> DMC-0258-5978-5555-2020</div>
+                <!--                <span class="text-nowrap">8 Trivex, Singapore</span>-->
+
+              </div>
+              <div>
+                <button (click)="openModal(content);" class="btn btn-danger btn-sm">DELETE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         <div class="col-sm-6 col-lg-4">
           <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body">

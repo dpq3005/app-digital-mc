@@ -1,5 +1,9 @@
+// https://material.angular.io/cdk/scrolling/overview
+
 import {Component, OnInit} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {DigitalMedicalChitCollection} from "../../../model/digital-medical-chit";
+import {HttpService} from "../../../services/http/http.service";
 
 @Component({
   selector: 'app-dmc-list',
@@ -8,11 +12,27 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class DmcListComponent implements OnInit {
   closeResult = '';
+  private dmcCollection: DigitalMedicalChitCollection;
+  items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private http: HttpService) {
+    this.dmcCollection = new DigitalMedicalChitCollection();
   }
 
   ngOnInit(): void {
+    this.dmcCollection.initServices(this.http);
+  }
+
+  sum = 100;
+  throttle = 300;
+  scrollDistance = 1;
+  scrollUpDistance = 2;
+  direction = '';
+
+  onScrollDown(ev) {
+    console.log('scrolled down!!', ev);
+    this.dmcCollection.loadItemsFromNextPage();
+    this.direction = 'down'
   }
 
   openModal(content) {
@@ -34,4 +54,5 @@ export class DmcListComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
 }

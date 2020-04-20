@@ -50,6 +50,12 @@ class DigitalMedicalChit
     /**
      * @var string|null
      * @ApiProperty()
+     */
+    protected $code;
+
+    /**
+     * @var string|null
+     * @ApiProperty()
      * @Groups("write")
      */
     protected $product;
@@ -60,6 +66,24 @@ class DigitalMedicalChit
      * @Groups("write")
      */
     protected $merchants;
+
+    /**
+     * @var \DateTime|null
+     * @ApiProperty()
+     */
+    protected $createdAt;
+
+    /**
+     * @var bool|null
+     * @ApiProperty()
+     */
+    protected $expired;
+
+    /**
+     * @var bool|null
+     * @ApiProperty()
+     */
+    protected $redeemed;
 
     /**
      * @return string|null
@@ -141,5 +165,69 @@ class DigitalMedicalChit
     public function setUuid(string $uuid): void
     {
         $this->uuid = $uuid;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime|null $createdAt
+     */
+    public function setCreatedAt(?\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getRedeemed(): ?bool
+    {
+        return $this->redeemed;
+    }
+
+    /**
+     * @param bool|null $redeemed
+     */
+    public function setRedeemed(?bool $redeemed): void
+    {
+        $this->redeemed = $redeemed;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string|null $code
+     */
+    public function setCode(?string $code): void
+    {
+        $this->code = $code;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getExpired(): ?bool
+    {
+        return $this->expired;
+    }
+
+    /**
+     * @param bool|null $expired
+     */
+    public function setExpired(?bool $expired): void
+    {
+        $this->expired = $expired;
     }
 }

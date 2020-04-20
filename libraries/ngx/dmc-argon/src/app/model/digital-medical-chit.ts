@@ -4,9 +4,10 @@ import {catchError, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
 
 export class DigitalMedicalChit {
   id: string;
-  memberNric: string = null;
-  memberName: string = null;
+  beneficiaryNric: string = null;
+  beneficiaryName: string = null;
   productId = null;
+  productName = null;
   merchants: Merchant[] = null;
 
   merchantLoading = false;
@@ -24,9 +25,9 @@ export class DigitalMedicalChit {
 
   save() {
     if (this.id == null) {
-      this.http.post(Endpoint.GLOBAL, ['digital-medical-chits'],{
-        nric: this.memberNric,
-        name: this.memberName,
+      this.http.post(Endpoint.GLOBAL, ['digital-medical-chits'], {
+        beneficiaryNric: this.beneficiaryNric,
+        beneficiaryName: this.beneficiaryName,
         product: this.productId,
         merchants: this.merchants
       }).subscribe(res => {
@@ -38,11 +39,11 @@ export class DigitalMedicalChit {
   populateFromNric() {
     // /benefit-providers/15e6f99ba1de1c/find-one-beneficiary-by-nric/13/lalana(NAING)042215
     let uuid = localStorage.getItem('benefitProviderUuid');
-    let nric = this.memberNric;
+    let nric = this.beneficiaryNric;
     try {
-      this.http.get(Endpoint.ENTITY, "benefit-providers/" + uuid + "/find-one-beneficiary-by-nric/" + nric + "?page=1").subscribe((res: any) => {
+      this.http.get(Endpoint.ENTITY, ["benefit-providers/" + uuid + "/find-one-beneficiary-by-nric/" + nric + "?page=1"]).subscribe((res: any) => {
         console.log(res);
-        this.memberName = res.name;
+        this.beneficiaryName = res.name;
       });
     } catch (err) {
 
@@ -50,13 +51,13 @@ export class DigitalMedicalChit {
   }
 
   populateMerchantOptions() {
-    // scheduled([o1, o2, o3], scheduler).pipe(concatAll()
+    // TODO scheduled([o1, o2, o3], scheduler).pipe(concatAll()
     this.merchantOptions$ = <Observable<Merchant[]>>concat(
       of([]), // default items
       this.merchantOptionInput$.pipe(
         distinctUntilChanged(),
         tap(() => this.merchantLoading = true),
-        switchMap(term => this.http.get(Endpoint.PRODUCT, "products/" + this.productId + "/find-merchants-by-product-uuid?organisationName=" + term + "&pageSize=10").pipe(
+        switchMap(term => this.http.get(Endpoint.PRODUCT, ["products/" + this.productId + "/find-merchants-by-product-uuid?organisationName=" + term + "&pageSize=10"]).pipe(
           catchError(() => of([])), // empty list on error
           tap(() => this.merchantLoading = false)
         ))
@@ -64,7 +65,7 @@ export class DigitalMedicalChit {
     );
 
     try {
-      this.http.get(Endpoint.PRODUCT, "products/" + this.productId + "/find-merchants-by-product-uuid?pageSize=100").subscribe((res: any) => {
+      this.http.get(Endpoint.PRODUCT, ["products/" + this.productId + "/find-merchants-by-product-uuid?pageSize=100"]).subscribe((res: any) => {
         this.merchantOptions = [];
         let p: Product;
         for (let i = 0; i < res.length; i++) {
@@ -82,12 +83,12 @@ export class DigitalMedicalChit {
   populateProductOptions() {
     let uuid = localStorage.getItem('benefitProviderUuid');
     try {
-      this.http.get(Endpoint.PRODUCT, "benefit-providers/" + uuid + "/find-benefit-products?page=1").subscribe((res: any) => {
+      this.http.get(Endpoint.PRODUCT, ["benefit-providers/" + uuid + "/find-benefit-products?page=1"]).subscribe((res: any) => {
         this.productOptions = [];
         let p: Product;
         for (let i = 0; i < res.length; i++) {
           p = new Product();
-          p.id = res[i].uuid;
+          p.id = res[i].productUuid;
           p.name = res[i].name;
           this.productOptions.push(p);
         }
@@ -105,12 +106,61 @@ export class DigitalMedicalChit {
 
 }
 
-export class Product {
+export class DigitalMedicalChitCollection {
+  medicalChits: DigitalMedicalChit[];
+  currentPage: number = 0;
+  isLoading = false;
+
+  http: HttpService = null;
+
+  initServices(http: HttpService) {
+    this.http = http;
+  }
+
+  constructor() {
+    this.medicalChits = [];
+  }
+
+  appendItem(dmc: DigitalMedicalChit, index?) {
+    // this.addItem(dmc, index, 'push');
+    // this.medicalChits[_method](dmc);
+    this.medicalChits.push(dmc);
+  }
+
+  loadItemsFromNextPage() {
+    // if (!this.isLoading) {
+    this.currentPage++;
+    this.http.get(Endpoint.GLOBAL, ["digital-medical-chits?pageSize=20&page=" + this.currentPage]).pipe(catchError((err) => {
+      // this.isLoading = false;
+      return (err);
+    })).subscribe(res => {
+      
+      for (let i = 0; i < res.length; i++) {
+        let item = res[i];
+        let dmc = new DigitalMedicalChit();
+        dmc.beneficiaryName = item.beneficiaryName;
+        dmc.id = item.uuid;
+        dmc.beneficiaryNric = item.beneficiaryNric;
+        dmc.productId = item.productUuid
+        dmc.productName = item.productName;
+
+        this.appendItem(dmc);
+      }
+    })
+    // }
+  }
+
+}
+
+export class DmcItem {
   id: string;
   name: string;
 }
 
-export class Merchant {
-  id: string;
-  name: string;
+export class Product extends DmcItem {
+
+}
+
+export class Merchant extends DmcItem {
+
 }

@@ -45,8 +45,15 @@ export class HttpService {
     return this.http.post(url, postBody, httpOptions);
   }
 
-  public get(endpoint: Endpoint, path, headers?): Observable<any> {
+  public get(endpoint: Endpoint, pathSegments: [string], headers?): Observable<any> {
     let url = null;
+    let path = null;
+    if (Array.isArray(pathSegments)) {
+      if (pathSegments.length > 0) {
+        path = pathSegments.pop();
+      }
+    }
+
     if (path == null || typeof path == "undefined") {
       url = this.config.getApiEndpoint(endpoint);
     } else {

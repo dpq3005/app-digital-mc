@@ -28,11 +28,11 @@
                     <span class="input-group-text"><i class="ni ni-badge"></i></span>
                   </div>
                   <input class="form-control" placeholder="NRIC/FIN Number (*)" type="text" required="required"
-                         name="member-nric" [(ngModel)]="dmc.memberNric" #memberNric="ngModel"/>
+                         name="member-nric" [(ngModel)]="dmc.beneficiaryNric" #beneficiaryNric="ngModel"/>
                 </div>
-                <div *ngIf="memberNric.invalid && (memberNric.dirty || memberNric.touched)"
+                <div *ngIf="beneficiaryNric.invalid && (beneficiaryNric.dirty || beneficiaryNric.touched)"
                      class="alert alert-danger">
-                  <div *ngIf="memberNric.errors.required">
+                  <div *ngIf="beneficiaryNric.errors.required">
                     NRIC/FIN is required.
                   </div>
                 </div>
@@ -43,7 +43,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-badge"></i></span>
                     </div>
-                    <div class="ipt-content">{{dmc.memberNric}}</div>
+                    <div class="ipt-content">{{dmc.beneficiaryNric}}</div>
                   </div>
                 </div>
                 <div class="form-group">
@@ -52,18 +52,18 @@
                       <span class="input-group-text"><i class="ni ni-single-02"></i></span>
                     </div>
                     <input class="form-control" placeholder="Name (*)" type="text" required="required"
-                           name="member-name" [(ngModel)]="dmc.memberName" #memberName="ngModel">
+                           name="member-name" [(ngModel)]="dmc.beneficiaryName" #beneficiaryName="ngModel">
                   </div>
-                  <div *ngIf="memberName.invalid && (memberName.dirty || memberName.touched)"
+                  <div *ngIf="beneficiaryName.invalid && (beneficiaryName.dirty || beneficiaryName.touched)"
                        class="alert alert-danger">
 
-                    <div *ngIf="memberName.errors.required">
+                    <div *ngIf="beneficiaryName.errors.required">
                       Name is required.
                     </div>
-                    <div *ngIf="memberName.errors.minlength">
+                    <div *ngIf="beneficiaryName.errors.minlength">
                       Name must be at least 4 characters long.
                     </div>
-                    <div *ngIf="memberName.errors.forbiddenName">
+                    <div *ngIf="beneficiaryName.errors.forbiddenName">
                       Name cannot be Bob.
                     </div>
 

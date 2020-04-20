@@ -5,6 +5,7 @@ namespace App\Entity\Dmc;
 use App\Entity\AbstractThing;
 use App\Entity\BenefitProvider\BenefitProduct;
 use App\Entity\EventSourcing\MedicalChitEvent;
+use App\Service\ThingService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,10 +13,37 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Dmc\MedicalChitRepository")
  * @ORM\Table(name="dmc__medical_chit")
+ * @ORM\HasLifecycleCallbacks()
  */
 class MedicalChit extends AbstractThing
 {
     const STATE_NEW = 'NEW';
+
+    /**
+     * @ORM\PreUpdate()
+     * @ORM\PrePersist()
+     */
+    public function preSave()
+    {
+        parent::preSave();
+        $this->initCode();
+        if (empty($this->expireAt)) {
+            $this->expireAt = clone $this->createdAt;
+            $this->expireAt->modify('+ '.$this->expireIn.' hours');
+        }
+    }
+
+    public function initCode()
+    {
+        if (empty($this->code)) {
+            $now = new \DateTime();
+            $this->code = 'DMC';
+            $this->code .= $now->format('ym');
+            $this->code .= $now->format('dH');
+            $this->code .= ThingService::generate4DigitCode();
+            $this->code .= ThingService::generate4DigitCode();
+        }
+    }
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Dmc\MerchantAssignment", mappedBy="medicalChit")
@@ -23,10 +51,11 @@ class MedicalChit extends AbstractThing
     private $merchantAssignments;
 
     /**
+     * @var BenefitProduct|null
      * @ORM\ManyToOne(targetEntity="App\Entity\BenefitProvider\BenefitProduct", inversedBy="medicalChits")
      * @ORM\JoinColumn(name="id_benefit_product")
      */
-    private $product;
+    private $benefitProduct;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -57,6 +86,21 @@ class MedicalChit extends AbstractThing
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $beneficiaryNric;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $expired;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $expireIn = 36;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $expireAt;
 
     public function __construct()
     {
@@ -95,14 +139,14 @@ class MedicalChit extends AbstractThing
         return $this;
     }
 
-    public function getProduct(): ?BenefitProduct
+    public function getBenefitProduct(): ?BenefitProduct
     {
-        return $this->product;
+        return $this->benefitProduct;
     }
 
-    public function setProduct(?BenefitProduct $product): self
+    public function setBenefitProduct(?BenefitProduct $benefitProduct): self
     {
-        $this->product = $product;
+        $this->benefitProduct = $benefitProduct;
 
         return $this;
     }
@@ -175,6 +219,42 @@ class MedicalChit extends AbstractThing
     public function setBeneficiaryNric(?string $beneficiaryNric): self
     {
         $this->beneficiaryNric = $beneficiaryNric;
+
+        return $this;
+    }
+
+    public function getExpired(): ?bool
+    {
+        return $this->expired;
+    }
+
+    public function setExpired(bool $expired): self
+    {
+        $this->expired = $expired;
+
+        return $this;
+    }
+
+    public function getExpireIn(): ?int
+    {
+        return $this->expireIn;
+    }
+
+    public function setExpireIn(?int $expireIn): self
+    {
+        $this->expireIn = $expireIn;
+
+        return $this;
+    }
+
+    public function getExpireAt(): ?\DateTimeInterface
+    {
+        return $this->expireAt;
+    }
+
+    public function setExpireAt(?\DateTimeInterface $expireAt): self
+    {
+        $this->expireAt = $expireAt;
 
         return $this;
     }

@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class BenefitProduct extends AbstractThing
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Dmc\MedicalChit", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="App\Entity\Dmc\MedicalChit", mappedBy="benefitProduct")
      */
     private $medicalChits;
 

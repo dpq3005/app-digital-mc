@@ -69,9 +69,21 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
             $dmc = new DigitalMedicalChit();
 
             $dmc->setUuid($medicalChit->getUuid());
+            $nric = $medicalChit->getBeneficiaryNric();
             $dmc
                 ->setBeneficiaryName($medicalChit->getBeneficiaryName())
-                ->setBeneficiaryNric($medicalChit->getBeneficiaryNric());
+                ->setBeneficiaryNric($nric ? 'XXXX'.substr($nric, -4) : null)
+                ->setProduct($medicalChit->getProductUuid());
+            if (empty($merchants = $medicalChit->getMerchantUuids())) {
+                $dmc->setMerchants($merchants);
+            } else {
+                $dmc->setMerchants(null);
+            }
+
+            $dmc->setCode($medicalChit->getCode());
+            $dmc->setCreatedAt($medicalChit->getCreatedAt());
+            $dmc->setRedeemed($medicalChit->getRedeemed());
+
             yield $dmc;
         }
 

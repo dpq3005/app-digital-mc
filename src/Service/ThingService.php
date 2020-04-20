@@ -136,4 +136,22 @@ class ThingService
         }
         return $destination;
     }
+
+    public static function generate4DigitCode($code = null)
+    {
+        if (empty($code)) {
+            $code = base_convert(rand(0, 1679615), 10, 36);
+        }
+
+        if (strlen($code) > 4) {
+            return strtoupper(substr($code, -4, 4));
+        }
+
+        for ($i = 0; $i < 4 - strlen($code);) {
+            $code = '0'.$code;
+        }
+
+        return strtoupper($code);
+    }
+
 }

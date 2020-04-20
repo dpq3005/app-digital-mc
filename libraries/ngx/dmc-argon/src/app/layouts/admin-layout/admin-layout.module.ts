@@ -22,6 +22,7 @@ import {DmcSingleComponent} from '../../pages/supervisor/dmc-single/dmc-single.c
 import {NotFoundComponent} from '../../pages/not-found/not-found.component';
 import {DmcListComponent as MerchantDmcListComponent} from '../../pages/merchant/dmc-list/dmc-list.component';
 import {JwtModule} from "@auth0/angular-jwt";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import {JwtModule} from "@auth0/angular-jwt";
     NgbModule,
     ClipboardModule,
     NgSelectModule,
+    InfiniteScrollModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
