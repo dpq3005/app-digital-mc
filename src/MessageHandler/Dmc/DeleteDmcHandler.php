@@ -4,6 +4,7 @@ namespace App\MessageHandler\Dmc;
 
 use App\Entity\Dmc\MedicalChit;
 use App\Entity\EventSourcing\MedicalChitEvent;
+use App\Message\Dmc\DeleteDmc;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Messenger\Exception\InvalidArgumentException;
@@ -12,14 +13,14 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class DeleteDmcHandler extends DmcHandler implements MessageHandlerInterface
 {
-    public function handleMessage(CreateDmc $message): MedicalChit
+    public function handleMessage(DeleteDmc $message): MedicalChit
     {
         $medicalChit = $this->registry->getRepository(MedicalChit::class)->findOneByUuid($message->uuid);
 
         return $medicalChit;
     }
 
-    public function __invoke(CreateDmc $message)
+    public function __invoke(DeleteDmc $message)
     {
         if ($message->isEventSourcingEnabled === null) {
             throw new InvalidArgumentException('property $isEventSourcingEnabled cannot be null');
