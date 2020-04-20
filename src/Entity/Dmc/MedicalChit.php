@@ -88,9 +88,9 @@ class MedicalChit extends AbstractThing
     private $beneficiaryNric;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default":false})
      */
-    private $expired;
+    private $expired = false;
 
     /**
      * @ORM\Column(type="integer", nullable=true)

@@ -134,14 +134,14 @@ export class DigitalMedicalChitCollection {
       // this.isLoading = false;
       return (err);
     })).subscribe(res => {
-      
+
       for (let i = 0; i < res.length; i++) {
         let item = res[i];
         let dmc = new DigitalMedicalChit();
         dmc.beneficiaryName = item.beneficiaryName;
         dmc.id = item.uuid;
         dmc.beneficiaryNric = item.beneficiaryNric;
-        dmc.productId = item.productUuid
+        dmc.productId = item.product;
         dmc.productName = item.productName;
 
         this.appendItem(dmc);
