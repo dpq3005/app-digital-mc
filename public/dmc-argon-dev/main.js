@@ -88,12 +88,12 @@ __webpack_require__.r(__webpack_exports__);
 var map = {
 	"./layouts/admin-layout/admin-layout.module": [
 		"./src/app/layouts/admin-layout/admin-layout.module.ts",
-		"common",
+		"default~layouts-admin-layout-admin-layout-module~layouts-auth-layout-auth-layout-module",
 		"layouts-admin-layout-admin-layout-module"
 	],
 	"./layouts/auth-layout/auth-layout.module": [
 		"./src/app/layouts/auth-layout/auth-layout.module.ts",
-		"common",
+		"default~layouts-admin-layout-admin-layout-module~layouts-auth-layout-auth-layout-module",
 		"layouts-auth-layout-auth-layout-module"
 	]
 };
@@ -817,6 +817,12 @@ var ConfigService = /** @class */ (function () {
             config.api = new _configuration__WEBPACK_IMPORTED_MODULE_1__["ApiEndpoint"]();
             config.api.global = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiGlobal;
             config.api.version = 1;
+            if (config.api.supervisor === null || typeof config.api.supervisor == "undefined")
+                config.api.supervisor = config.api.global;
+            if (config.api.entity === null || typeof config.api.entity == "undefined")
+                config.api.entity = config.api.global;
+            if (config.api.product === null || typeof config.api.product == "undefined")
+                config.api.product = config.api.global;
             localStorage.setItem('config', JSON.stringify(config));
         }
     };
@@ -859,8 +865,6 @@ var Configuration = /** @class */ (function () {
     function Configuration() {
     }
     Configuration.prototype.getApiEndpoint = function (name) {
-        if (this.api.supervisor === null || typeof this.api.supervisor == "undefined")
-            this.api.supervisor = this.api.global;
         return this.api[name];
     };
     return Configuration;

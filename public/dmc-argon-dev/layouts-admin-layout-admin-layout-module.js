@@ -38802,6 +38802,807 @@ ClipboardModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineIn
 
 /***/ }),
 
+/***/ "./node_modules/ngx-infinite-scroll/__ivy_ngcc__/modules/ngx-infinite-scroll.es5.js":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/ngx-infinite-scroll/__ivy_ngcc__/modules/ngx-infinite-scroll.es5.js ***!
+  \******************************************************************************************/
+/*! exports provided: InfiniteScrollDirective, InfiniteScrollModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InfiniteScrollDirective", function() { return InfiniteScrollDirective; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InfiniteScrollModule", function() { return InfiniteScrollModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm5/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+
+
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @param {?} selector
+ * @param {?} scrollWindow
+ * @param {?} defaultElement
+ * @param {?} fromRoot
+ * @return {?}
+ */
+
+function resolveContainerElement(selector, scrollWindow, defaultElement, fromRoot) {
+    /** @type {?} */
+    var hasWindow = window && !!window.document && window.document.documentElement;
+    /** @type {?} */
+    var container = hasWindow && scrollWindow ? window : defaultElement;
+    if (selector) {
+        /** @type {?} */
+        var containerIsString = selector && hasWindow && typeof selector === 'string';
+        container = containerIsString
+            ? findElement(selector, defaultElement.nativeElement, fromRoot)
+            : selector;
+        if (!container) {
+            throw new Error('ngx-infinite-scroll {resolveContainerElement()}: selector for');
+        }
+    }
+    return container;
+}
+/**
+ * @param {?} selector
+ * @param {?} customRoot
+ * @param {?} fromRoot
+ * @return {?}
+ */
+function findElement(selector, customRoot, fromRoot) {
+    /** @type {?} */
+    var rootEl = fromRoot ? window.document : customRoot;
+    return rootEl.querySelector(selector);
+}
+/**
+ * @param {?} prop
+ * @return {?}
+ */
+function inputPropChanged(prop) {
+    return prop && !prop.firstChange;
+}
+/**
+ * @return {?}
+ */
+function hasWindowDefined() {
+    return typeof window !== 'undefined';
+}
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+var VerticalProps = {
+    clientHeight: "clientHeight",
+    offsetHeight: "offsetHeight",
+    scrollHeight: "scrollHeight",
+    pageYOffset: "pageYOffset",
+    offsetTop: "offsetTop",
+    scrollTop: "scrollTop",
+    top: "top"
+};
+/** @type {?} */
+var HorizontalProps = {
+    clientHeight: "clientWidth",
+    offsetHeight: "offsetWidth",
+    scrollHeight: "scrollWidth",
+    pageYOffset: "pageXOffset",
+    offsetTop: "offsetLeft",
+    scrollTop: "scrollLeft",
+    top: "left"
+};
+var AxisResolver = /** @class */ (function () {
+    /**
+     * @param {?=} vertical
+     */
+    function AxisResolver(vertical) {
+        if (vertical === void 0) { vertical = true; }
+        this.vertical = vertical;
+        this.propsMap = vertical ? VerticalProps : HorizontalProps;
+    }
+    /**
+     * @return {?}
+     */
+    AxisResolver.prototype.clientHeightKey = function () {
+        return this.propsMap.clientHeight;
+    };
+    /**
+     * @return {?}
+     */
+    AxisResolver.prototype.offsetHeightKey = function () {
+        return this.propsMap.offsetHeight;
+    };
+    /**
+     * @return {?}
+     */
+    AxisResolver.prototype.scrollHeightKey = function () {
+        return this.propsMap.scrollHeight;
+    };
+    /**
+     * @return {?}
+     */
+    AxisResolver.prototype.pageYOffsetKey = function () {
+        return this.propsMap.pageYOffset;
+    };
+    /**
+     * @return {?}
+     */
+    AxisResolver.prototype.offsetTopKey = function () {
+        return this.propsMap.offsetTop;
+    };
+    /**
+     * @return {?}
+     */
+    AxisResolver.prototype.scrollTopKey = function () {
+        return this.propsMap.scrollTop;
+    };
+    /**
+     * @return {?}
+     */
+    AxisResolver.prototype.topKey = function () {
+        return this.propsMap.top;
+    };
+    return AxisResolver;
+}());
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @record
+ */
+/**
+ * @record
+ */
+/**
+ * @record
+ */
+/**
+ * @record
+ */
+/**
+ * @param {?} alwaysCallback
+ * @param {?} shouldFireScrollEvent
+ * @param {?} isTriggeredCurrentTotal
+ * @return {?}
+ */
+function shouldTriggerEvents(alwaysCallback, shouldFireScrollEvent, isTriggeredCurrentTotal) {
+    if (alwaysCallback && shouldFireScrollEvent) {
+        return true;
+    }
+    if (!isTriggeredCurrentTotal && shouldFireScrollEvent) {
+        return true;
+    }
+    return false;
+}
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @param {?} __0
+ * @return {?}
+ */
+function createResolver(_a) {
+    var windowElement = _a.windowElement, axis = _a.axis;
+    return createResolverWithContainer({ axis: axis, isWindow: isElementWindow(windowElement) }, windowElement);
+}
+/**
+ * @param {?} resolver
+ * @param {?} windowElement
+ * @return {?}
+ */
+function createResolverWithContainer(resolver, windowElement) {
+    /** @type {?} */
+    var container = resolver.isWindow || (windowElement && !windowElement.nativeElement)
+        ? windowElement
+        : windowElement.nativeElement;
+    return Object.assign({}, resolver, { container: container });
+}
+/**
+ * @param {?} windowElement
+ * @return {?}
+ */
+function isElementWindow(windowElement) {
+    /** @type {?} */
+    var isWindow = ['Window', 'global'].some(function (obj) { return Object.prototype.toString.call(windowElement).includes(obj); });
+    return isWindow;
+}
+/**
+ * @param {?} isContainerWindow
+ * @param {?} windowElement
+ * @return {?}
+ */
+function getDocumentElement(isContainerWindow, windowElement) {
+    return isContainerWindow ? windowElement.document.documentElement : null;
+}
+/**
+ * @param {?} element
+ * @param {?} resolver
+ * @return {?}
+ */
+function calculatePoints(element, resolver) {
+    /** @type {?} */
+    var height = extractHeightForElement(resolver);
+    return resolver.isWindow
+        ? calculatePointsForWindow(height, element, resolver)
+        : calculatePointsForElement(height, element, resolver);
+}
+/**
+ * @param {?} height
+ * @param {?} element
+ * @param {?} resolver
+ * @return {?}
+ */
+function calculatePointsForWindow(height, element, resolver) {
+    var axis = resolver.axis, container = resolver.container, isWindow = resolver.isWindow;
+    var _a = extractHeightPropKeys(axis), offsetHeightKey = _a.offsetHeightKey, clientHeightKey = _a.clientHeightKey;
+    // scrolled until now / current y point
+    /** @type {?} */
+    var scrolled = height +
+        getElementPageYOffset(getDocumentElement(isWindow, container), axis, isWindow);
+    // total height / most bottom y point
+    /** @type {?} */
+    var nativeElementHeight = getElementHeight(element.nativeElement, isWindow, offsetHeightKey, clientHeightKey);
+    /** @type {?} */
+    var totalToScroll = getElementOffsetTop(element.nativeElement, axis, isWindow) +
+        nativeElementHeight;
+    return { height: height, scrolled: scrolled, totalToScroll: totalToScroll, isWindow: isWindow };
+}
+/**
+ * @param {?} height
+ * @param {?} element
+ * @param {?} resolver
+ * @return {?}
+ */
+function calculatePointsForElement(height, element, resolver) {
+    var axis = resolver.axis, container = resolver.container;
+    // perhaps use container.offsetTop instead of 'scrollTop'
+    /** @type {?} */
+    var scrolled = container[axis.scrollTopKey()];
+    /** @type {?} */
+    var totalToScroll = container[axis.scrollHeightKey()];
+    return { height: height, scrolled: scrolled, totalToScroll: totalToScroll, isWindow: false };
+}
+/**
+ * @param {?} axis
+ * @return {?}
+ */
+function extractHeightPropKeys(axis) {
+    return {
+        offsetHeightKey: axis.offsetHeightKey(),
+        clientHeightKey: axis.clientHeightKey()
+    };
+}
+/**
+ * @param {?} __0
+ * @return {?}
+ */
+function extractHeightForElement(_a) {
+    var container = _a.container, isWindow = _a.isWindow, axis = _a.axis;
+    var _b = extractHeightPropKeys(axis), offsetHeightKey = _b.offsetHeightKey, clientHeightKey = _b.clientHeightKey;
+    return getElementHeight(container, isWindow, offsetHeightKey, clientHeightKey);
+}
+/**
+ * @param {?} elem
+ * @param {?} isWindow
+ * @param {?} offsetHeightKey
+ * @param {?} clientHeightKey
+ * @return {?}
+ */
+function getElementHeight(elem, isWindow, offsetHeightKey, clientHeightKey) {
+    if (isNaN(elem[offsetHeightKey])) {
+        /** @type {?} */
+        var docElem = getDocumentElement(isWindow, elem);
+        return docElem ? docElem[clientHeightKey] : 0;
+    }
+    else {
+        return elem[offsetHeightKey];
+    }
+}
+/**
+ * @param {?} elem
+ * @param {?} axis
+ * @param {?} isWindow
+ * @return {?}
+ */
+function getElementOffsetTop(elem, axis, isWindow) {
+    /** @type {?} */
+    var topKey = axis.topKey();
+    // elem = elem.nativeElement;
+    if (!elem.getBoundingClientRect) {
+        // || elem.css('none')) {
+        return;
+    }
+    return (elem.getBoundingClientRect()[topKey] +
+        getElementPageYOffset(elem, axis, isWindow));
+}
+/**
+ * @param {?} elem
+ * @param {?} axis
+ * @param {?} isWindow
+ * @return {?}
+ */
+function getElementPageYOffset(elem, axis, isWindow) {
+    /** @type {?} */
+    var pageYOffset = axis.pageYOffsetKey();
+    /** @type {?} */
+    var scrollTop = axis.scrollTopKey();
+    /** @type {?} */
+    var offsetTop = axis.offsetTopKey();
+    if (isNaN(window[pageYOffset])) {
+        return getDocumentElement(isWindow, elem)[scrollTop];
+    }
+    else if (elem.ownerDocument) {
+        return elem.ownerDocument.defaultView[pageYOffset];
+    }
+    else {
+        return elem[offsetTop];
+    }
+}
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @param {?} container
+ * @param {?} distance
+ * @param {?} scrollingDown
+ * @return {?}
+ */
+function shouldFireScrollEvent(container, distance, scrollingDown) {
+    /** @type {?} */
+    var remaining;
+    /** @type {?} */
+    var containerBreakpoint;
+    if (container.totalToScroll <= 0) {
+        return false;
+    }
+    /** @type {?} */
+    var scrolledUntilNow = container.isWindow ? container.scrolled : container.height + container.scrolled;
+    if (scrollingDown) {
+        remaining =
+            (container.totalToScroll - scrolledUntilNow) / container.totalToScroll;
+        containerBreakpoint = distance.down / 10;
+    }
+    else {
+        /** @type {?} */
+        var totalHiddenContentHeight = container.scrolled + (container.totalToScroll - scrolledUntilNow);
+        remaining = container.scrolled / totalHiddenContentHeight;
+        containerBreakpoint = distance.up / 10;
+    }
+    /** @type {?} */
+    var shouldFireEvent = remaining <= containerBreakpoint;
+    return shouldFireEvent;
+}
+/**
+ * @param {?} lastScrollPosition
+ * @param {?} container
+ * @return {?}
+ */
+function isScrollingDownwards(lastScrollPosition, container) {
+    return lastScrollPosition < container.scrolled;
+}
+/**
+ * @param {?} lastScrollPosition
+ * @param {?} container
+ * @param {?} distance
+ * @return {?}
+ */
+function getScrollStats(lastScrollPosition, container, distance) {
+    /** @type {?} */
+    var scrollDown = isScrollingDownwards(lastScrollPosition, container);
+    return {
+        fire: shouldFireScrollEvent(container, distance, scrollDown),
+        scrollDown: scrollDown
+    };
+}
+/**
+ * @param {?} position
+ * @param {?} scrollState
+ * @return {?}
+ */
+/**
+ * @param {?} totalToScroll
+ * @param {?} scrollState
+ * @return {?}
+ */
+/**
+ * @param {?} scrollState
+ * @return {?}
+ */
+/**
+ * @param {?} scroll
+ * @param {?} scrollState
+ * @param {?} triggered
+ * @param {?} isScrollingDown
+ * @return {?}
+ */
+/**
+ * @param {?} totalToScroll
+ * @param {?} scrollState
+ * @param {?} isScrollingDown
+ * @return {?}
+ */
+/**
+ * @param {?} scrollState
+ * @param {?} scrolledUntilNow
+ * @param {?} totalToScroll
+ * @return {?}
+ */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var ScrollState = /** @class */ (function () {
+    /**
+     * @param {?} __0
+     */
+    function ScrollState(_a) {
+        var totalToScroll = _a.totalToScroll;
+        this.lastScrollPosition = 0;
+        this.lastTotalToScroll = 0;
+        this.totalToScroll = 0;
+        this.triggered = {
+            down: 0,
+            up: 0
+        };
+        this.totalToScroll = totalToScroll;
+    }
+    /**
+     * @param {?} position
+     * @return {?}
+     */
+    ScrollState.prototype.updateScrollPosition = function (position) {
+        return (this.lastScrollPosition = position);
+    };
+    /**
+     * @param {?} totalToScroll
+     * @return {?}
+     */
+    ScrollState.prototype.updateTotalToScroll = function (totalToScroll) {
+        if (this.lastTotalToScroll !== totalToScroll) {
+            this.lastTotalToScroll = this.totalToScroll;
+            this.totalToScroll = totalToScroll;
+        }
+    };
+    /**
+     * @param {?} scrolledUntilNow
+     * @param {?} totalToScroll
+     * @return {?}
+     */
+    ScrollState.prototype.updateScroll = function (scrolledUntilNow, totalToScroll) {
+        this.updateScrollPosition(scrolledUntilNow);
+        this.updateTotalToScroll(totalToScroll);
+    };
+    /**
+     * @param {?} scroll
+     * @param {?} isScrollingDown
+     * @return {?}
+     */
+    ScrollState.prototype.updateTriggeredFlag = function (scroll, isScrollingDown) {
+        if (isScrollingDown) {
+            this.triggered.down = scroll;
+        }
+        else {
+            this.triggered.up = scroll;
+        }
+    };
+    /**
+     * @param {?} totalToScroll
+     * @param {?} isScrollingDown
+     * @return {?}
+     */
+    ScrollState.prototype.isTriggeredScroll = function (totalToScroll, isScrollingDown) {
+        return isScrollingDown
+            ? this.triggered.down === totalToScroll
+            : this.triggered.up === totalToScroll;
+    };
+    return ScrollState;
+}());
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @param {?} config
+ * @return {?}
+ */
+function createScroller(config) {
+    var scrollContainer = config.scrollContainer, scrollWindow = config.scrollWindow, element = config.element, fromRoot = config.fromRoot;
+    /** @type {?} */
+    var resolver = createResolver({
+        axis: new AxisResolver(!config.horizontal),
+        windowElement: resolveContainerElement(scrollContainer, scrollWindow, element, fromRoot)
+    });
+    /** @type {?} */
+    var scrollState = new ScrollState({
+        totalToScroll: calculatePoints(element, resolver)
+    });
+    /** @type {?} */
+    var options = {
+        container: resolver.container,
+        throttle: config.throttle
+    };
+    /** @type {?} */
+    var distance = {
+        up: config.upDistance,
+        down: config.downDistance
+    };
+    return attachScrollEvent(options).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["mergeMap"])(function () { return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(calculatePoints(element, resolver)); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (positionStats) { return toInfiniteScrollParams(scrollState.lastScrollPosition, positionStats, distance); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["tap"])(function (_a) {
+        var stats = _a.stats;
+        return scrollState.updateScroll(stats.scrolled, stats.totalToScroll);
+    }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["filter"])(function (_a) {
+        var fire = _a.fire, scrollDown = _a.scrollDown, totalToScroll = _a.stats.totalToScroll;
+        return shouldTriggerEvents(config.alwaysCallback, fire, scrollState.isTriggeredScroll(totalToScroll, scrollDown));
+    }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["tap"])(function (_a) {
+        var scrollDown = _a.scrollDown, totalToScroll = _a.stats.totalToScroll;
+        scrollState.updateTriggeredFlag(totalToScroll, scrollDown);
+    }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(toInfiniteScrollAction));
+}
+/**
+ * @param {?} options
+ * @return {?}
+ */
+function attachScrollEvent(options) {
+    /** @type {?} */
+    var obs = Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["fromEvent"])(options.container, 'scroll');
+    // For an unknown reason calling `sampleTime()` causes trouble for many users, even with `options.throttle = 0`.
+    // Let's avoid calling the function unless needed.
+    // See https://github.com/orizens/ngx-infinite-scroll/issues/198
+    if (options.throttle) {
+        obs = obs.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["sampleTime"])(options.throttle));
+    }
+    return obs;
+}
+/**
+ * @param {?} lastScrollPosition
+ * @param {?} stats
+ * @param {?} distance
+ * @return {?}
+ */
+function toInfiniteScrollParams(lastScrollPosition, stats, distance) {
+    var _a = getScrollStats(lastScrollPosition, stats, distance), scrollDown = _a.scrollDown, fire = _a.fire;
+    return {
+        scrollDown: scrollDown,
+        fire: fire,
+        stats: stats
+    };
+}
+/** @type {?} */
+var InfiniteScrollActions = {
+    DOWN: '[NGX_ISE] DOWN',
+    UP: '[NGX_ISE] UP'
+};
+/**
+ * @param {?} response
+ * @return {?}
+ */
+function toInfiniteScrollAction(response) {
+    var scrollDown = response.scrollDown, currentScrollPosition = response.stats.scrolled;
+    return {
+        type: scrollDown ? InfiniteScrollActions.DOWN : InfiniteScrollActions.UP,
+        payload: {
+            currentScrollPosition: currentScrollPosition
+        }
+    };
+}
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var InfiniteScrollDirective = /** @class */ (function () {
+    /**
+     * @param {?} element
+     * @param {?} zone
+     */
+    function InfiniteScrollDirective(element, zone) {
+        this.element = element;
+        this.zone = zone;
+        this.scrolled = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.scrolledUp = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.infiniteScrollDistance = 2;
+        this.infiniteScrollUpDistance = 1.5;
+        this.infiniteScrollThrottle = 150;
+        this.infiniteScrollDisabled = false;
+        this.infiniteScrollContainer = null;
+        this.scrollWindow = true;
+        this.immediateCheck = false;
+        this.horizontal = false;
+        this.alwaysCallback = false;
+        this.fromRoot = false;
+    }
+    /**
+     * @return {?}
+     */
+    InfiniteScrollDirective.prototype.ngAfterViewInit = function () {
+        if (!this.infiniteScrollDisabled) {
+            this.setup();
+        }
+    };
+    /**
+     * @param {?} __0
+     * @return {?}
+     */
+    InfiniteScrollDirective.prototype.ngOnChanges = function (_a) {
+        var infiniteScrollContainer = _a.infiniteScrollContainer, infiniteScrollDisabled = _a.infiniteScrollDisabled, infiniteScrollDistance = _a.infiniteScrollDistance;
+        /** @type {?} */
+        var containerChanged = inputPropChanged(infiniteScrollContainer);
+        /** @type {?} */
+        var disabledChanged = inputPropChanged(infiniteScrollDisabled);
+        /** @type {?} */
+        var distanceChanged = inputPropChanged(infiniteScrollDistance);
+        /** @type {?} */
+        var shouldSetup = (!disabledChanged && !this.infiniteScrollDisabled) ||
+            (disabledChanged && !infiniteScrollDisabled.currentValue) || distanceChanged;
+        if (containerChanged || disabledChanged || distanceChanged) {
+            this.destroyScroller();
+            if (shouldSetup) {
+                this.setup();
+            }
+        }
+    };
+    /**
+     * @return {?}
+     */
+    InfiniteScrollDirective.prototype.setup = function () {
+        var _this = this;
+        if (hasWindowDefined()) {
+            this.zone.runOutsideAngular(function () {
+                _this.disposeScroller = createScroller({
+                    fromRoot: _this.fromRoot,
+                    alwaysCallback: _this.alwaysCallback,
+                    disable: _this.infiniteScrollDisabled,
+                    downDistance: _this.infiniteScrollDistance,
+                    element: _this.element,
+                    horizontal: _this.horizontal,
+                    scrollContainer: _this.infiniteScrollContainer,
+                    scrollWindow: _this.scrollWindow,
+                    throttle: _this.infiniteScrollThrottle,
+                    upDistance: _this.infiniteScrollUpDistance
+                }).subscribe(function (payload) { return _this.zone.run(function () { return _this.handleOnScroll(payload); }); });
+            });
+        }
+    };
+    /**
+     * @param {?} __0
+     * @return {?}
+     */
+    InfiniteScrollDirective.prototype.handleOnScroll = function (_a) {
+        var type = _a.type, payload = _a.payload;
+        switch (type) {
+            case InfiniteScrollActions.DOWN:
+                return this.scrolled.emit(payload);
+            case InfiniteScrollActions.UP:
+                return this.scrolledUp.emit(payload);
+            default:
+                return;
+        }
+    };
+    /**
+     * @return {?}
+     */
+    InfiniteScrollDirective.prototype.ngOnDestroy = function () {
+        this.destroyScroller();
+    };
+    /**
+     * @return {?}
+     */
+    InfiniteScrollDirective.prototype.destroyScroller = function () {
+        if (this.disposeScroller) {
+            this.disposeScroller.unsubscribe();
+        }
+    };
+InfiniteScrollDirective.ɵfac = function InfiniteScrollDirective_Factory(t) { return new (t || InfiniteScrollDirective)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"])); };
+InfiniteScrollDirective.ɵdir = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({ type: InfiniteScrollDirective, selectors: [["", "infiniteScroll", ""], ["", "infinite-scroll", ""], ["", "data-infinite-scroll", ""]], inputs: { infiniteScrollDistance: "infiniteScrollDistance", infiniteScrollUpDistance: "infiniteScrollUpDistance", infiniteScrollThrottle: "infiniteScrollThrottle", infiniteScrollDisabled: "infiniteScrollDisabled", infiniteScrollContainer: "infiniteScrollContainer", scrollWindow: "scrollWindow", immediateCheck: "immediateCheck", horizontal: "horizontal", alwaysCallback: "alwaysCallback", fromRoot: "fromRoot" }, outputs: { scrolled: "scrolled", scrolledUp: "scrolledUp" }, features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵNgOnChangesFeature"]()] });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](InfiniteScrollDirective, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"],
+        args: [{
+                selector: '[infiniteScroll], [infinite-scroll], [data-infinite-scroll]'
+            }]
+    }], function () { return [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"] }]; }, { scrolled: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"]
+        }], scrolledUp: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"]
+        }], infiniteScrollDistance: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }], infiniteScrollUpDistance: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }], infiniteScrollThrottle: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }], infiniteScrollDisabled: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }], infiniteScrollContainer: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }], scrollWindow: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }], immediateCheck: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }], horizontal: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }], alwaysCallback: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }], fromRoot: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }] }); })();
+    return InfiniteScrollDirective;
+}());
+/** @nocollapse */
+InfiniteScrollDirective.ctorParameters = function () { return [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"] }
+]; };
+InfiniteScrollDirective.propDecorators = {
+    scrolled: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"] }],
+    scrolledUp: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"] }],
+    infiniteScrollDistance: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    infiniteScrollUpDistance: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    infiniteScrollThrottle: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    infiniteScrollDisabled: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    infiniteScrollContainer: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    scrollWindow: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    immediateCheck: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    horizontal: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    alwaysCallback: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    fromRoot: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
+};
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var InfiniteScrollModule = /** @class */ (function () {
+    function InfiniteScrollModule() {
+    }
+InfiniteScrollModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({ type: InfiniteScrollModule });
+InfiniteScrollModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({ factory: function InfiniteScrollModule_Factory(t) { return new (t || InfiniteScrollModule)(); }, providers: [], imports: [[]] });
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsetNgModuleScope"](InfiniteScrollModule, { declarations: [InfiniteScrollDirective], exports: [InfiniteScrollDirective] }); })();
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](InfiniteScrollModule, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"],
+        args: [{
+                declarations: [InfiniteScrollDirective],
+                exports: [InfiniteScrollDirective],
+                imports: [],
+                providers: []
+            }]
+    }], function () { return []; }, null); })();
+    return InfiniteScrollModule;
+}());
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Angular library starter.
+ * Build an Angular library compatible with AoT compilation & Tree shaking.
+ * Written by Roberto Simonetti.
+ * MIT license.
+ * https://github.com/robisim74/angular-library-starter
+ */
+/**
+ * Entry point for all public APIs of the package.
+ */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Generated bundle index. Do not edit.
+ */
+
+
+//# sourceMappingURL=ngx-infinite-scroll.es5.js.map
+
+/***/ }),
+
 /***/ "./node_modules/ngx-window-token/__ivy_ngcc__/fesm5/ngx-window-token.js":
 /*!******************************************************************************!*\
   !*** ./node_modules/ngx-window-token/__ivy_ngcc__/fesm5/ngx-window-token.js ***!
@@ -38857,6 +39658,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/pages/logout/logout.component.html":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/pages/logout/logout.component.html ***!
+  \******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"header bg-gradient-magenta py-7 py-lg-8\">\n  <div class=\"container\">\n    <div class=\"header-body text-center mb-5\">\n      <div class=\"row justify-content-center\">\n        <div class=\"col-lg-5 col-md-6\">\n          <!--          <h1 class=\"text-white\">Please wait while the page is being loaded...</h1>-->\n          <!--          <p class=\"text-lead text-light\">Use these awesome forms to login or create new account in your project for free.</p>-->\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class=\"separator separator-bottom separator-skew zindex-100\">\n    <svg x=\"0\" y=\"0\" viewBox=\"0 0 2560 100\" preserveAspectRatio=\"none\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n      <polygon class=\"fill-default\" points=\"2560 0 2560 100 0 100\"></polygon>\n    </svg>\n  </div>\n</div>\n<!-- Page content -->\n<div class=\"container mt--10 pb-5\">\n  <div class=\"row justify-content-center\">\n    <div class=\"col-lg-5 col-md-7\">\n      <div class=\"card bg-secondary shadow border-0\">\n        <div class=\"card-header bg-transparent\">\n          <div class=\"text-muted text-center mt-2\"><h2>Logging out...</h2></div>\n          <!--          <div class=\"btn-wrapper text-center\">-->\n          <!--            <a href=\"javascript:void(0)\" class=\"btn btn-neutral btn-icon\">-->\n          <!--              <span class=\"btn-inner&#45;&#45;icon\"><img src=\"../assets/img/icons/common/github.svg\"></span>-->\n          <!--              <span class=\"btn-inner&#45;&#45;text\">Github</span>-->\n          <!--            </a>-->\n          <!--            <a href=\"javascript:void(0)\" class=\"btn btn-neutral btn-icon\">-->\n          <!--              <span class=\"btn-inner&#45;&#45;icon\"><img src=\"../assets/img/icons/common/google.svg\"></span>-->\n          <!--              <span class=\"btn-inner&#45;&#45;text\">Google</span>-->\n          <!--            </a>-->\n          <!--          </div>-->\n        </div>\n        <div class=\"card-body px-lg-5 py-lg-5 text-center\">\n          <!--          <div class=\"text-center text-muted mb-4\">-->\n          <!--            <small>Or sign in with credentials</small>-->\n          <!--          </div>-->\n          <div class=\"lds-heart\"><div></div></div>\n        </div>\n      </div>\n      <!--      <div class=\"row mt-3\">-->\n      <!--        <div class=\"col-6\">-->\n      <!--          <a href=\"javascript:void(0)\" class=\"text-light\"><small>Forgot password?</small></a>-->\n      <!--        </div>-->\n      <!--        <div class=\"col-6 text-right\">-->\n      <!--          <a href=\"javascript:void(0)\" class=\"text-light\"><small>Create new account</small></a>-->\n      <!--        </div>-->\n      <!--      </div>-->\n    </div>\n  </div>\n</div>\n");
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/pages/maps/maps.component.html":
 /*!**************************************************************************************!*\
   !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/pages/maps/maps.component.html ***!
@@ -38905,7 +39719,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"header bg-gradient-magenta pb-8 pt-3 pt-md-6\">\n  <div class=\"container-fluid mb-1\">\n    <div class=\"row\">\n      <div class=\"col\">\n        <div class=\"card card-stats mb-4 mb-xl-0\">\n          <div class=\"card-body text-center\">\n            <a routerLinkActive=\"active\" [routerLink]=\"'/supervisor/dmc/create'\" class=\"btn btn-primary\">Create Digital\n              Medical Chit</a>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container-fluid\">\n    <div class=\"header-body\">\n      <!-- Card stats -->\n      <div class=\"row\">\n        <div class=\"col-sm-6 col-lg-4\">\n          <div class=\"card card-stats mb-4 mb-xl-0\">\n            <div class=\"card-body\">\n              <div class=\"row\">\n                <div class=\"col\">\n                  <h5 class=\"card-title text-uppercase text-muted mb-0\">Out-patient Care Plan A</h5>\n                  <span class=\"h2 font-weight-bold mb-0\">Kenneth Yap</span>\n                </div>\n                <div class=\"col-auto text-center\">\n                  <div class=\"icon icon-shape bg-success text-white rounded-circle shadow\">\n                    <i class=\"fas fa-check\"></i>\n                  </div>\n                  <div><small>Claimable</small></div>\n                </div>\n              </div>\n              <div class=\"mt-0 mb-0 text-muted text-sm\">\n                <div class=\"text-primary mr-2\"><i class=\"fa fa-address-card\"></i> XXXX4321</div>\n                <div class=\"text-primary mr-2\"><i class=\"fa fa-barcode\"></i> DMC-0258-5978-5555-2020</div>\n                <!--                <span class=\"text-nowrap\">8 Trivex, Singapore</span>-->\n\n              </div>\n              <div>\n                <button (click)=\"openModal(content);\" class=\"btn btn-danger btn-sm\">DELETE</button>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"col-sm-6 col-lg-4\">\n          <div class=\"card card-stats mb-4 mb-xl-0\">\n            <div class=\"card-body\">\n              <div class=\"row\">\n                <div class=\"col\">\n                  <h5 class=\"card-title text-uppercase text-muted mb-0\">Out-patient Care Plan A</h5>\n                  <span class=\"h2 font-weight-bold mb-0\">Kenneth Yap</span>\n                </div>\n                <div class=\"col-auto text-center\">\n                  <div class=\"icon icon-shape bg-danger text-white rounded-circle shadow\">\n                    <i class=\"fas fa-times\"></i>\n                  </div>\n                  <div><small>Utilised</small></div>\n                </div>\n              </div>\n              <div class=\"mt-0 mb-0 text-muted text-sm\">\n                <div class=\"text-primary mr-2\"><i class=\"fa fa-address-card\"></i> XXXX4321</div>\n                <div class=\"text-primary mr-2\"><i class=\"fa fa-barcode\"></i> DMC-0258-5978-5555-2020</div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"col-sm-6 col-lg-4\">\n          <div class=\"card card-stats mb-4 mb-xl-0\">\n            <div class=\"card-body\">\n              <div class=\"row\">\n                <div class=\"col\">\n                  <h5 class=\"card-title text-uppercase text-muted mb-0\">Out-patient Care Plan A</h5>\n                  <span class=\"h2 font-weight-bold mb-0\">Kenneth Yap</span>\n                </div>\n                <div class=\"col-auto text-center\">\n                  <div class=\"icon icon-shape bg-default text-white rounded-circle shadow\">\n                    <i class=\"fas fa-minus\"></i>\n                  </div>\n                  <div><small>Expired</small></div>\n                </div>\n              </div>\n              <div class=\"mt-0 mb-0 text-muted text-sm\">\n                <div class=\"text-primary mr-2\"><i class=\"fa fa-address-card\"></i> XXXX4321</div>\n                <div class=\"text-primary mr-2\"><i class=\"fa fa-barcode\"></i> DMC-0258-5978-5555-2020</div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n<ng-template #content let-modal>\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\" id=\"modal-basic-title\">DELETE CONFIRMATION</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modal.dismiss('Cross click')\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"modal-body\">\n    <div *ngIf=\"false && !loginStatus\" class=\"text-center\">\n      <h4>Checking pin code...</h4>\n      <div class=\"lds-roller\">\n        <div></div>\n        <div></div>\n        <div></div>\n        <div></div>\n        <div></div>\n        <div></div>\n        <div></div>\n        <div></div>\n      </div>\n    </div>\n    <div class=\"text-center\">Are you sure you want to delete this medical chit?</div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-primary\" (click)=\"modal.close('NO')\">Cancel</button>\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"modal.close('YES')\">Yes, Delete it!</button>\n  </div>\n</ng-template>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"header bg-gradient-magenta pb-8 pt-3 pt-md-6\">\n  <div class=\"container-fluid mb-1\">\n    <div class=\"row\">\n      <div class=\"col\">\n        <div class=\"card card-stats mb-4 mb-xl-0\">\n          <div class=\"card-body text-center\">\n            <a routerLinkActive=\"active\" [routerLink]=\"'/supervisor/dmc/create'\" class=\"btn btn-primary\">Create Digital\n              Medical Chit</a>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container-fluid\">\n    <div class=\"header-body\">\n      <!-- Card stats -->\n      <div\n        infiniteScroll\n        [infiniteScrollDistance]=\"scrollDistance\"\n        [infiniteScrollUpDistance]=\"scrollUpDistance\"\n        [infiniteScrollThrottle]=\"throttle\"\n        (scrolled)=\"onScrollDown($event)\"\n        class=\"row\">\n        <div *ngFor=\"let dmc of dmcCollection.medicalChits\" class=\"col-sm-6 col-lg-4\">\n          <div class=\"card card-stats mb-4 mb-xl-0\">\n            <div class=\"card-body\">\n              <div class=\"row\">\n                <div class=\"col\">\n                  <h5 class=\"card-title text-uppercase text-muted mb-0\">{{dmc.productName}}</h5>\n                  <span class=\"h2 font-weight-bold mb-0\">{{dmc.beneficiaryName}}</span>\n                </div>\n                <div class=\"col-auto text-center\">\n                  <div\n                    class=\"icon icon-shape {{dmc.isRedeemed?'bg-danger':(dmc.isExpired?'bg-default':'bg-success')}} text-white rounded-circle shadow\">\n                    <i class=\"fas fa-check\"></i>\n                  </div>\n                  <div><small> {{dmc.isRedeemed?'Utilised':(dmc.isExpired?'Expired':'Claimable')}}</small></div>\n                </div>\n              </div>\n              <div class=\"mt-0 mb-0 text-muted text-sm\">\n                <div class=\"text-primary mr-2\"><i class=\"fa fa-address-card\"></i> {{dmc.beneficiaryNric}}</div>\n                <div class=\"text-primary mr-2\"><i class=\"fa fa-barcode\"></i> {{dmc.code}}</div>\n                <!--                <span class=\"text-nowrap\">8 Trivex, Singapore</span>-->\n              </div>\n              <div *ngIf=\"!dmc.isRedeemed\">\n                <button (click)=\"confirmDelete(content, dmc);\" class=\"btn btn-danger btn-sm\">DELETE</button>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <div *ngIf=\"dmcCollection.isLoading\" class=\"col-12\">\n          <div class=\"card card-stats mb-4 mb-xl-0\">\n            <div class=\"card-body\">\n              <div class=\"row\">\n                <div class=\"col text-center\">\n                  <h3>Please wait just a heart beat!</h3>\n                  <div class=\"lds-heart\">\n                    <div></div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n      </div>\n    </div>\n  </div>\n</div>\n\n<ng-template #content let-modal>\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\" id=\"modal-basic-title\">DELETE CONFIRMATION</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modal.dismiss('Cross click')\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"modal-body\">\n    <div *ngIf=\"false && !loginStatus\" class=\"text-center\">\n      <h4>Checking pin code...</h4>\n      <div class=\"lds-roller\">\n        <div></div>\n        <div></div>\n        <div></div>\n        <div></div>\n        <div></div>\n        <div></div>\n        <div></div>\n        <div></div>\n      </div>\n    </div>\n    <div class=\"text-center\">Are you sure you want to delete this medical chit?</div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-primary\" (click)=\"modal.close('NO')\">Cancel</button>\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"modal.close('YES')\">Yes, Delete it!</button>\n  </div>\n</ng-template>\n");
 
 /***/ }),
 
@@ -38918,7 +39732,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"header bg-gradient-magenta py-3 py-lg-4\">\n  <div class=\"separator separator-bottom separator-skew zindex-100\">\n    <svg x=\"0\" y=\"0\" viewBox=\"0 0 2560 100\" preserveAspectRatio=\"none\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n      <polygon class=\"fill-default\" points=\"2560 0 2560 100 0 100\"></polygon>\n    </svg>\n  </div>\n  <!-- Page content -->\n  <div class=\"container pb-5\">\n    <!-- Table -->\n    <div class=\"row justify-content-center\">\n      <div class=\"col-lg-6 col-md-8\">\n        <div class=\"card bg-secondary shadow border-0\">\n          <div class=\"card-header bg-transparent\">\n            <div class=\"text-muted text-center mt-2\"><h2>Create Digital Medical Chit</h2></div>\n          </div>\n          <div class=\"card-body px-lg-5 py-lg-5\">\n            <form #dmcForm=\"ngForm\" role=\"form\">\n              <div class=\"form-group\">\n                <div class=\"input-group input-group-alternative mb-3\">\n                  <div class=\"input-group-prepend\">\n                    <span class=\"input-group-text\"><i class=\"ni ni-badge\"></i></span>\n                  </div>\n                  <input class=\"form-control\" placeholder=\"NRIC/FIN Number (*)\" type=\"text\" required=\"required\"\n                         name=\"member-nric\" [(ngModel)]=\"dmc.memberNric\" #memberNric=\"ngModel\" />\n                </div>\n                <div *ngIf=\"memberNric.invalid && (memberNric.dirty || memberNric.touched)\"\n                     class=\"alert alert-danger\">\n                  <div *ngIf=\"memberNric.errors.required\">\n                    NRIC/FIN is required.\n                  </div>\n                </div>\n              </div>\n              <div class=\"form-group\">\n                <div class=\"input-group input-group-alternative mb-3\">\n                  <div class=\"input-group-prepend\">\n                    <span class=\"input-group-text\"><i class=\"ni ni-single-02\"></i></span>\n                  </div>\n                  <input class=\"form-control\" placeholder=\"Name (*)\" type=\"text\" required=\"required\"\n                         name=\"member-name\" [(ngModel)]=\"dmc.memberName\" #memberName=\"ngModel\">\n                </div>\n                <div *ngIf=\"memberName.invalid && (memberName.dirty || memberName.touched)\"\n                     class=\"alert alert-danger\">\n\n                  <div *ngIf=\"memberName.errors.required\">\n                    Name is required.\n                  </div>\n                  <div *ngIf=\"memberName.errors.minlength\">\n                    Name must be at least 4 characters long.\n                  </div>\n                  <div *ngIf=\"memberName.errors.forbiddenName\">\n                    Name cannot be Bob.\n                  </div>\n\n                </div>\n              </div>\n              <div class=\"form-group\">\n                <div class=\"input-group input-group-alternative\">\n                  <div class=\"input-group-prepend\">\n                    <span class=\"input-group-text\"><i class=\"ni ni-sound-wave\"></i></span>\n                  </div>\n                  <ng-select [items]=\"products\"\n                             bindLabel=\"name\"\n                             autofocus\n                             bindValue=\"id\"\n                             required=\"required\"\n                             name=\"product-id\"\n                             [(ngModel)]=\"dmc.productId\"\n                             #productId=\"ngModel\"\n                  >\n                  </ng-select>\n                </div>\n                <div *ngIf=\"productId.invalid && (productId.dirty || productId.touched)\"\n                     class=\"alert alert-danger mt-1\">\n                  <div *ngIf=\"productId.errors.required\">\n                    Product is required.\n                  </div>\n                </div>\n              </div>\n\n              <div *ngIf=\"!showMerchantSelect\" class=\"form-group text-center\">\n                <button (click)=\"showMerchantSelect = true\" type=\"button\" class=\"btn-limit-mc btn btn-outline-primary\">\n                  <input type=\"checkbox\"/> Limit this\n                  medical chit to only certain centres\n                </button>\n              </div>\n\n              <div *ngIf=\"showMerchantSelect\" class=\"form-group\">\n                <div class=\"input-group input-group-alternative\">\n                  <div class=\"input-group-prepend\">\n                    <span class=\"input-group-text\"><i class=\"ni ni-building\"></i></span>\n                  </div>\n                  <ng-select [items]=\"merchants\"\n                             placeholder=\"Select applicable centres\"\n                             [multiple]=\"true\"\n                             bindLabel=\"name\"\n                             autofocus\n                             bindValue=\"id\"\n                             [(ngModel)]=\"selectedCemtres\" name=\"merchant-ids\">\n                    <!--                    <ng-template ng-option-tmp let-item=\"item\" let-item$=\"item$\" let-index=\"index\">-->\n                    <!--                      <input id=\"item-{{index}}\" type=\"checkbox\" [ngModel]=\"item$.selected\"/> {{item.name}}-->\n                    <!--                    </ng-template>-->\n                  </ng-select>\n                </div>\n              </div>\n              <!--              <div class=\"text-muted font-italic\"><small>password strength: <span class=\"text-success font-weight-700\">strong</span></small> </div>-->\n              <div class=\"row my-4\">\n                <!--                <div class=\"col-12\">-->\n                <!--                  <div class=\"custom-control custom-control-alternative custom-checkbox\">-->\n                <!--                    <input class=\"custom-control-input\" id=\"customCheckRegister\" type=\"checkbox\">-->\n                <!--                    <label class=\"custom-control-label\" for=\"customCheckRegister\">-->\n                <!--                      <span class=\"text-muted\">I agree with the <a href=\"#!\">Privacy Policy</a></span>-->\n                <!--                    </label>-->\n                <!--                  </div>-->\n                <!--                </div>-->\n              </div>\n              <div class=\"text-center\">\n                <button type=\"button\" class=\"btn btn-primary mt-4\" [disabled]=\"dmcForm.invalid\">Create MC</button>\n                <a routerLink=\"/supervisor/dmc/list\" class=\"btn btn-default mt-4\">Cancel</a>\n              </div>\n            </form>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"header bg-gradient-magenta py-3 py-lg-4\">\n  <div class=\"separator separator-bottom separator-skew zindex-100\">\n    <svg x=\"0\" y=\"0\" viewBox=\"0 0 2560 100\" preserveAspectRatio=\"none\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n      <polygon class=\"fill-default\" points=\"2560 0 2560 100 0 100\"></polygon>\n    </svg>\n  </div>\n  <!-- Page content -->\n  <div class=\"container pb-5\">\n    <!-- Table -->\n    <div class=\"row justify-content-center\">\n      <div class=\"col-lg-6 col-md-8\">\n        <div class=\"card bg-secondary shadow border-0\">\n          <div class=\"card-header bg-transparent\">\n            <div class=\"text-muted text-center mt-2\"><h2>Create Digital Medical Chit</h2></div>\n          </div>\n          <div class=\"card-body px-lg-5 py-lg-5\">\n            <form #dmcForm=\"ngForm\" role=\"form\">\n              <div *ngIf=\"!isNricReady\" class=\"form-group\">\n                <div *ngIf=\"loading\" class=\"text-center\">\n                  <div class=\"lds-facebook\">\n                    <div></div>\n                    <div></div>\n                    <div></div>\n                  </div>\n                </div>\n                <div class=\"input-group input-group-alternative mb-3\">\n                  <div class=\"input-group-prepend\">\n                    <span class=\"input-group-text\"><i class=\"ni ni-badge\"></i></span>\n                  </div>\n                  <input class=\"form-control\" placeholder=\"NRIC/FIN Number (*)\" type=\"text\" required=\"required\"\n                         name=\"member-nric\" [(ngModel)]=\"dmc.beneficiaryNric\" #beneficiaryNric=\"ngModel\"/>\n                </div>\n                <div *ngIf=\"beneficiaryNric.invalid && (beneficiaryNric.dirty || beneficiaryNric.touched)\"\n                     class=\"alert alert-danger\">\n                  <div *ngIf=\"beneficiaryNric.errors.required\">\n                    NRIC/FIN is required.\n                  </div>\n                </div>\n              </div>\n              <div *ngIf=\"isNricReady\">\n                <div class=\"form-group\">\n                  <div class=\"input-group input-group-alternative mb-3\">\n                    <div class=\"input-group-prepend\">\n                      <span class=\"input-group-text\"><i class=\"ni ni-badge\"></i></span>\n                    </div>\n                    <div class=\"ipt-content\">{{dmc.beneficiaryNric}}</div>\n                  </div>\n                </div>\n                <div class=\"form-group\">\n                  <div class=\"input-group input-group-alternative mb-3\">\n                    <div class=\"input-group-prepend\">\n                      <span class=\"input-group-text\"><i class=\"ni ni-single-02\"></i></span>\n                    </div>\n                    <input class=\"form-control\" placeholder=\"Name (*)\" type=\"text\" required=\"required\"\n                           name=\"member-name\" [(ngModel)]=\"dmc.beneficiaryName\" #beneficiaryName=\"ngModel\">\n                  </div>\n                  <div *ngIf=\"beneficiaryName.invalid && (beneficiaryName.dirty || beneficiaryName.touched)\"\n                       class=\"alert alert-danger\">\n\n                    <div *ngIf=\"beneficiaryName.errors.required\">\n                      Name is required.\n                    </div>\n                    <div *ngIf=\"beneficiaryName.errors.minlength\">\n                      Name must be at least 4 characters long.\n                    </div>\n                    <div *ngIf=\"beneficiaryName.errors.forbiddenName\">\n                      Name cannot be Bob.\n                    </div>\n\n                  </div>\n                </div>\n                <div class=\"form-group\">\n                  <div class=\"input-group input-group-alternative\">\n                    <div class=\"input-group-prepend\">\n                      <span class=\"input-group-text\"><i class=\"ni ni-sound-wave\"></i></span>\n                    </div>\n                    <ng-select (change)=\"onProductChange($event)\" [items]=\"dmc.productOptions\"\n                               placeholder=\"Please select a Product/Service\"\n                               bindLabel=\"name\"\n                               autofocus\n                               bindValue=\"id\"\n                               required=\"required\"\n                               name=\"product-id\"\n                               [(ngModel)]=\"dmc.productId\"\n                               #productId=\"ngModel\"\n                    >\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"productId.invalid && (productId.dirty || productId.touched)\"\n                       class=\"alert alert-danger mt-1\">\n                    <div *ngIf=\"productId.errors.required\">\n                      Product is required.\n                    </div>\n                  </div>\n                </div>\n                <div *ngIf=\"!showMerchantSelect\" class=\"form-group text-center\">\n                  <button (click)=\"showMerchantSelect = true\" type=\"button\"\n                          class=\"btn-limit-mc btn btn-outline-primary\">\n                    <input type=\"checkbox\"/> Limit this\n                    medical chit to only certain centres\n                  </button>\n                </div>\n                <div *ngIf=\"showMerchantSelect\" class=\"form-group\">\n                  <div class=\"input-group input-group-alternative\">\n                    <div class=\"input-group-prepend\">\n                      <span class=\"input-group-text\"><i class=\"ni ni-building\"></i></span>\n                    </div>\n                    <ng-select *ngIf=\"dmc.merchantOptions.length >= 50\" [items]=\"dmc.merchantOptions$ | async\"\n                               bindLabel=\"name\"\n                               [addTag]=\"false\"\n                               [multiple]=\"true\"\n                               [hideSelected]=\"true\"\n                               [trackByFn]=\"trackByFn\"\n                               [minTermLength]=\"2\"\n                               [loading]=\"dmc.merchantLoading\"\n                               typeToSearchText=\"Please enter 2 or more characters\"\n                               [typeahead]=\"dmc.merchantOptionInput$\"\n                               [(ngModel)]=\"dmc.merchants\"\n                               name=\"merchants\"\n                    >\n                    </ng-select>\n                    <ng-select *ngIf=\"dmc.merchantOptions.length < 50\" [items]=\"dmc.merchantOptions\"\n                               placeholder=\"Select applicable centres\"\n                               [multiple]=\"true\"\n                               bindLabel=\"name\"\n                               autofocus\n                               bindValue=\"id\"\n                               [(ngModel)]=\"dmc.merchants\" name=\"merchant-ids\">\n                      <!--                    <ng-template ng-option-tmp let-item=\"item\" let-item$=\"item$\" let-index=\"index\">-->\n                      <!--                      <input id=\"item-{{index}}\" type=\"checkbox\" [ngModel]=\"item$.selected\"/> {{item.name}}-->\n                      <!--                    </ng-template>-->\n                    </ng-select>\n                  </div>\n                </div>\n                <!--              <div class=\"text-muted font-italic\"><small>password strength: <span class=\"text-success font-weight-700\">strong</span></small> </div>-->\n                <div class=\"row my-4\">\n                  <!--                <div class=\"col-12\">-->\n                  <!--                  <div class=\"custom-control custom-control-alternative custom-checkbox\">-->\n                  <!--                    <input class=\"custom-control-input\" id=\"customCheckRegister\" type=\"checkbox\">-->\n                  <!--                    <label class=\"custom-control-label\" for=\"customCheckRegister\">-->\n                  <!--                      <span class=\"text-muted\">I agree with the <a href=\"#!\">Privacy Policy</a></span>-->\n                  <!--                    </label>-->\n                  <!--                  </div>-->\n                  <!--                </div>-->\n                </div>\n              </div>\n              <div class=\"text-center\">\n                <a routerLink=\"/supervisor/dmc/list\" class=\"btn btn-default mt-4\">Cancel</a>\n                <button *ngIf=\"!isNricReady\" [disabled]=\"dmcForm.invalid\" (click)=\"handleNric()\" type=\"button\"\n                        class=\"btn btn-primary mt-4\">Next >>\n                </button>\n                <button *ngIf=\"isNricReady\" type=\"button\" class=\"btn btn-primary mt-4\" [disabled]=\"dmcForm.invalid\" (click)=\"createDmc()\">\n                  Create MC\n                </button>\n              </div>\n            </form>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n");
 
 /***/ }),
 
@@ -38976,6 +39790,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_supervisor_dmc_single_dmc_single_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../pages/supervisor/dmc-single/dmc-single.component */ "./src/app/pages/supervisor/dmc-single/dmc-single.component.ts");
 /* harmony import */ var _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../pages/not-found/not-found.component */ "./src/app/pages/not-found/not-found.component.ts");
 /* harmony import */ var _pages_merchant_dmc_list_dmc_list_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../pages/merchant/dmc-list/dmc-list.component */ "./src/app/pages/merchant/dmc-list/dmc-list.component.ts");
+/* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @auth0/angular-jwt */ "./node_modules/@auth0/angular-jwt/__ivy_ngcc__/fesm5/auth0-angular-jwt.js");
+/* harmony import */ var ngx_infinite_scroll__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ngx-infinite-scroll */ "./node_modules/ngx-infinite-scroll/__ivy_ngcc__/modules/ngx-infinite-scroll.es5.js");
+/* harmony import */ var _pages_logout_logout_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../pages/logout/logout.component */ "./src/app/pages/logout/logout.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -39004,6 +39821,9 @@ var __importDefault = (undefined && undefined.__importDefault) || function (mod)
 
 
 
+
+
+
 var AdminLayoutModule = /** @class */ (function () {
     function AdminLayoutModule() {
     }
@@ -39016,7 +39836,15 @@ var AdminLayoutModule = /** @class */ (function () {
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClientModule"],
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_12__["NgbModule"],
                 ngx_clipboard__WEBPACK_IMPORTED_MODULE_5__["ClipboardModule"],
-                _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_13__["NgSelectModule"]
+                _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_13__["NgSelectModule"],
+                ngx_infinite_scroll__WEBPACK_IMPORTED_MODULE_19__["InfiniteScrollModule"],
+                _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_18__["JwtModule"].forRoot({
+                    config: {
+                        tokenGetter: function () {
+                            return localStorage.getItem("token");
+                        },
+                    }
+                })
             ],
             declarations: [
                 _pages_dashboard_dashboard_component__WEBPACK_IMPORTED_MODULE_7__["DashboardComponent"],
@@ -39027,7 +39855,8 @@ var AdminLayoutModule = /** @class */ (function () {
                 _pages_supervisor_dmc_list_dmc_list_component__WEBPACK_IMPORTED_MODULE_14__["DmcListComponent"],
                 _pages_supervisor_dmc_single_dmc_single_component__WEBPACK_IMPORTED_MODULE_15__["DmcSingleComponent"],
                 _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_16__["NotFoundComponent"],
-                _pages_merchant_dmc_list_dmc_list_component__WEBPACK_IMPORTED_MODULE_17__["DmcListComponent"]
+                _pages_merchant_dmc_list_dmc_list_component__WEBPACK_IMPORTED_MODULE_17__["DmcListComponent"],
+                _pages_logout_logout_component__WEBPACK_IMPORTED_MODULE_20__["LogoutComponent"]
             ]
         })
     ], AdminLayoutModule);
@@ -39058,9 +39887,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _security_supervisor_supervisor_auth_guard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../security/supervisor/supervisor-auth.guard */ "./src/app/security/supervisor/supervisor-auth.guard.ts");
 /* harmony import */ var _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../pages/not-found/not-found.component */ "./src/app/pages/not-found/not-found.component.ts");
 /* harmony import */ var _pages_merchant_dmc_list_dmc_list_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../pages/merchant/dmc-list/dmc-list.component */ "./src/app/pages/merchant/dmc-list/dmc-list.component.ts");
+/* harmony import */ var _pages_logout_logout_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../pages/logout/logout.component */ "./src/app/pages/logout/logout.component.ts");
 var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+
 
 
 
@@ -39079,9 +39910,10 @@ var AdminLayoutRoutes = [
     { path: 'maps', component: _pages_maps_maps_component__WEBPACK_IMPORTED_MODULE_2__["MapsComponent"] },
     { path: 'not-found', component: _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_8__["NotFoundComponent"] },
     { path: 'supervisor/dmc/list', component: _pages_supervisor_dmc_list_dmc_list_component__WEBPACK_IMPORTED_MODULE_5__["DmcListComponent"], canLoad: [_security_supervisor_supervisor_auth_guard__WEBPACK_IMPORTED_MODULE_7__["SupervisorAuthGuard"]], canActivate: [_security_supervisor_supervisor_auth_guard__WEBPACK_IMPORTED_MODULE_7__["SupervisorAuthGuard"]] },
-    { path: 'supervisor/dmc/create', component: _pages_supervisor_dmc_single_dmc_single_component__WEBPACK_IMPORTED_MODULE_6__["DmcSingleComponent"] },
-    { path: 'supervisor/dmc/edit/:id', component: _pages_supervisor_dmc_single_dmc_single_component__WEBPACK_IMPORTED_MODULE_6__["DmcSingleComponent"] },
+    { path: 'supervisor/dmc/create', component: _pages_supervisor_dmc_single_dmc_single_component__WEBPACK_IMPORTED_MODULE_6__["DmcSingleComponent"], canLoad: [_security_supervisor_supervisor_auth_guard__WEBPACK_IMPORTED_MODULE_7__["SupervisorAuthGuard"]], canActivate: [_security_supervisor_supervisor_auth_guard__WEBPACK_IMPORTED_MODULE_7__["SupervisorAuthGuard"]] },
+    { path: 'supervisor/dmc/edit/:id', component: _pages_supervisor_dmc_single_dmc_single_component__WEBPACK_IMPORTED_MODULE_6__["DmcSingleComponent"], canLoad: [_security_supervisor_supervisor_auth_guard__WEBPACK_IMPORTED_MODULE_7__["SupervisorAuthGuard"]], canActivate: [_security_supervisor_supervisor_auth_guard__WEBPACK_IMPORTED_MODULE_7__["SupervisorAuthGuard"]] },
     { path: 'merchant/dmc/list', component: _pages_merchant_dmc_list_dmc_list_component__WEBPACK_IMPORTED_MODULE_9__["DmcListComponent"], canLoad: [_security_supervisor_supervisor_auth_guard__WEBPACK_IMPORTED_MODULE_7__["SupervisorAuthGuard"]], canActivate: [_security_supervisor_supervisor_auth_guard__WEBPACK_IMPORTED_MODULE_7__["SupervisorAuthGuard"]] },
+    { path: 'logout', component: _pages_logout_logout_component__WEBPACK_IMPORTED_MODULE_10__["LogoutComponent"] },
 ];
 
 
@@ -39091,23 +39923,221 @@ var AdminLayoutRoutes = [
 /*!***********************************************!*\
   !*** ./src/app/model/digital-medical-chit.ts ***!
   \***********************************************/
-/*! exports provided: DigitalMedicalChit */
+/*! exports provided: DigitalMedicalChit, DigitalMedicalChitCollection, DmcItem, Product, Merchant */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DigitalMedicalChit", function() { return DigitalMedicalChit; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DigitalMedicalChitCollection", function() { return DigitalMedicalChitCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DmcItem", function() { return DmcItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Product", function() { return Product; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Merchant", function() { return Merchant; });
+/* harmony import */ var _services_http_http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/http/http.service */ "./src/app/services/http/http.service.ts");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+
+
+
 var DigitalMedicalChit = /** @class */ (function () {
     function DigitalMedicalChit() {
-        this.memberNric = null;
-        this.memberName = null;
+        this.isDeleted = false;
+        this.beneficiaryNric = null;
+        this.beneficiaryName = null;
+        this.code = null;
         this.productId = null;
+        this.productName = null;
+        this.merchants = null;
+        this.merchantLoading = false;
+        this.productOptions = [];
+        this.merchantOptionInput$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        this.http = null;
     }
+    DigitalMedicalChit.prototype.initServices = function (http) {
+        this.http = http;
+    };
+    DigitalMedicalChit.prototype.save = function (callback) {
+        if (this.id == null) {
+            this.http.post(_services_http_http_service__WEBPACK_IMPORTED_MODULE_0__["Endpoint"].GLOBAL, ['digital-medical-chits'], {
+                beneficiaryNric: this.beneficiaryNric,
+                beneficiaryName: this.beneficiaryName,
+                product: this.productId,
+                merchants: this.merchants
+            }).subscribe(function (res) {
+                console.log('save done', res);
+                if (callback) {
+                    callback();
+                }
+            });
+        }
+    };
+    DigitalMedicalChit.prototype.delete = function (callback) {
+        var _this = this;
+        try {
+            return this.http.delete(_services_http_http_service__WEBPACK_IMPORTED_MODULE_0__["Endpoint"].GLOBAL, ["digital-medical-chits/" + this.id]).subscribe(function (res) {
+                _this.isDeleted = true;
+                if (callback) {
+                    callback();
+                }
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
+    DigitalMedicalChit.prototype.populateFromNric = function () {
+        var _this = this;
+        // /benefit-providers/15e6f99ba1de1c/find-one-beneficiary-by-nric/13/lalana(NAING)042215
+        var uuid = localStorage.getItem('benefitProviderUuid');
+        var nric = this.beneficiaryNric;
+        try {
+            this.http.get(_services_http_http_service__WEBPACK_IMPORTED_MODULE_0__["Endpoint"].ENTITY, ["benefit-providers/" + uuid + "/find-one-beneficiary-by-nric/" + nric + "?page=1"]).subscribe(function (res) {
+                console.log(res);
+                _this.beneficiaryName = res.name;
+            });
+        }
+        catch (err) {
+        }
+    };
+    DigitalMedicalChit.prototype.populateMerchantOptions = function () {
+        var _this = this;
+        // TODO scheduled([o1, o2, o3], scheduler).pipe(concatAll()
+        this.merchantOptions$ = Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["concat"])(Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])([]), // default items
+        this.merchantOptionInput$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["distinctUntilChanged"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["tap"])(function () { return _this.merchantLoading = true; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["switchMap"])(function (term) { return _this.http.get(_services_http_http_service__WEBPACK_IMPORTED_MODULE_0__["Endpoint"].PRODUCT, ["products/" + _this.productId + "/find-merchants-by-product-uuid?organisationName=" + term + "&pageSize=10"]).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(function () { return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])([]); }), // empty list on error
+        Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["tap"])(function () { return _this.merchantLoading = false; })); })));
+        try {
+            this.http.get(_services_http_http_service__WEBPACK_IMPORTED_MODULE_0__["Endpoint"].PRODUCT, ["products/" + this.productId + "/find-merchants-by-product-uuid?pageSize=100"]).subscribe(function (res) {
+                _this.merchantOptions = [];
+                var p;
+                for (var i = 0; i < res.length; i++) {
+                    p = new Merchant();
+                    p.id = res[i].uuid;
+                    p.name = res[i].name;
+                    _this.merchantOptions.push(p);
+                }
+            });
+        }
+        catch (error) {
+        }
+    };
+    DigitalMedicalChit.prototype.populateProductOptions = function () {
+        var _this = this;
+        var uuid = localStorage.getItem('benefitProviderUuid');
+        try {
+            this.http.get(_services_http_http_service__WEBPACK_IMPORTED_MODULE_0__["Endpoint"].PRODUCT, ["benefit-providers/" + uuid + "/find-benefit-products?page=1"]).subscribe(function (res) {
+                _this.productOptions = [];
+                var p;
+                for (var i = 0; i < res.length; i++) {
+                    p = new Product();
+                    p.id = res[i].productUuid;
+                    p.name = res[i].name;
+                    _this.productOptions.push(p);
+                }
+                if (res.length === 1) {
+                    _this.productId = res[0].productUuid;
+                    _this.populateMerchantOptions();
+                }
+            });
+        }
+        catch (error) {
+        }
+    };
     return DigitalMedicalChit;
 }());
+
+var DigitalMedicalChitCollection = /** @class */ (function () {
+    function DigitalMedicalChitCollection() {
+        this.currentPage = 0;
+        this.isLoading = false;
+        this.http = null;
+        this.medicalChits = [];
+    }
+    DigitalMedicalChitCollection.prototype.initServices = function (http) {
+        this.http = http;
+    };
+    DigitalMedicalChitCollection.prototype.appendItem = function (dmc, index) {
+        // this.addItem(dmc, index, 'push');
+        // this.medicalChits[_method](dmc);
+        this.medicalChits.push(dmc);
+    };
+    DigitalMedicalChitCollection.prototype.deleteItem = function (dmc) {
+        var _this = this;
+        console.log('deleteItem');
+        dmc.delete(function () {
+            var i = _this.medicalChits.indexOf(dmc);
+            console.log('i is ' + i);
+            if (i >= 0) {
+                _this.medicalChits.splice(i, 1);
+            }
+        });
+    };
+    DigitalMedicalChitCollection.prototype.loadItemsFromNextPage = function () {
+        var _this = this;
+        this.isLoading = true;
+        // if (!this.isLoading) {
+        this.currentPage++;
+        this.http.get(_services_http_http_service__WEBPACK_IMPORTED_MODULE_0__["Endpoint"].GLOBAL, ["digital-medical-chits?pageSize=20&page=" + this.currentPage]).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(function (err) {
+            _this.isLoading = false;
+            return (err);
+        })).subscribe(function (res) {
+            for (var i = 0; i < res.length; i++) {
+                var item = res[i];
+                var dmc = new DigitalMedicalChit();
+                dmc.initServices(_this.http);
+                dmc.beneficiaryName = item.beneficiaryName;
+                dmc.id = item.uuid;
+                dmc.beneficiaryNric = item.beneficiaryNric;
+                dmc.productId = item.product;
+                dmc.productName = item.productName;
+                dmc.code = item.code;
+                dmc.isExpired = item.expired;
+                dmc.isRedeemed = item.redeemed;
+                _this.appendItem(dmc);
+            }
+            _this.isLoading = false;
+        });
+        // }
+    };
+    return DigitalMedicalChitCollection;
+}());
+
+var DmcItem = /** @class */ (function () {
+    function DmcItem() {
+    }
+    return DmcItem;
+}());
+
+var Product = /** @class */ (function (_super) {
+    __extends(Product, _super);
+    function Product() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return Product;
+}(DmcItem));
+
+var Merchant = /** @class */ (function (_super) {
+    __extends(Merchant, _super);
+    function Merchant() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return Merchant;
+}(DmcItem));
 
 
 
@@ -39251,6 +40281,80 @@ var IconsComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], IconsComponent);
     return IconsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/pages/logout/logout.component.css":
+/*!***************************************************!*\
+  !*** ./src/app/pages/logout/logout.component.css ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL2xvZ291dC9sb2dvdXQuY29tcG9uZW50LmNzcyJ9 */");
+
+/***/ }),
+
+/***/ "./src/app/pages/logout/logout.component.ts":
+/*!**************************************************!*\
+  !*** ./src/app/pages/logout/logout.component.ts ***!
+  \**************************************************/
+/*! exports provided: LogoutComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogoutComponent", function() { return LogoutComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+
+
+var LogoutComponent = /** @class */ (function () {
+    function LogoutComponent(router) {
+        this.router = router;
+    }
+    LogoutComponent.prototype.ngOnInit = function () {
+        var isSupervisor = false;
+        if (localStorage.getItem('benefitProviderUuid') !== null) {
+            isSupervisor = true;
+        }
+        localStorage.clear();
+        if (isSupervisor) {
+            this.router.navigate(['supervisor', 'login']);
+        }
+        else {
+            this.router.navigate(['merchant', 'login']);
+        }
+    };
+    LogoutComponent.ctorParameters = function () { return [
+        { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }
+    ]; };
+    LogoutComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-logout',
+            template: __importDefault(__webpack_require__(/*! raw-loader!./logout.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/pages/logout/logout.component.html")).default,
+            styles: [__importDefault(__webpack_require__(/*! ./logout.component.css */ "./src/app/pages/logout/logout.component.css")).default]
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+    ], LogoutComponent);
+    return LogoutComponent;
 }());
 
 
@@ -39494,6 +40598,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DmcListComponent", function() { return DmcListComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm5/core.js");
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm5/ng-bootstrap.js");
+/* harmony import */ var _model_digital_medical_chit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../model/digital-medical-chit */ "./src/app/model/digital-medical-chit.ts");
+/* harmony import */ var _services_http_http_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/http/http.service */ "./src/app/services/http/http.service.ts");
+// https://material.angular.io/cdk/scrolling/overview
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -39508,17 +40615,37 @@ var __importDefault = (undefined && undefined.__importDefault) || function (mod)
 };
 
 
+
+
 var DmcListComponent = /** @class */ (function () {
-    function DmcListComponent(modalService) {
+    function DmcListComponent(modalService, http) {
         this.modalService = modalService;
+        this.http = http;
         this.closeResult = '';
+        this.items = Array.from({ length: 100000 }).map(function (_, i) { return "Item #" + i; });
+        this.throttle = 300;
+        this.scrollDistance = 1;
+        this.scrollUpDistance = 2;
+        this.direction = '';
+        this.dmcCollection = new _model_digital_medical_chit__WEBPACK_IMPORTED_MODULE_2__["DigitalMedicalChitCollection"]();
     }
     DmcListComponent.prototype.ngOnInit = function () {
+        this.dmcCollection.initServices(this.http);
+        this.dmcCollection.loadItemsFromNextPage();
     };
-    DmcListComponent.prototype.openModal = function (content) {
+    DmcListComponent.prototype.onScrollDown = function (ev) {
+        console.log('scrolled down!!', ev);
+        this.dmcCollection.loadItemsFromNextPage();
+        this.direction = 'down';
+    };
+    DmcListComponent.prototype.confirmDelete = function (content, dmc) {
         var _this = this;
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(function (result) {
             _this.closeResult = "Closed with: " + result;
+            if (result === 'YES') {
+                console.log('let s detete');
+                _this.dmcCollection.deleteItem(dmc);
+            }
             console.log('this.closeResult', _this.closeResult);
         }, function (reason) {
             _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
@@ -39537,7 +40664,8 @@ var DmcListComponent = /** @class */ (function () {
         }
     };
     DmcListComponent.ctorParameters = function () { return [
-        { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbModal"] }
+        { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbModal"] },
+        { type: _services_http_http_service__WEBPACK_IMPORTED_MODULE_3__["HttpService"] }
     ]; };
     DmcListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -39545,7 +40673,7 @@ var DmcListComponent = /** @class */ (function () {
             template: __importDefault(__webpack_require__(/*! raw-loader!./dmc-list.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/pages/supervisor/dmc-list/dmc-list.component.html")).default,
             styles: [__importDefault(__webpack_require__(/*! ./dmc-list.component.css */ "./src/app/pages/supervisor/dmc-list/dmc-list.component.css")).default]
         }),
-        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbModal"]])
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbModal"], _services_http_http_service__WEBPACK_IMPORTED_MODULE_3__["HttpService"]])
     ], DmcListComponent);
     return DmcListComponent;
 }());
@@ -39563,7 +40691,7 @@ var DmcListComponent = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("ng-select {\r\n  position: relative;\r\n  -webkit-box-flex: 1;\r\n  flex: 1 1 auto;\r\n  width: 1%;\r\n  margin-bottom: 0;\r\n}\r\n\r\n.btn-limit-mc {\r\n  white-space: normal;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvc3VwZXJ2aXNvci9kbWMtc2luZ2xlL2RtYy1zaW5nbGUuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGtCQUFrQjtFQUNsQixtQkFBbUI7RUFDbkIsY0FBYztFQUNkLFNBQVM7RUFDVCxnQkFBZ0I7QUFDbEI7O0FBRUE7RUFDRSxtQkFBbUI7QUFDckIiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9zdXBlcnZpc29yL2RtYy1zaW5nbGUvZG1jLXNpbmdsZS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsibmctc2VsZWN0IHtcclxuICBwb3NpdGlvbjogcmVsYXRpdmU7XHJcbiAgLXdlYmtpdC1ib3gtZmxleDogMTtcclxuICBmbGV4OiAxIDEgYXV0bztcclxuICB3aWR0aDogMSU7XHJcbiAgbWFyZ2luLWJvdHRvbTogMDtcclxufVxyXG5cclxuLmJ0bi1saW1pdC1tYyB7XHJcbiAgd2hpdGUtc3BhY2U6IG5vcm1hbDtcclxufVxyXG4iXX0= */");
+/* harmony default export */ __webpack_exports__["default"] = ("ng-select {\r\n  position: relative;\r\n  -webkit-box-flex: 1;\r\n  flex: 1 1 auto;\r\n  width: 1%;\r\n  margin-bottom: 0;\r\n}\r\n\r\n.btn-limit-mc {\r\n  white-space: normal;\r\n}\r\n\r\n.ipt-content {\r\n  padding-top: 5px;\r\n  background-color: white;\r\n  position: relative;\r\n  -webkit-box-flex: 1;\r\n  flex: 1 1 auto;\r\n  width: 1%;\r\n  margin-bottom: 0;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvc3VwZXJ2aXNvci9kbWMtc2luZ2xlL2RtYy1zaW5nbGUuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGtCQUFrQjtFQUNsQixtQkFBbUI7RUFDbkIsY0FBYztFQUNkLFNBQVM7RUFDVCxnQkFBZ0I7QUFDbEI7O0FBRUE7RUFDRSxtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxnQkFBZ0I7RUFDaEIsdUJBQXVCO0VBQ3ZCLGtCQUFrQjtFQUNsQixtQkFBbUI7RUFDbkIsY0FBYztFQUNkLFNBQVM7RUFDVCxnQkFBZ0I7QUFDbEIiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9zdXBlcnZpc29yL2RtYy1zaW5nbGUvZG1jLXNpbmdsZS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsibmctc2VsZWN0IHtcclxuICBwb3NpdGlvbjogcmVsYXRpdmU7XHJcbiAgLXdlYmtpdC1ib3gtZmxleDogMTtcclxuICBmbGV4OiAxIDEgYXV0bztcclxuICB3aWR0aDogMSU7XHJcbiAgbWFyZ2luLWJvdHRvbTogMDtcclxufVxyXG5cclxuLmJ0bi1saW1pdC1tYyB7XHJcbiAgd2hpdGUtc3BhY2U6IG5vcm1hbDtcclxufVxyXG5cclxuLmlwdC1jb250ZW50IHtcclxuICBwYWRkaW5nLXRvcDogNXB4O1xyXG4gIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xyXG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcclxuICAtd2Via2l0LWJveC1mbGV4OiAxO1xyXG4gIGZsZXg6IDEgMSBhdXRvO1xyXG4gIHdpZHRoOiAxJTtcclxuICBtYXJnaW4tYm90dG9tOiAwO1xyXG59XHJcbiJdfQ== */");
 
 /***/ }),
 
@@ -39579,6 +40707,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DmcSingleComponent", function() { return DmcSingleComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm5/core.js");
 /* harmony import */ var _model_digital_medical_chit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../model/digital-medical-chit */ "./src/app/model/digital-medical-chit.ts");
+/* harmony import */ var _services_http_http_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/http/http.service */ "./src/app/services/http/http.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -39593,33 +40723,54 @@ var __importDefault = (undefined && undefined.__importDefault) || function (mod)
 };
 
 
+
+
 var DmcSingleComponent = /** @class */ (function () {
-    function DmcSingleComponent() {
-        this.selectAllMerchants = 'ALL';
-        this.selectedCemtres = [];
+    function DmcSingleComponent(http, router) {
+        this.http = http;
+        this.router = router;
+        this.isNricReady = false;
+        this.loading = false;
         this.showMerchantSelect = false;
     }
+    DmcSingleComponent.prototype.trackByFn = function (item) {
+        return item.id;
+    };
     DmcSingleComponent.prototype.ngOnInit = function () {
         this.dmc = new _model_digital_medical_chit__WEBPACK_IMPORTED_MODULE_1__["DigitalMedicalChit"]();
-        this.dmc.productId = '123';
-        this.products = [
-            { id: '123', name: 'Outpatient Care Plan A' },
-            { id: '456', name: 'Outpatient Care Plan B' }
-        ];
-        this.merchants = [
-            { id: '123', name: 'Tuas South Clinic' },
-            { id: '456', name: 'Some Clinic' }
-        ];
+        this.dmc.initServices(this.http);
+        // this.dmc.productId = '123';
+        this.dmc.populateProductOptions();
     };
-    DmcSingleComponent.prototype.validate = function () {
+    DmcSingleComponent.prototype.onProductChange = function ($event) {
+        if (this.dmc.productId !== null) {
+            this.dmc.populateMerchantOptions();
+        }
     };
+    DmcSingleComponent.prototype.createDmc = function () {
+        var _this = this;
+        console.log('create dmc', this.dmc);
+        this.dmc.save(function () {
+            _this.router.navigate(['supervisor', 'dmc', 'list']);
+        });
+    };
+    DmcSingleComponent.prototype.handleNric = function () {
+        this.loading = true;
+        this.dmc.populateFromNric();
+        this.loading = false;
+        this.isNricReady = true;
+    };
+    DmcSingleComponent.ctorParameters = function () { return [
+        { type: _services_http_http_service__WEBPACK_IMPORTED_MODULE_2__["HttpService"] },
+        { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
+    ]; };
     DmcSingleComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-dmc-single',
             template: __importDefault(__webpack_require__(/*! raw-loader!./dmc-single.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/pages/supervisor/dmc-single/dmc-single.component.html")).default,
             styles: [__importDefault(__webpack_require__(/*! ./dmc-single.component.css */ "./src/app/pages/supervisor/dmc-single/dmc-single.component.css")).default]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_services_http_http_service__WEBPACK_IMPORTED_MODULE_2__["HttpService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], DmcSingleComponent);
     return DmcSingleComponent;
 }());
@@ -39753,18 +40904,27 @@ var UserProfileComponent = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SupervisorAuthGuard", function() { return SupervisorAuthGuard; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm5/router.js");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../auth.service */ "./src/app/security/auth.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 
+
+
 var SupervisorAuthGuard = /** @class */ (function () {
-    function SupervisorAuthGuard() {
+    function SupervisorAuthGuard(authService, router) {
+        this.authService = authService;
+        this.router = router;
     }
     SupervisorAuthGuard.prototype.canLoad = function (route, segments) {
         console.log('SupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuard');
@@ -39773,17 +40933,141 @@ var SupervisorAuthGuard = /** @class */ (function () {
         return true;
     };
     SupervisorAuthGuard.prototype.canActivate = function (route, state) {
-        console.log('routeeeeeeeeee ', route);
+        if (!this.authService.isAuthenticated()) {
+            this.router.navigate(['supervisor', 'login']);
+        }
         return true;
     };
+    SupervisorAuthGuard.ctorParameters = function () { return [
+        { type: _auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"] },
+        { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }
+    ]; };
     SupervisorAuthGuard = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
-            providedIn: 'root'
-        })
+            providedIn: 'any'
+        }),
+        __metadata("design:paramtypes", [_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], SupervisorAuthGuard);
     return SupervisorAuthGuard;
 }());
 
+
+
+/***/ }),
+
+/***/ "./src/app/services/http/http.service.ts":
+/*!***********************************************!*\
+  !*** ./src/app/services/http/http.service.ts ***!
+  \***********************************************/
+/*! exports provided: HttpService, Endpoint */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpService", function() { return HttpService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Endpoint", function() { return Endpoint; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/__ivy_ngcc__/fesm5/http.js");
+/* harmony import */ var _config_config_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/config.service */ "./src/app/services/config/config.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+
+
+
+var httpOptions = {
+    headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
+        'Content-Type': 'application/json'
+    })
+};
+var httpGetOptions = {
+    headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
+        'Accept': 'application/json'
+    })
+};
+var HttpService = /** @class */ (function () {
+    function HttpService(http, configService) {
+        this.http = http;
+        this.configService = configService;
+        this.config = configService.getConfiguration();
+    }
+    HttpService.prototype.post = function (endpoint, pathSegments, postBody, headers) {
+        var url = null;
+        var path = null;
+        if (Array.isArray(pathSegments)) {
+            if (pathSegments.length > 0) {
+                path = pathSegments.pop();
+            }
+        }
+        if (path == null || typeof path == "undefined") {
+            url = this.config.getApiEndpoint(endpoint);
+        }
+        else {
+            url = this.config.getApiEndpoint(endpoint) + '/' + path;
+        }
+        return this.http.post(url, postBody, httpOptions);
+    };
+    HttpService.prototype.get = function (endpoint, pathSegments, headers) {
+        var url = null;
+        var path = null;
+        if (Array.isArray(pathSegments)) {
+            if (pathSegments.length > 0) {
+                path = pathSegments.pop();
+            }
+        }
+        if (path == null || typeof path == "undefined") {
+            url = this.config.getApiEndpoint(endpoint);
+        }
+        else {
+            url = this.config.getApiEndpoint(endpoint) + '/' + path;
+        }
+        return this.http.get(url, httpGetOptions);
+    };
+    HttpService.prototype.delete = function (endpoint, pathSegments, headers) {
+        var url = null;
+        var path = null;
+        if (Array.isArray(pathSegments)) {
+            if (pathSegments.length > 0) {
+                path = pathSegments.pop();
+            }
+        }
+        if (path == null || typeof path == "undefined") {
+            url = this.config.getApiEndpoint(endpoint);
+        }
+        else {
+            url = this.config.getApiEndpoint(endpoint) + '/' + path;
+        }
+        return this.http.delete(url, httpOptions);
+    };
+    HttpService.ctorParameters = function () { return [
+        { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] },
+        { type: _config_config_service__WEBPACK_IMPORTED_MODULE_2__["ConfigService"] }
+    ]; };
+    HttpService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'any'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], _config_config_service__WEBPACK_IMPORTED_MODULE_2__["ConfigService"]])
+    ], HttpService);
+    return HttpService;
+}());
+
+var Endpoint;
+(function (Endpoint) {
+    Endpoint["GLOBAL"] = "global";
+    Endpoint["SUPERVISOR"] = "supervisor";
+    Endpoint["ENTITY"] = "entity";
+    Endpoint["PRODUCT"] = "product";
+})(Endpoint || (Endpoint = {}));
 
 
 /***/ }),
