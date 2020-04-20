@@ -82,6 +82,7 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
 
             $dmc->setCode($medicalChit->getCode());
             $dmc->setCreatedAt($medicalChit->getCreatedAt());
+            $dmc->setExpired($medicalChit->getExpired());
             $dmc->setRedeemed($medicalChit->getRedeemed());
 
             yield $dmc;
