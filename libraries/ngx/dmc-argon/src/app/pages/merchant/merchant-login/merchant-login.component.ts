@@ -53,6 +53,7 @@ export class MerchantLoginComponent implements OnInit {
       localStorage.setItem('token', jwt.token);
       localStorage.setItem('benefitProviderUuid', jwt.benefitProviderUuid);
       localStorage.setItem('credentials', JSON.stringify(this.credentials));
+      this.modalService.dismissAll();
       this.router.navigate(['supervisor', 'dmc', 'list']);
     });
   }

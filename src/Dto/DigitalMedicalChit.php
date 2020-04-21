@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Class DigitalMedicalChit
  * @package App\Dto\DigitalMedicalChit
  * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_USER')"},
  *     messenger=true,
  *     itemOperations={"delete","get"={
  *     "requirements"={"id"=".+"},

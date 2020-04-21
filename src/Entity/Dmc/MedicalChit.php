@@ -4,6 +4,7 @@ namespace App\Entity\Dmc;
 
 use App\Entity\AbstractThing;
 use App\Entity\BenefitProvider\BenefitProduct;
+use App\Entity\BenefitProvider\BenefitProvider;
 use App\Entity\EventSourcing\MedicalChitEvent;
 use App\Service\ThingService;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -101,6 +102,17 @@ class MedicalChit extends AbstractThing
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $expireAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BenefitProvider\BenefitProvider", inversedBy="medicalChits")
+     * @ORM\JoinColumn(name="id_benefit_provider", onDelete="SET NULL")
+     */
+    private $benefitProvider;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $benefitProviderUuid;
 
     public function __construct()
     {
@@ -255,6 +267,30 @@ class MedicalChit extends AbstractThing
     public function setExpireAt(?\DateTimeInterface $expireAt): self
     {
         $this->expireAt = $expireAt;
+
+        return $this;
+    }
+
+    public function getBenefitProvider(): ?BenefitProvider
+    {
+        return $this->benefitProvider;
+    }
+
+    public function setBenefitProvider(?BenefitProvider $benefitProvider): self
+    {
+        $this->benefitProvider = $benefitProvider;
+
+        return $this;
+    }
+
+    public function getBenefitProviderUuid(): ?string
+    {
+        return $this->benefitProviderUuid;
+    }
+
+    public function setBenefitProviderUuid(?string $benefitProviderUuid): self
+    {
+        $this->benefitProviderUuid = $benefitProviderUuid;
 
         return $this;
     }

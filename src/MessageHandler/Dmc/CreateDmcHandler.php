@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler\Dmc;
 
+use App\Dto\BenefitProvider;
 use App\Entity\Dmc\MedicalChit;
 use App\Entity\EventSourcing\MedicalChitEvent;
 use App\Message\Dmc\AssociateMerchant;
@@ -23,7 +24,6 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
         $this->bus = $bus;
     }
 
-
     public function handleMessage(CreateDmc $message): MedicalChit
     {
         $medicalChit = $this->cast($message);
@@ -32,7 +32,6 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
         if (empty($productId = $medicalChit->getProductUuid())) {
             throw new \InvalidArgumentException('Product cannot be empty');
         }
-
 
         return $medicalChit;
     }
@@ -43,12 +42,20 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
             throw new InvalidArgumentException('property $isEventSourcingEnabled cannot be null');
         }
 
+        if (empty($message->benefitProviderUuid)) {
+            throw new \InvalidArgumentException('empty Benefit Provider');
+        }
+
         /** @var EntityManager $manager */
         $manager = $this->registry->getManager();
+        $bpRepo = $manager->getRepository(\App\Entity\BenefitProvider\BenefitProvider::class);
+        $bp = $bpRepo->findOneByUuid($message->benefitProviderUuid);
+
 //        $conn = $manager->getConnection();
 //        $conn->beginTransaction();
 
         $medicalChit = $this->handleMessage($message);
+        $medicalChit->setBenefitProvider($bp);
 
         if ($message->isEventSourcingEnabled) {
             $event = new MedicalChitEvent();

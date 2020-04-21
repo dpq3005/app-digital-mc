@@ -14,6 +14,7 @@ use App\Controller\BenefitProvider\FindOneBeneficiaryByNric;
  * Class Merchant
  * @package App\Dto\Merchant
  * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_USER')"},
  *     itemOperations={"get"={
  *         "read"=false,
  *     "requirements"={"id"=".+"},

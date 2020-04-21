@@ -3,7 +3,10 @@
 namespace App\Entity\BenefitProvider;
 
 use App\Entity\AbstractThing;
+use App\Entity\Dmc\MedicalChit;
 use App\Entity\Organisation\Organisation;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,10 +16,21 @@ use Doctrine\ORM\Mapping as ORM;
 class BenefitProvider extends AbstractThing
 {
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Organisation\Organisation", inversedBy="benefitProvider", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Organisation\Organisation", inversedBy="benefitProvider", cascade={"persist"})
      * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      */
     private $organisation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Dmc\MedicalChit", mappedBy="benefitProvider")
+     */
+    private $medicalChits;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->medicalChits = new ArrayCollection();
+    }
 
     public function getOrganisation(): ?Organisation
     {
@@ -26,6 +40,37 @@ class BenefitProvider extends AbstractThing
     public function setOrganisation(?Organisation $organisation): self
     {
         $this->organisation = $organisation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MedicalChit[]
+     */
+    public function getMedicalChits(): Collection
+    {
+        return $this->medicalChits;
+    }
+
+    public function addMedicalChit(MedicalChit $medicalChit): self
+    {
+        if (!$this->medicalChits->contains($medicalChit)) {
+            $this->medicalChits[] = $medicalChit;
+            $medicalChit->setBenefitProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedicalChit(MedicalChit $medicalChit): self
+    {
+        if ($this->medicalChits->contains($medicalChit)) {
+            $this->medicalChits->removeElement($medicalChit);
+            // set the owning side to null (unless already changed)
+            if ($medicalChit->getBenefitProvider() === $this) {
+                $medicalChit->setBenefitProvider(null);
+            }
+        }
 
         return $this;
     }

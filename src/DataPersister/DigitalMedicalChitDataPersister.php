@@ -9,9 +9,11 @@ use App\Dto\Invoicing\Invoice;
 use App\Dto\Invoicing\InvoicePayment;
 use App\Dto\Invoicing\InvoicePaymentProof;
 use App\Entity\Dmc\MedicalChit;
+use App\Entity\Security\User;
 use App\Message\Dmc\CreateDmc;
 use App\Message\Dmc\DeleteDmc;
 use App\Message\Dmc\InvoiceRequest;
+use App\Security\JWTUser;
 use App\Service\Aws\AwsS3Service;
 use App\Service\HttpService;
 use App\Service\ThingService;
@@ -19,16 +21,21 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\UsageTrackingTokenStorage;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class DigitalMedicalChitDataPersister implements ContextAwareDataPersisterInterface
 {
-    protected $registry, $bus, $http;
+    protected $registry, $bus, $http, $tokenStorage, $authChecker;
 
-    public function __construct(MessageBusInterface $bus, ManagerRegistry $registry, HttpService $http)
+    public function __construct(MessageBusInterface $bus, ManagerRegistry $registry, HttpService $http, TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authChecker)
     {
         $this->bus = $bus;
         $this->registry = $registry;
         $this->http = $http;
+        $this->tokenStorage = $tokenStorage;
+        $this->authChecker = $authChecker;
     }
 
     public function supports($data, array $context = []): bool
@@ -63,6 +70,17 @@ class DigitalMedicalChitDataPersister implements ContextAwareDataPersisterInterf
         $product = $res['body'];
         if (empty($product)) {
             throw new NotFoundHttpException('Product not found for ID: '.$productUuid);
+        }
+
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        if ($this->authChecker->isGranted(JWTUser::ROLE_SUPERVISOR)) {
+            $uname = $user->getUsername();
+            /** @var User $supUser
+             */
+            $supUser = $this->registry->getRepository(User::class)->findOneByUsername($uname);
+            $bp = $supUser->getOrganisation()->getBenefitProvider();
+            $message->benefitProviderUuid = $bp->getUuid();
         }
 
         $message->productUuid = $productUuid;
