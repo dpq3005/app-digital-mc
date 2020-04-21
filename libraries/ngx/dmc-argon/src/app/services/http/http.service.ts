@@ -4,19 +4,6 @@ import {ConfigService} from "../config/config.service";
 import {Configuration} from "../config/configuration";
 import {Observable} from "rxjs";
 import {catchError} from "rxjs/operators";
-import {isArray} from "util";
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-};
-
-const httpGetOptions = {
-  headers: new HttpHeaders({
-    'Accept': 'application/json'
-  })
-};
 
 @Injectable({
   providedIn: 'any'
@@ -42,7 +29,12 @@ export class HttpService {
     } else {
       url = this.config.getApiEndpoint(endpoint) + '/' + path;
     }
-    return this.http.post(url, postBody, httpOptions);
+    return this.http.post(url, postBody, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      })
+    });
   }
 
   public get(endpoint: Endpoint, pathSegments: [string], headers?): Observable<any> {
@@ -59,7 +51,13 @@ export class HttpService {
     } else {
       url = this.config.getApiEndpoint(endpoint) + '/' + path;
     }
-    return this.http.get(url, httpGetOptions);
+
+    return this.http.get(url, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      })
+    });
   }
 
   public delete(endpoint: Endpoint, pathSegments: [string], headers?): Observable<any> {
@@ -76,7 +74,12 @@ export class HttpService {
     } else {
       url = this.config.getApiEndpoint(endpoint) + '/' + path;
     }
-    return this.http.delete(url, httpOptions);
+    return this.http.delete(url, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      })
+    });
   }
 }
 

@@ -39,7 +39,7 @@ export class DigitalMedicalChit {
           break;
         }
       }
-      
+
       this.http.post(Endpoint.GLOBAL, ['digital-medical-chits'], {
         beneficiaryNric: this.beneficiaryNric,
         beneficiaryName: this.beneficiaryName,
@@ -122,7 +122,7 @@ export class DigitalMedicalChit {
           p = new Product();
           p.id = res[i].productUuid;
           p.name = res[i].name;
-          p.benefitProductId = res[i].benefitProductUuid;
+          p.benefitProductId = res[i].uuid;
           this.productOptions.push(p);
         }
 
