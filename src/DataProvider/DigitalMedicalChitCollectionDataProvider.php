@@ -8,21 +8,27 @@ use ApiPlatform\Core\Exception\ResourceClassNotSupportedException;
 use App\Dto\BenefitProvider\Beneficiary;
 use App\Dto\Dmc\DigitalMedicalChit;
 use App\Entity\Dmc\MedicalChit;
+use App\Entity\Security\User;
+use App\Security\JWTUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class DigitalMedicalChitCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
 {
-    protected $requestStack, $registry;
+    protected $requestStack, $registry, $tokenStorage, $authChecker;
 
-    public function __construct(ManagerRegistry $registry, RequestStack $requestStack)
+    public function __construct(ManagerRegistry $registry, RequestStack $requestStack, TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authChecker)
     {
         $this->requestStack = $requestStack;
         $this->registry = $registry;
+        $this->tokenStorage = $tokenStorage;
+        $this->authChecker = $authChecker;
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
@@ -49,12 +55,24 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
         /** @var EntityManagerInterface $manager */
         $manager = $this->registry->getManager();
         $qb = $manager->createQueryBuilder();
-        $e = $qb->expr();
+        $expr = $qb->expr();
 
         $qb->select('dmc')->from(MedicalChit::class, 'dmc');
 
         $this->applyFilters($qb, $request);
 
+        $user = $this->tokenStorage->getToken()->getUser();
+        if ($this->authChecker->isGranted(JWTUser::ROLE_SUPERVISOR)) {
+            $uRepo = $this->registry->getRepository(User::class);
+            /** @var User $mUser */
+            $mUser = $uRepo->findOneByUsername($user->getUsername());
+
+            $benefitProviderUuid = $mUser->getOrganisation()->getBenefitProvider()->getUuid();
+
+            $qb->andWhere(
+                $expr->like('bp.uuid', $expr->literal($benefitProviderUuid))
+            );
+        };
         $pageSize = $request->query->getInt('pageSize', 100);
         $pageIndex = $page - 1;
 
