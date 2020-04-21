@@ -57,7 +57,10 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
         $qb = $manager->createQueryBuilder();
         $expr = $qb->expr();
 
-        $qb->select('dmc')->from(MedicalChit::class, 'dmc');
+        $qb->select('dmc')->from(MedicalChit::class, 'dmc')
+            ->join('dmc.benefitProvider', 'bp')
+            ->join($join, $alias)
+        ;
 
         $this->applyFilters($qb, $request);
 

@@ -3,6 +3,7 @@
 namespace App\MessageHandler\Dmc;
 
 use App\Dto\BenefitProvider;
+use App\Entity\BenefitProvider\BenefitProduct;
 use App\Entity\Dmc\MedicalChit;
 use App\Entity\EventSourcing\MedicalChitEvent;
 use App\Message\Dmc\AssociateMerchant;
@@ -51,11 +52,19 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
         $bpRepo = $manager->getRepository(\App\Entity\BenefitProvider\BenefitProvider::class);
         $bp = $bpRepo->findOneByUuid($message->benefitProviderUuid);
 
+        $medicalChit = $this->handleMessage($message);
+
+        if ($message->benefitProductUuid) {
+            $benefitProduct = $manager->getRepository(BenefitProduct::class)->findOneByUuid($message->benefitProductUuid);
+            if ($benefitProduct) {
+                $medicalChit->setBenefitProduct($benefitProduct);
+            }
+        }
+
 //        $conn = $manager->getConnection();
 //        $conn->beginTransaction();
-
-        $medicalChit = $this->handleMessage($message);
         $medicalChit->setBenefitProvider($bp);
+        $medicalChit->setBenefitProduct($benefitProduct);
 
         if ($message->isEventSourcingEnabled) {
             $event = new MedicalChitEvent();
