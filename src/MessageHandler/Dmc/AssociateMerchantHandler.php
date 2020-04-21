@@ -88,6 +88,7 @@ class AssociateMerchantHandler implements MessageHandlerInterface
                     $merchantAssignment = $handled['merchantAssignment'];
                     $manager->persist($merchant);
                     $manager->persist($merchantAssignment);
+                    $manager->flush();
                 }
             }
         }
