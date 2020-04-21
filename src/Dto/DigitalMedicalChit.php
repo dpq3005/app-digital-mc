@@ -68,6 +68,13 @@ class DigitalMedicalChit
     protected $product;
 
     /**
+     * @var string|null
+     * @ApiProperty()
+     * @Groups("write")
+     */
+    protected $benefitProduct;
+
+    /**
      * @var array|null
      * @ApiProperty()
      * @Groups("write")
@@ -252,5 +259,21 @@ class DigitalMedicalChit
     public function setProductName(?string $productName): void
     {
         $this->productName = $productName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBenefitProduct(): ?string
+    {
+        return $this->benefitProduct;
+    }
+
+    /**
+     * @param string|null $benefitProduct
+     */
+    public function setBenefitProduct(?string $benefitProduct): void
+    {
+        $this->benefitProduct = $benefitProduct;
     }
 }

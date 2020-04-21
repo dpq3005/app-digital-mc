@@ -7,10 +7,13 @@ export class DigitalMedicalChit {
   isDeleted: boolean = false;
   beneficiaryNric: string = null;
   beneficiaryName: string = null;
+
+
   code: string = null;
   isExpired: boolean;
   isRedeemed: boolean;
 
+  benefitProductId: string = null;
   productId = null;
   productName = null;
   merchants: Merchant[] = null;
@@ -30,10 +33,18 @@ export class DigitalMedicalChit {
 
   save(callback?) {
     if (this.id == null) {
+      for (let i = 0; i < this.productOptions.length; i++) {
+        if (this.productOptions[i].id == this.productId) {
+          this.benefitProductId = this.productOptions[i].benefitProductId;
+          break;
+        }
+      }
+      
       this.http.post(Endpoint.GLOBAL, ['digital-medical-chits'], {
         beneficiaryNric: this.beneficiaryNric,
         beneficiaryName: this.beneficiaryName,
         product: this.productId,
+        benefitProduct: this.benefitProductId,
         merchants: this.merchants
       }).subscribe(res => {
         console.log('save done', res);
@@ -88,7 +99,7 @@ export class DigitalMedicalChit {
     try {
       this.http.get(Endpoint.PRODUCT, ["products/" + this.productId + "/find-merchants-by-product-uuid?pageSize=100"]).subscribe((res: any) => {
         this.merchantOptions = [];
-        let p: Product;
+        let p: Merchant;
         for (let i = 0; i < res.length; i++) {
           p = new Merchant();
           p.id = res[i].uuid;
@@ -111,6 +122,7 @@ export class DigitalMedicalChit {
           p = new Product();
           p.id = res[i].productUuid;
           p.name = res[i].name;
+          p.benefitProductId = res[i].benefitProductUuid;
           this.productOptions.push(p);
         }
 
@@ -199,7 +211,7 @@ export class DmcItem {
 }
 
 export class Product extends DmcItem {
-
+  benefitProductId: string;
 }
 
 export class Merchant extends DmcItem {

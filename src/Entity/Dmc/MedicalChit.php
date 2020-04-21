@@ -114,6 +114,11 @@ class MedicalChit extends AbstractThing
      */
     private $benefitProviderUuid;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $benefitProductUuid;
+
     public function __construct()
     {
         parent::__construct();
@@ -291,6 +296,18 @@ class MedicalChit extends AbstractThing
     public function setBenefitProviderUuid(?string $benefitProviderUuid): self
     {
         $this->benefitProviderUuid = $benefitProviderUuid;
+
+        return $this;
+    }
+
+    public function getBenefitProductUuid(): ?string
+    {
+        return $this->benefitProductUuid;
+    }
+
+    public function setBenefitProductUuid(?string $benefitProductUuid): self
+    {
+        $this->benefitProductUuid = $benefitProductUuid;
 
         return $this;
     }
