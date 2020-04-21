@@ -99,7 +99,7 @@ class MerchantPinAuthenticator extends AbstractGuardAuthenticator
             throw new CustomUserMessageAuthenticationException('Login not valid.');
         }
         $user = new MerchantPinUser();
-        $user->pin = (int) $data->pin;
+        $user->pin = $data->pin;
         $user->uuid = $uuid;
         $user->organisationUuid = $data->organisationUuid;
 
@@ -109,7 +109,7 @@ class MerchantPinAuthenticator extends AbstractGuardAuthenticator
     public function checkCredentials($credentials, UserInterface $user)
     {
         if ($user instanceof MerchantPinUser) {
-            return $credentials['pin'] === $user->pin;
+            return (string) $credentials['pin'] === (string) $user->pin;
         }
         return false;
     }
@@ -163,7 +163,7 @@ class MerchantPinAuthenticator extends AbstractGuardAuthenticator
     {
         $data = [
             // you might translate this message
-            'message' => 'Authentication Required... !!!'.$authException->getMessage(),
+            'message' => 'Authentication Required... !!!'.$authException->getMessage(). ' ... '.$request->getContentType(),
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
