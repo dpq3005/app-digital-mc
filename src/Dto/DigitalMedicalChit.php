@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     denormalizationContext={"groups"={"write"}}
  * )
- * @ApiFilter(SimpleDtoFilter::class, properties={"organisationUuid": "exact"})
+ * @ApiFilter(SimpleDtoFilter::class, properties={"organisationUuid": "exact", "beneficiaryName": "exact", "beneficiaryNric": "exact"})
  */
 class DigitalMedicalChit
 {

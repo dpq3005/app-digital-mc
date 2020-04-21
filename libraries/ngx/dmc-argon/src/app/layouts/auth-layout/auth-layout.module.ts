@@ -21,14 +21,7 @@ import {HttpClientModule} from "@angular/common/http";
     RouterModule.forChild(AuthLayoutRoutes),
     FormsModule,
     SharedModule,
-    HttpClientModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: () => {
-          return localStorage.getItem("token");
-        },
-      }
-    })
+    HttpClientModule
     // NgbModule
   ],
   declarations: [

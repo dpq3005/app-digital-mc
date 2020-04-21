@@ -24,6 +24,56 @@ export class AuthService {
     this.config = configService.getConfiguration();
   }
 
+  isSupervisor: boolean = null;
+  isMerchantUser: boolean = null;
+
+  public logout() {
+    localStorage.clear();
+    this.isSupervisor = this.isMerchantUser = null;
+  }
+
+  public isGranted(role: Role) {
+    let user = this.getUser();
+    if (role === Role.SUPERVISOR) {
+      if (this.isSupervisor !== null) {
+        return this.isSupervisor;
+      }
+
+      for (let i = 0; i < user.roles.length; i++) {
+        let r = user.roles[i];
+        switch (r) {
+          case Role.SUPER_ADMIN:
+          case Role.SUPERVISOR:
+            this.isSupervisor = true;
+            return true;
+        }
+      }
+      this.isSupervisor = false
+    }
+
+    if (role === Role.MERCHANT_USER) {
+      if (this.isMerchantUser !== null) {
+        return this.isMerchantUser;
+      }
+      for (let i = 0; i < user.roles.length; i++) {
+        let r = user.roles[i];
+        if (r === Role.MERCHANT_USER) {
+          this.isMerchantUser = true;
+          return true;
+        }
+      }
+      this.isMerchantUser = false;
+    }
+
+    return false;
+  }
+
+  public getUser() {
+    const token = localStorage.getItem('token');
+    const jwt = this.jwtHelper.decodeToken(token);
+    return jwt;
+  }
+
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     // Check whether the token is expired and return
@@ -88,4 +138,10 @@ export class AuthService {
     return throwError(
       {code: errorCode, message: 'Invalid Credentials. Please try again!'});
   };
+}
+
+export enum Role {
+  SUPER_ADMIN = 'ROLE_SUPER_ADMIN',
+  SUPERVISOR = 'ROLE_SUPERVISOR',
+  MERCHANT_USER = 'ROLE_MERCHANT_USER',
 }

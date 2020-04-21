@@ -21,9 +21,9 @@ import {DmcListComponent} from '../../pages/supervisor/dmc-list/dmc-list.compone
 import {DmcSingleComponent} from '../../pages/supervisor/dmc-single/dmc-single.component';
 import {NotFoundComponent} from '../../pages/not-found/not-found.component';
 import {DmcListComponent as MerchantDmcListComponent} from '../../pages/merchant/dmc-list/dmc-list.component';
-import {JwtModule} from "@auth0/angular-jwt";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import { LogoutComponent } from '../../pages/logout/logout.component';
+import {JwtHelperService, JwtModule, JwtModuleOptions} from "@auth0/angular-jwt";
 
 @NgModule({
   imports: [
@@ -34,14 +34,7 @@ import { LogoutComponent } from '../../pages/logout/logout.component';
     NgbModule,
     ClipboardModule,
     NgSelectModule,
-    InfiniteScrollModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: () => {
-          return localStorage.getItem("token");
-        },
-      }
-    })
+    InfiniteScrollModule
   ],
   declarations: [
     DashboardComponent,

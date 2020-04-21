@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {AuthService, Role} from "../../security/auth.service";
 
 @Component({
   selector: 'app-logout',
@@ -8,21 +9,22 @@ import {Router} from "@angular/router";
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
   }
 
   ngOnInit(): void {
     let isSupervisor: boolean = false;
-    if (localStorage.getItem('benefitProviderUuid') !== null) {
+    if (this.authService.isGranted(Role.SUPERVISOR)) {
       isSupervisor = true;
     }
 
-    localStorage.clear();
-
     if (isSupervisor) {
+      this.authService.logout();
       this.router.navigate(['supervisor', 'login']);
     } else {
-      this.router.navigate(['merchant', 'login']);
+      let afterLogoutUrl = '/merchant/login?uuid=' + localStorage.getItem('merchantUuid');
+      this.authService.logout();
+      this.router.navigateByUrl(afterLogoutUrl);
     }
   }
 

@@ -44,6 +44,17 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
                 $expr->like('bp.uuid', $expr->literal($benefitProviderUuid))
             );
         }
+        if ($beneficiaryName = $request->query->get('beneficiaryName')) {
+            $beneficiaryName = trim($beneficiaryName);
+            $qb->andWhere(
+                $expr->like('dmc.beneficiaryName', $expr->literal('%'.$beneficiaryName.'%'))
+            );
+        }
+        if ($beneficiaryNric = $request->query->get('beneficiaryNric')) {
+            $qb->andWhere(
+                $expr->like('dmc.beneficiaryNric', $expr->literal('%'.$beneficiaryNric.'%'))
+            );
+        }
     }
 
     public function getCollection(string $resourceClass, string $operationName = null): ?\Generator
@@ -58,8 +69,7 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
         $expr = $qb->expr();
 
         $qb->select('dmc')->from(MedicalChit::class, 'dmc')
-            ->join('dmc.benefitProvider', 'bp')
-        ;
+            ->join('dmc.benefitProvider', 'bp');
 
         $this->applyFilters($qb, $request);
 
