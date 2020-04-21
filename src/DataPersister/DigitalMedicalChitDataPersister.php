@@ -85,6 +85,7 @@ class DigitalMedicalChitDataPersister implements ContextAwareDataPersisterInterf
 
         $message->productUuid = $productUuid;
         $message->productName = $product->name;
+        $message->benefitProductUuid = $data->getBenefitProduct();
         $message->beneficiaryName = $data->getBeneficiaryName();
         $message->beneficiaryNric = $data->getBeneficiaryNric();
         $message->merchantUuids = $data->getMerchants();

@@ -276,4 +276,5 @@ class DigitalMedicalChit
     {
         $this->benefitProduct = $benefitProduct;
     }
+
 }
