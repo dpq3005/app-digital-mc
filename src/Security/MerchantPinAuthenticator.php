@@ -93,7 +93,7 @@ class MerchantPinAuthenticator extends AbstractGuardAuthenticator
         }
 
         $response = $this->http->get('merchants', $uuid);
-        $data = $response['data'];
+        $data = $response['body'];
         if (empty($data)) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Login not valid.');

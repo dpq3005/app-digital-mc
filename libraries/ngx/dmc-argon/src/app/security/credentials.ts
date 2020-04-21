@@ -50,3 +50,27 @@ export class SupervisorCredentials extends Credentials {
     return this.values;
   }
 }
+
+export class MerchantCredentials extends Credentials {
+  public uuid: string;
+  public pin: string;
+
+  constructor() {
+    super();
+    this.type = CredentialsType.MERCHANT;
+  }
+
+  getKeys(): string[] {
+    this.keys = [];
+    this.keys.push('uuid');
+    this.keys.push('pin');
+    return this.keys;
+  }
+
+  getValues(): string[] {
+    this.values = [];
+    this.values.push(this.uuid);
+    this.values.push(this.pin);
+    return this.values;
+  }
+}

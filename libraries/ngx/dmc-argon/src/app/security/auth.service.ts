@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {JwtHelperService} from "@auth0/angular-jwt";
-import {Credentials, SupervisorCredentials} from "./credentials";
+import {Credentials, MerchantCredentials, SupervisorCredentials} from "./credentials";
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {ConfigService} from "../services/config/config.service";
 import {Configuration} from "../services/config/configuration";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
+import {Merchant} from "../model/digital-medical-chit";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -43,7 +44,6 @@ export class AuthService {
 
   public authenticate(credentials: Credentials): Observable<any> {
     if (credentials instanceof SupervisorCredentials) {
-
       let keys = credentials.getKeys();
       let values = credentials.getValues();
       let loginUrl = this.config.getApiEndpoint('supervisor') + '/supervisor-token';
@@ -52,6 +52,19 @@ export class AuthService {
         'org-code': credentials.companyCode,
         'username': credentials.username,
         'password': credentials.password
+      }, httpOptions).pipe(
+        catchError(this.handleError)
+      );
+    }
+    if (credentials instanceof MerchantCredentials) {
+
+      let keys = credentials.getKeys();
+      let values = credentials.getValues();
+      let loginUrl = this.config.getApiEndpoint('supervisor') + '/merchant-pin-token';
+
+      return this.http.post(loginUrl, {
+        'uuid': credentials.uuid,
+        'pin': credentials.pin
       }, httpOptions).pipe(
         catchError(this.handleError)
       );

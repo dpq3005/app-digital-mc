@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {Location} from "@angular/common";
+import {ActivatedRoute, Router} from "@angular/router";
+import {catchError} from "rxjs/operators";
+import {Observable, ObservableInput} from "rxjs";
+import {AuthService} from "../../../security/auth.service";
+import {MerchantCredentials, SupervisorCredentials} from "../../../security/credentials";
 
 @Component({
   selector: 'app-merchant-login',
@@ -17,16 +23,38 @@ export class MerchantLoginComponent implements OnInit {
 
   closeResult = '';
 
-  pin: string;
   loginStatus: string;
+
+  credentials: MerchantCredentials;
 
   ngOnInit(): void {
   }
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private route: ActivatedRoute, private authService: AuthService, private  router: Router) {
+    this.credentials = new MerchantCredentials();
+  }
+
+  isLoading: boolean = false;
+  errorMessage = '';
 
   verify() {
+    let merchantUuid = this.route.snapshot.queryParamMap.get('uuid');
+    this.credentials.uuid = merchantUuid;
+    this.credentials.pin = this.digit1 + '' + this.digit2 + '' + this.digit3 + '' + this.digit4 + '' + this.digit5 + '' + this.digit6;
 
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.authService.authenticate(this.credentials).pipe(catchError((err, caught): ObservableInput<any> => {
+      this.isLoading = false;
+      this.errorMessage = err.message;
+      return new Observable();
+    })).subscribe(jwt => {
+      this.isLoading = false;
+      localStorage.setItem('token', jwt.token);
+      localStorage.setItem('benefitProviderUuid', jwt.benefitProviderUuid);
+      localStorage.setItem('credentials', JSON.stringify(this.credentials));
+      this.router.navigate(['supervisor', 'dmc', 'list']);
+    });
   }
 
   openModal(content) {
@@ -36,6 +64,7 @@ export class MerchantLoginComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
