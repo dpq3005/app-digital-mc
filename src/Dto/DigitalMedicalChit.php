@@ -3,6 +3,7 @@
 namespace App\Dto\Dmc;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
+use App\Controller\Redemption\RedeemMedicalChit;
 use App\Filter\SimpleDtoFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -16,8 +17,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @package App\Dto\DigitalMedicalChit
  * @ApiResource(
  *     attributes={"security"="is_granted('ROLE_USER')"},
- *     messenger=true,
- *     itemOperations={"delete","get"={
+ *     itemOperations={"delete",
+ *     "redeem_dmc"={
+ *         "method"="POST",
+ *         "path"="/digital-medical-chits/{id}/redeem",
+ *         "controller"=RedeemMedicalChit::class,
+ *         "requirements"={"id"=".+"},
+ *     },
+ *     "get"={
  *     "requirements"={"id"=".+"},
  *     }},
  *     collectionOperations={ "post", "get"
@@ -80,6 +87,13 @@ class DigitalMedicalChit
      * @Groups("write")
      */
     protected $merchants;
+
+    /**
+     * @var string|null
+     * @ApiProperty()
+     * @Groups("write")
+     */
+    protected $redeemedAtMerchantUuid;
 
     /**
      * @var \DateTime|null
@@ -283,4 +297,19 @@ class DigitalMedicalChit
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getRedeemedAtMerchantUuid(): ?string
+    {
+        return $this->redeemedAtMerchantUuid;
+    }
+
+    /**
+     * @param string|null $redeemedAtMerchantUuid
+     */
+    public function setRedeemedAtMerchantUuid(?string $redeemedAtMerchantUuid): void
+    {
+        $this->redeemedAtMerchantUuid = $redeemedAtMerchantUuid;
+    }
 }

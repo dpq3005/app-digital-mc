@@ -119,6 +119,21 @@ class MedicalChit extends AbstractThing
      */
     private $benefitProductUuid;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $redemptionUuid;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $redeemedAtMerchantUuid;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $redeemedAt;
+
     public function __construct()
     {
         parent::__construct();
@@ -308,6 +323,42 @@ class MedicalChit extends AbstractThing
     public function setBenefitProductUuid(?string $benefitProductUuid): self
     {
         $this->benefitProductUuid = $benefitProductUuid;
+
+        return $this;
+    }
+
+    public function getRedemptionUuid(): ?string
+    {
+        return $this->redemptionUuid;
+    }
+
+    public function setRedemptionUuid(?string $redemptionUuid): self
+    {
+        $this->redemptionUuid = $redemptionUuid;
+
+        return $this;
+    }
+
+    public function getRedeemedAtMerchantUuid(): ?string
+    {
+        return $this->redeemedAtMerchantUuid;
+    }
+
+    public function setRedeemedAtMerchantUuid(?string $redeemedAtMerchantUuid): self
+    {
+        $this->redeemedAtMerchantUuid = $redeemedAtMerchantUuid;
+
+        return $this;
+    }
+
+    public function getRedeemedAt(): ?\DateTimeInterface
+    {
+        return $this->redeemedAt;
+    }
+
+    public function setRedeemedAt(?\DateTimeInterface $redeemedAt): self
+    {
+        $this->redeemedAt = $redeemedAt;
 
         return $this;
     }

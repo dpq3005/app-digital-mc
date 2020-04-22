@@ -77,13 +77,7 @@ class ThingService
 
             // Transform Source Value before Copying
             if (is_object($value)) {
-                if (property_exists($value, 'timezone') && property_exists($value, 'timezone_type') && property_exists($value, 'date')) {
-                    if ($value->timezone_type == 3) {
-                        $value = new \DateTime($value->date, new \DateTimeZone($value->timezone));
-                    } else {
-                        $value = new \DateTime($value->date);
-                    }
-                }
+                $value = self::castDateTime($value);
             }
             // End Transformation
 
@@ -154,4 +148,16 @@ class ThingService
         return strtoupper($code);
     }
 
+    public static function castDateTime($value)
+    {
+        $casted = $value;
+        if (property_exists($value, 'timezone') && property_exists($value, 'timezone_type') && property_exists($value, 'date')) {
+            if ($value->timezone_type == 3) {
+                $casted = new \DateTime($value->date, new \DateTimeZone($value->timezone));
+            } else {
+                $casted = new \DateTime($value->date);
+            }
+        }
+        return $casted;
+    }
 }

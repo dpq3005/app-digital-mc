@@ -7,6 +7,8 @@ use App\Entity\BenefitProvider\BenefitProduct;
 use App\Entity\Dmc\MedicalChit;
 use App\Entity\EventSourcing\MedicalChitEvent;
 use App\Message\Dmc\AssociateMerchant;
+use App\Message\Dmc\RedeemDmc;
+use App\Service\ThingService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -15,7 +17,7 @@ use App\Message\Dmc\CreateDmc;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
+class RedeemDmcHandler extends DmcHandler implements MessageHandlerInterface
 {
     private $bus;
 
@@ -25,23 +27,25 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
         $this->bus = $bus;
     }
 
-    public function handleMessage(CreateDmc $message): MedicalChit
+    public function handleMessage(RedeemDmc $message): MedicalChit
     {
-        $medicalChit = $this->cast($message);
-        $medicalChit->setState(MedicalChit::STATE_NEW);
+        /** @var MedicalChit $medicalChit */
+        $medicalChit = $this->registry->getRepository(MedicalChit::class)->findOneByUuid($message->uuid);
 
-        if (empty($productId = $medicalChit->getProductUuid())) {
-            throw new \InvalidArgumentException('Product cannot be empty');
+        $medicalChit->setRedeemedAtMerchantUuid($message->merchantUuid);
+
+        if ($message->redeemedAt) {
+            $redeemedAt = ThingService::castDateTime(json_decode(json_encode($message->redeemedAt)));
         }
 
-        $nric = $medicalChit->getBeneficiaryNric();
-        $nric = preg_replace('/\s+/', '', $nric);
-        $medicalChit->setBeneficiaryNric($nric);
+        $medicalChit->setRedeemedAt($redeemedAt);
+
+        $medicalChit->setRedeemed(true);
 
         return $medicalChit;
     }
 
-    public function __invoke(CreateDmc $message)
+    public function __invoke(RedeemDmc $message)
     {
         if ($message->isEventSourcingEnabled === null) {
             throw new InvalidArgumentException('property $isEventSourcingEnabled cannot be null');
@@ -58,21 +62,20 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
 
         $medicalChit = $this->handleMessage($message);
 
-        if ($message->benefitProductUuid) {
-            $benefitProduct = $manager->getRepository(BenefitProduct::class)->findOneByUuid($message->benefitProductUuid);
-            if ($benefitProduct) {
-                $medicalChit->setBenefitProduct($benefitProduct);
-            }
-        }
+        $dmcApiDto = [];
+        $dmcApiDto['uuid'] = $medicalChit->getUuid();
+        $dmcApiDto['uuid'] = $medicalChit->getExpireAt();
+        $dmcApiDto['uuid'] = $medicalChit->getExpireIn();
+//        $dmcApiDto['uuid'] = $medicalChit->get;
+        file_put_contents('D:\testDto.txt', json_encode($dmcApiDto));
+
 
 //        $conn = $manager->getConnection();
 //        $conn->beginTransaction();
-        $medicalChit->setBenefitProvider($bp);
-        $medicalChit->setBenefitProduct($benefitProduct);
 
         if ($message->isEventSourcingEnabled) {
             $event = new MedicalChitEvent();
-            $event->action = MedicalChitEvent::EVENT_DMC_CREATED;
+            $event->action = MedicalChitEvent::EVENT_DMC_REDEEMED;
             $event->payload = $message->getPayload();
             $event->medicalChit = $medicalChit;
             $medicalChit->initUuid('MC');
@@ -92,10 +95,5 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
             $manager->persist($event);
             $manager->flush();
         }
-
-//            $conn->commit();
-        $associateMerchant = new AssociateMerchant();
-        $associateMerchant->dmcUuid = $medicalChit->getUuid();
-        $this->bus->dispatch($associateMerchant);
     }
 }
