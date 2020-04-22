@@ -41,7 +41,7 @@ final class DigitalMedicalChitItemDataProvider implements ItemDataProviderInterf
         $dmc
             ->setBeneficiaryName($medicalChit->getBeneficiaryName())
             ->setBeneficiaryNric($medicalChit->getBeneficiaryNric())
-            ->setBenefitProduct($medicalChit->getBenefitProduct()->getUuid())
+            ->setBenefitProduct($medicalChit->getBenefitProductUuid())
             ->setCode($medicalChit->getCode())
             ->setExpired($medicalChit->getExpired())
             ->setRedeemed($medicalChit->getRedeemed())
