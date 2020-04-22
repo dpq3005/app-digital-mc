@@ -1,6 +1,8 @@
 import {Endpoint, HttpService} from "../services/http/http.service";
 import {concat, Observable, of, Subject} from "rxjs";
 import {catchError, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
+import {Product} from "./product";
+import {Merchant} from "./merchant";
 
 export class DigitalMedicalChit {
   id: string;
@@ -18,6 +20,8 @@ export class DigitalMedicalChit {
   benefitProductId: string = null;
   productId = null;
   productName = null;
+
+  product: Product = null;
   merchants: Merchant[] = null;
 
   merchantLoading = false;
@@ -33,14 +37,21 @@ export class DigitalMedicalChit {
     this.http = http;
   }
 
-  save(callback?) {
-    if (this.id == null) {
+  getProduct(): Product {
+    if (this.product === null) {
       for (let i = 0; i < this.productOptions.length; i++) {
         if (this.productOptions[i].id == this.productId) {
-          this.benefitProductId = this.productOptions[i].benefitProductId;
-          break;
+          this.product = this.productOptions[i];
+          return this.product;
         }
       }
+    }
+    return this.product;
+  }
+
+  save(callback?) {
+    if (this.id == null) {
+      this.benefitProductId = this.getProduct().benefitProductId;
 
       this.http.post(Endpoint.GLOBAL, ['digital-medical-chits'], {
         beneficiaryNric: this.beneficiaryNric,
@@ -70,28 +81,38 @@ export class DigitalMedicalChit {
     }
   }
 
-  populateFromApi(item) {
+  populateFromApiRes(item) {
     this.id = item.uuid;
     this.beneficiaryName = item.beneficiaryName;
     this.id = item.uuid;
     this.beneficiaryNric = item.beneficiaryNric;
     this.productId = item.product;
     this.productName = item.productName;
+    this.benefitProductId = item.benefitProduct;
+
+    if (this.product === null) {
+      this.product = new Product();
+      this.product.initServices(this.http);
+    }
+
+    this.product.id = this.productId;
+    this.product.benefitProductId = this.benefitProductId;
+    this.product.name = this.productName;
 
     this.code = item.code;
     this.isExpired = item.expired;
     this.isRedeemed = item.redeemed;
   }
 
-  fetch(id: string, callback?) {
-    let url = "digital-medical-chits/" + id;
-    // if (!this.isLoading) {
+  load(callback?) {
+    let url = "digital-medical-chits/" + this.id;
+    this.isLoading = true;
     this.http.get(Endpoint.GLOBAL, [url]).pipe(catchError((err) => {
       this.isLoading = false;
       return (err);
     })).subscribe(res => {
       let item = res;
-      this.populateFromApi(item);
+      this.populateFromApiRes(item);
       this.isLoading = false;
       if (callback) {
         callback();
@@ -245,7 +266,7 @@ export class DigitalMedicalChitCollection {
         let item = res[i];
         let dmc = new DigitalMedicalChit();
         dmc.initServices(this.http);
-        dmc.populateFromApi(item);
+        dmc.populateFromApiRes(item);
         this.appendItem(dmc);
       }
       this.isLoading = false;
@@ -255,18 +276,5 @@ export class DigitalMedicalChitCollection {
     })
     // }
   }
-
-}
-
-export class DmcItem {
-  id: string;
-  name: string;
-}
-
-export class Product extends DmcItem {
-  benefitProductId: string;
-}
-
-export class Merchant extends DmcItem {
 
 }

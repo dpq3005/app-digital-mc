@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {DigitalMedicalChit} from "../../../model/digital-medical-chit";
 import {HttpService} from "../../../services/http/http.service";
+import {Product} from "../../../model/product";
 
 @Component({
   selector: 'app-dmc-redeem',
@@ -19,7 +20,10 @@ export class DmcRedeemComponent implements OnInit {
 
   ngOnInit(): void {
     let id = this.route.snapshot.paramMap.get('id');
-    this.dmc.fetch(id);
+    this.dmc.id = id;
+    this.dmc.load(()=>{
+      this.dmc.product.loadByBenefitProductId();
+    });
   }
 
 }
