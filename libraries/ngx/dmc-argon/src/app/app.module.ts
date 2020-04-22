@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { DmcRedeemComponent } from './pages/merchant/dmc-redeem/dmc-redeem.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { ComponentsModule } from './components/components.module';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    DmcRedeemComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

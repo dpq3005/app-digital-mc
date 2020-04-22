@@ -8,6 +8,8 @@ export class DigitalMedicalChit {
   beneficiaryNric: string = null;
   beneficiaryName: string = null;
 
+  isLoading = false;
+
 
   code: string = null;
   isExpired: boolean;
@@ -66,6 +68,36 @@ export class DigitalMedicalChit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  populateFromApi(item) {
+    this.id = item.uuid;
+    this.beneficiaryName = item.beneficiaryName;
+    this.id = item.uuid;
+    this.beneficiaryNric = item.beneficiaryNric;
+    this.productId = item.product;
+    this.productName = item.productName;
+
+    this.code = item.code;
+    this.isExpired = item.expired;
+    this.isRedeemed = item.redeemed;
+  }
+
+  fetch(id: string, callback?) {
+    let url = "digital-medical-chits/" + id;
+    // if (!this.isLoading) {
+    this.http.get(Endpoint.GLOBAL, [url]).pipe(catchError((err) => {
+      this.isLoading = false;
+      return (err);
+    })).subscribe(res => {
+      let item = res;
+      this.populateFromApi(item);
+      this.isLoading = false;
+      if (callback) {
+        callback();
+      }
+    })
+    // }
   }
 
   populateFromNric() {
@@ -140,9 +172,14 @@ export class DigitalMedicalChit {
 }
 
 export class DigitalMedicalChitCollection {
+  beneficiaryNameFilter: string = null;
+  beneficiaryNricFilter: string = null;
+
   medicalChits: DigitalMedicalChit[];
   currentPage: number = 0;
+  pageSize: number = 20;
   isLoading = false;
+  isLastPage = false;
 
   http: HttpService = null;
 
@@ -160,6 +197,10 @@ export class DigitalMedicalChitCollection {
     this.medicalChits.push(dmc);
   }
 
+  clearItems() {
+    this.medicalChits.length = 0;
+  }
+
   deleteItem(dmc: DigitalMedicalChit) {
     console.log('deleteItem')
     dmc.delete(() => {
@@ -171,34 +212,46 @@ export class DigitalMedicalChitCollection {
     });
   }
 
-  loadItemsFromNextPage() {
+  loadItemsFromFirstPage(callback?) {
+    this.currentPage = 0;
+    this.isLastPage = false;
+    this.clearItems();
+    this.loadItemsFromNextPage(callback);
+  }
+
+  loadItemsFromNextPage(callback?) {
+    if (this.isLastPage) {
+      return;
+    }
     this.isLoading = true;
+    this.currentPage++;
+    let url = "digital-medical-chits?pageSize=" + this.pageSize + "&page=" + this.currentPage;
+    if (this.beneficiaryNameFilter !== null) {
+      url += '&beneficiaryName=' + this.beneficiaryNameFilter;
+    }
+    if (this.beneficiaryNricFilter !== null) {
+      url += '&beneficiaryNric=' + this.beneficiaryNricFilter;
+    }
 
     // if (!this.isLoading) {
-    this.currentPage++;
-    this.http.get(Endpoint.GLOBAL, ["digital-medical-chits?pageSize=20&page=" + this.currentPage]).pipe(catchError((err) => {
+    this.http.get(Endpoint.GLOBAL, [url]).pipe(catchError((err) => {
       this.isLoading = false;
       return (err);
     })).subscribe(res => {
-
+      if (res.length === 0 || res.length < this.pageSize) {
+        this.isLastPage = true;
+      }
       for (let i = 0; i < res.length; i++) {
         let item = res[i];
         let dmc = new DigitalMedicalChit();
         dmc.initServices(this.http);
-
-        dmc.beneficiaryName = item.beneficiaryName;
-        dmc.id = item.uuid;
-        dmc.beneficiaryNric = item.beneficiaryNric;
-        dmc.productId = item.product;
-        dmc.productName = item.productName;
-
-        dmc.code = item.code;
-        dmc.isExpired = item.expired;
-        dmc.isRedeemed = item.redeemed;
+        dmc.populateFromApi(item);
         this.appendItem(dmc);
       }
       this.isLoading = false;
-
+      if (callback) {
+        callback();
+      }
     })
     // }
   }

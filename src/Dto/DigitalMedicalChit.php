@@ -118,9 +118,10 @@ class DigitalMedicalChit
     /**
      * @param string|null $product
      */
-    public function setProduct(?string $product): void
+    public function setProduct(?string $product): self
     {
         $this->product = $product;
+        return $this;
     }
 
     /**
@@ -208,9 +209,10 @@ class DigitalMedicalChit
     /**
      * @param bool|null $redeemed
      */
-    public function setRedeemed(?bool $redeemed): void
+    public function setRedeemed(?bool $redeemed): self
     {
         $this->redeemed = $redeemed;
+        return $this;
     }
 
     /**
@@ -224,9 +226,10 @@ class DigitalMedicalChit
     /**
      * @param string|null $code
      */
-    public function setCode(?string $code): void
+    public function setCode(?string $code): self
     {
         $this->code = $code;
+        return $this;
     }
 
     /**
@@ -240,9 +243,10 @@ class DigitalMedicalChit
     /**
      * @param bool|null $expired
      */
-    public function setExpired(?bool $expired): void
+    public function setExpired(?bool $expired): self
     {
         $this->expired = $expired;
+        return $this;
     }
 
     /**
@@ -256,9 +260,10 @@ class DigitalMedicalChit
     /**
      * @param string|null $productName
      */
-    public function setProductName(?string $productName): void
+    public function setProductName(?string $productName): self
     {
         $this->productName = $productName;
+        return $this;
     }
 
     /**
@@ -272,9 +277,10 @@ class DigitalMedicalChit
     /**
      * @param string|null $benefitProduct
      */
-    public function setBenefitProduct(?string $benefitProduct): void
+    public function setBenefitProduct(?string $benefitProduct): self
     {
         $this->benefitProduct = $benefitProduct;
+        return $this;
     }
 
 }

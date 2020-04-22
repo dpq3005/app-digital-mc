@@ -1,0 +1,25 @@
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {DigitalMedicalChit} from "../../../model/digital-medical-chit";
+import {HttpService} from "../../../services/http/http.service";
+
+@Component({
+  selector: 'app-dmc-redeem',
+  templateUrl: './dmc-redeem.component.html',
+  styleUrls: ['./dmc-redeem.component.css']
+})
+export class DmcRedeemComponent implements OnInit {
+
+  dmc: DigitalMedicalChit;
+
+  constructor(private route: ActivatedRoute, http: HttpService) {
+    this.dmc = new DigitalMedicalChit();
+    this.dmc.initServices(http)
+  }
+
+  ngOnInit(): void {
+    let id = this.route.snapshot.paramMap.get('id');
+    this.dmc.fetch(id);
+  }
+
+}

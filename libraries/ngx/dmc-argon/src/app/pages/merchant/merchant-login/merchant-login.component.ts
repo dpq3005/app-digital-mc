@@ -38,6 +38,7 @@ export class MerchantLoginComponent implements OnInit {
   errorMessage = '';
 
   verify() {
+    this.loginStatus = null;
     let merchantUuid = this.route.snapshot.queryParamMap.get('uuid');
     this.credentials.uuid = merchantUuid;
     this.credentials.pin = this.digit1 + '' + this.digit2 + '' + this.digit3 + '' + this.digit4 + '' + this.digit5 + '' + this.digit6;
@@ -46,7 +47,8 @@ export class MerchantLoginComponent implements OnInit {
     this.errorMessage = '';
     this.authService.authenticate(this.credentials).pipe(catchError((err, caught): ObservableInput<any> => {
       this.isLoading = false;
-      this.errorMessage = err.message;
+      this.loginStatus = this.errorMessage = 'Invalid PIN enterred';
+      console.log('errrrrrrrrrrrrr ', err);
       return new Observable();
     })).subscribe(jwt => {
       this.isLoading = false;

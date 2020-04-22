@@ -10,13 +10,15 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-single-02"></i></span>
                 </div>
-                <input (change)="onFilterChange('name', $event )" placeholder="Name" type="text" class="form-control"/>
+                <input (change)="onFilterChange('name', $event )" [(ngModel)]="dmcCollection.beneficiaryNameFilter"
+                       name="beneficiaryName" placeholder="Name" type="text" class="form-control"/>
               </div>
               <div class="input-group input-group-alternative mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-badge"></i></span>
                 </div>
-                <input (change)="onFilterChange('nric', $event )" placeholder="NRIC/FIN" type="text"
+                <input (change)="onFilterChange('nric', $event )" [(ngModel)]="dmcCollection.beneficiaryNricFilter"
+                       name="beneficiaryNric" placeholder="NRIC/FIN" type="text"
                        class="form-control"/>
               </div>
             </div>
@@ -29,7 +31,7 @@
 
   <div class="container-fluid">
     <div class="header-body">
-      <div *ngIf="loading">
+      <div *ngIf="dmcCollection.isLoading">
         <div class="col-12">
           <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body text-center">
@@ -52,157 +54,31 @@
         </div>
       </div>
       <!-- Card stats -->
-      <div *ngIf="!loading" class="row">
-        <div class="col-12">
+      <div *ngIf="!dmcCollection.isLoading"
+           infiniteScroll
+           [infiniteScrollDistance]="scrollDistance"
+           [infiniteScrollUpDistance]="scrollUpDistance"
+           [infiniteScrollThrottle]="throttle"
+           (scrolled)="onScrollDown($event)"
+           class="row">
+        <div  *ngFor="let dmc of dmcCollection.medicalChits"  class="col-12">
           <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Out-patient Care Plan A</h5>
-                  <span class="h2 font-weight-bold mb-0">Kenneth Yap</span>
+                  <h5 class="card-title text-uppercase text-muted mb-0">{{dmc.productName}}</h5>
+                  <span class="h2 font-weight-bold mb-0">{{dmc.beneficiaryName}}</span>
                 </div>
                 <div class="col-auto text-center">
-                  <button type="button" class="btn btn-primary">
+                  <button (click)="redeem(dmc, $event)" type="button" class="btn btn-primary">
                     <i class="fas fa-check"></i>
                     Redeem
                   </button>
                 </div>
               </div>
               <div class="mt-0 mb-0 text-muted text-sm">
-                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> 079087008877</div>
-                <div class="text-nowrap"><i class="fa fa-building"></i> Magenta Wellness</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Out-patient Care Plan A</h5>
-                  <span class="h2 font-weight-bold mb-0">Kenneth Yap</span>
-                </div>
-                <div class="col-auto text-center">
-                  <button type="button" class="btn btn-primary">
-                    <i class="fas fa-check"></i>
-                    Redeem
-                  </button>
-                </div>
-              </div>
-              <div class="mt-0 mb-0 text-muted text-sm">
-                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> 079087008877</div>
-                <div class="text-nowrap"><i class="fa fa-building"></i> Magenta Wellness</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Out-patient Care Plan A</h5>
-                  <span class="h2 font-weight-bold mb-0">Kenneth Yap</span>
-                </div>
-                <div class="col-auto text-center">
-                  <button type="button" class="btn btn-primary">
-                    <i class="fas fa-check"></i>
-                    Redeem
-                  </button>
-                </div>
-              </div>
-              <div class="mt-0 mb-0 text-muted text-sm">
-                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> 079087008877</div>
-                <div class="text-nowrap"><i class="fa fa-building"></i> Magenta Wellness</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Out-patient Care Plan A</h5>
-                  <span class="h2 font-weight-bold mb-0">Kenneth Yap</span>
-                </div>
-                <div class="col-auto text-center">
-                  <button type="button" class="btn btn-primary">
-                    <i class="fas fa-check"></i>
-                    Redeem
-                  </button>
-                </div>
-              </div>
-              <div class="mt-0 mb-0 text-muted text-sm">
-                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> 079087008877</div>
-                <div class="text-nowrap"><i class="fa fa-building"></i> Magenta Wellness</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Out-patient Care Plan A</h5>
-                  <span class="h2 font-weight-bold mb-0">Kenneth Yap</span>
-                </div>
-                <div class="col-auto text-center">
-                  <button type="button" class="btn btn-primary">
-                    <i class="fas fa-check"></i>
-                    Redeem
-                  </button>
-                </div>
-              </div>
-              <div class="mt-0 mb-0 text-muted text-sm">
-                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> 079087008877</div>
-                <div class="text-nowrap"><i class="fa fa-building"></i> Magenta Wellness</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Out-patient Care Plan A</h5>
-                  <span class="h2 font-weight-bold mb-0">Kenneth Yap</span>
-                </div>
-                <div class="col-auto text-center">
-                  <button type="button" class="btn btn-primary">
-                    <i class="fas fa-check"></i>
-                    Redeem
-                  </button>
-                </div>
-              </div>
-              <div class="mt-0 mb-0 text-muted text-sm">
-                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> 079087008877</div>
-                <div class="text-nowrap"><i class="fa fa-building"></i> Magenta Wellness</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Out-patient Care Plan A</h5>
-                  <span class="h2 font-weight-bold mb-0">Kenneth Yap</span>
-                </div>
-                <div class="col-auto text-center">
-                  <button type="button" class="btn btn-primary">
-                    <i class="fas fa-check"></i>
-                    Redeem
-                  </button>
-                </div>
-              </div>
-              <div class="mt-0 mb-0 text-muted text-sm">
-                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> 079087008877</div>
-                <div class="text-nowrap"><i class="fa fa-building"></i> Magenta Wellness</div>
+                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> {{dmc.beneficiaryNric}}</div>
+<!--                <div class="text-nowrap"><i class="fa fa-building"></i> Magenta Wellness</div>-->
               </div>
             </div>
           </div>
