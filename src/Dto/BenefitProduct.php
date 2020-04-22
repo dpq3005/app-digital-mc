@@ -44,6 +44,18 @@ class BenefitProduct
      * @var string|null
      * @ApiProperty()
      */
+    protected $description;
+
+    /**
+     * @var string|null
+     * @ApiProperty()
+     */
+    protected $shortDescription;
+
+    /**
+     * @var string|null
+     * @ApiProperty()
+     */
     protected $productUuid;
 
     /**
@@ -92,5 +104,37 @@ class BenefitProduct
     public function setProductUuid(?string $productUuid): void
     {
         $this->productUuid = $productUuid;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     */
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    /**
+     * @param string|null $shortDescription
+     */
+    public function setShortDescription(?string $shortDescription): void
+    {
+        $this->shortDescription = $shortDescription;
     }
 }
