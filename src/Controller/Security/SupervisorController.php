@@ -30,10 +30,13 @@ class SupervisorController extends AbstractController
         if ($request->isMethod('post')) {
             $benefitProviderUuid = $request->request->get('benefitProviderUuid');
 
-            $uuid = $request->request->get('uuid');
-            $usercode = $request->request->get('usercode');
-            $username = $request->request->get('username');
-            $pwd = $request->request->get('password');
+            $jsonContent = $request->getContent();
+            $content = json_decode($jsonContent);
+
+            $uuid = $content->uuid;
+            $usercode = $content->usercode;
+            $username = $content->username;
+            $pwd = $content->password;
 
             $userRepo = $this->getDoctrine()->getRepository(User::class);
 
@@ -93,7 +96,9 @@ class SupervisorController extends AbstractController
             }
 
             $supervisor->setUsername($username);
-            $supervisor->setPlainPassword($pwd);
+            if (!empty($pwd)) {
+                $supervisor->setPlainPassword($pwd);
+            }
 
             $supervisor->setRoles([User::ROLE_SUPERVISOR]);
 
