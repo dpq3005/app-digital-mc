@@ -21,9 +21,9 @@ class SupervisorController extends AbstractController
     }
 
     /**
-     * @Route("/security/supervisor", name="security_supervisor")
+     * @Route("/security/supervisor/{uuid}", name="security_supervisor")
      */
-    public function index(Request $request)
+    public function index(Request $request, $uuid = null)
     {
         $manager = $this->getDoctrine()->getManager();
 
