@@ -111,12 +111,24 @@ class RedeemDmcHandler extends DmcHandler implements MessageHandlerInterface
         }
 
         $medicalChit->setRedeemed(true);
+
+        /**
+         * {"uuid":"MC_5e9eb7967b221","expireAt":{"date":"2020-04-22 21:06:30.000000","timezone_type":3,"timezone":"Europe\/Berlin"},"expireIn":null,"expired":false,"benefitProductUuid":"15e6f99ba1fe49","redeemedAtMerchantUuid":"15e6f99babe2a1", "beneficiaryNric":"13/lalana(NAING)042215", "beneficiaryName":"Win Let", "createdAt":{"date":"2020-04-20 09:20:02.000000","timezone_type":3,"timezone":"Europe\/Berlin"},
+         * "redeemedAt":{"date":"2020-04-21 09:20:02.000000","timezone_type":3,"timezone":"Europe\/Berlin"},
+         * "number": "123321"
+         * }
+         */
         $dmcApiDto = [];
         $dmcApiDto['uuid'] = $medicalChit->getUuid();
+        $dmcApiDto['number'] = $medicalChit->getCode();
+        $dmcApiDto['createdAt'] = $medicalChit->getCreatedAt();
         $dmcApiDto['expireAt'] = $medicalChit->getExpireAt();
+        $dmcApiDto['redeemedAt'] = $medicalChit->getRedeemedAt();
         $dmcApiDto['expireIn'] = $medicalChit->getExpireIn();
         $dmcApiDto['expired'] = $medicalChit->isExpired();
         $dmcApiDto['benefitProductUuid'] = $medicalChit->getBenefitProductUuid();
+        $dmcApiDto['beneficiaryNric'] = $medicalChit->getBeneficiaryNric();
+        $dmcApiDto['beneficiaryName'] = $medicalChit->getBeneficiaryName();
         $dmcApiDto['redeemedAtMerchantUuid'] = $medicalChit->getRedeemedAtMerchantUuid();
 
         $resourcePath = sprintf('digital-medical-chits/%s/redeem', $medicalChit->getUuid());
