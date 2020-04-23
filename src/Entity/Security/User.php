@@ -33,7 +33,7 @@ class User implements UserInterface
 
     public function initUuid()
     {
-        if (!empty($this->uuid)) {
+        if (empty($this->uuid)) {
             $this->uuid = uniqid();
         }
     }
