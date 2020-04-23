@@ -93,7 +93,6 @@ class SupervisorController extends AbstractController
 
             if (empty($supervisor)) {
                 $supervisor = new User();
-                $supervisor->initUuid();
             }
 
             $supervisor->setOrganisation($org);
@@ -104,6 +103,7 @@ class SupervisorController extends AbstractController
 
             $supervisor->setRoles([User::ROLE_SUPERVISOR]);
 
+            $supervisor->initUuid();
             $manager->persist($supervisor);
             $manager->flush();
         }
