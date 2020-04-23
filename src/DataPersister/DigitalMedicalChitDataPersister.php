@@ -3,18 +3,12 @@
 namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
-use App\DataProvider\Invoicing\InvoicePaymentProofGetter;
-use App\Dto\Dmc\DigitalMedicalChit;
-use App\Dto\Invoicing\Invoice;
-use App\Dto\Invoicing\InvoicePayment;
-use App\Dto\Invoicing\InvoicePaymentProof;
+use App\Dto\DigitalMedicalChit;
 use App\Entity\Dmc\MedicalChit;
 use App\Entity\Security\User;
 use App\Message\Dmc\CreateDmc;
 use App\Message\Dmc\DeleteDmc;
-use App\Message\Dmc\InvoiceRequest;
 use App\Security\JWTUser;
-use App\Service\Aws\AwsS3Service;
 use App\Service\HttpService;
 use App\Service\ThingService;
 use Doctrine\Persistence\ManagerRegistry;
