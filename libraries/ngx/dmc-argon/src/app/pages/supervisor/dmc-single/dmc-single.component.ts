@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {DigitalMedicalChit, Merchant} from "../../../model/digital-medical-chit";
+import {DigitalMedicalChit} from "../../../model/digital-medical-chit";
 import {HttpService} from "../../../services/http/http.service";
 import {Router} from "@angular/router";
+import {Merchant} from "../../../model/merchant";
 
 @Component({
   selector: 'app-dmc-single',

@@ -6,7 +6,6 @@ import {ConfigService} from "../services/config/config.service";
 import {Configuration} from "../services/config/configuration";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
-import {Merchant} from "../model/digital-medical-chit";
 
 const httpOptions = {
   headers: new HttpHeaders({
