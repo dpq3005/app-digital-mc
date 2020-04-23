@@ -123,10 +123,20 @@ class RedeemDmcHandler extends DmcHandler implements MessageHandlerInterface
 
         $postdata = $dmcApiDto;
 
-        $res = $this->http->post($resourcePath, $postdata, false, 'redemption');
-
-        $path = $this->kernel->getProjectDir().'/var/log/dmc-redemption-'.$now->format('Ymd-His').'.txt';
-
-        file_put_contents($path, json_encode([$dmcApiDto, $res['body']]));
+        try {
+            $res = $this->http->post($resourcePath, $postdata, false, 'redemption');
+            $data = $res['body'];
+            if ($data) {
+                if (array_key_exists('redemptionUuid', $data)) {
+                    $medicalChit->setRedemptionUuid($data['redemptionUuid']);
+                    $medicalChit->setRedeemed(true);
+                    $manager->persist($medicalChit);
+                    $manager->flush();
+                }
+            }
+        } catch (\Throwable $exception) {
+            $path = $this->kernel->getProjectDir().'/var/log/dmc-redemption-'.$now->format('Ymd-His').'.txt';
+            file_put_contents($path, json_encode([$dmcApiDto]));
+        }
     }
 }
