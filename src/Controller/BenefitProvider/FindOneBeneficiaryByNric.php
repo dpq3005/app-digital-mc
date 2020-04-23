@@ -2,7 +2,7 @@
 
 namespace App\Controller\BenefitProvider;
 
-use App\Dto\BenefitProvider\Beneficiary;
+use App\Dto\Beneficiary;
 use App\Service\HttpService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
