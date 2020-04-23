@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dto\Dmc;
+namespace App\Dto;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use App\Controller\Redemption\RedeemMedicalChit;
