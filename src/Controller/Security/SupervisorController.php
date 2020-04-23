@@ -28,12 +28,11 @@ class SupervisorController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
 
         if ($request->isMethod('post')) {
-            $benefitProviderUuid = $request->request->get('benefitProviderUuid');
-
             $jsonContent = $request->getContent();
             $content = json_decode($jsonContent);
 
             $uuid = $content->uuid;
+            $benefitProviderUuid = $content->benefitProviderUuid;
             $usercode = $content->usercode;
             $username = $content->username;
             $pwd = $content->password;

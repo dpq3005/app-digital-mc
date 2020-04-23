@@ -5,6 +5,7 @@ namespace App\Entity\BenefitProvider;
 use App\Entity\AbstractThing;
 use App\Entity\Dmc\MedicalChit;
 use App\Entity\Organisation\Organisation;
+use App\Service\ThingService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class BenefitProvider extends AbstractThing
 {
+    public function initUuid($prefix = null)
+    {
+        return;
+    }
+
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Organisation\Organisation", inversedBy="benefitProvider", cascade={"persist"})
      * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE", nullable=false)
