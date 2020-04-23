@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dto\BenefitProvider;
+namespace App\Dto;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use App\Filter\SimpleDtoFilter;
