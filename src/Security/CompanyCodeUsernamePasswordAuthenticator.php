@@ -96,7 +96,7 @@ class CompanyCodeUsernamePasswordAuthenticator extends AbstractGuardAuthenticato
         $orgCode = $credentials['org-code'];
         if (!empty($orgCode)) {
             /** @var Organisation $org */
-            $org = $this->entityManager->getRepository(Organisation::class)->findOneBy(['supervisorCode' => $orgCode]);
+            $org = $this->entityManager->getRepository(Organisation::class)->findOneBy(['supervisorCode' => strtoupper($orgCode)]);
 
             $user = $org->findOneUserByUsername($credentials['username']);
         }
