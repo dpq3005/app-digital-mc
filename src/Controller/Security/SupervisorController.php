@@ -39,6 +39,8 @@ class SupervisorController extends AbstractController
 
             $bpRepo = $this->getDoctrine()
                 ->getRepository(BenefitProvider::class);
+
+            /** @var BenefitProvider $bp */
             $bp = $bpRepo->findOneByUuid($benefitProviderUuid);
 
             if (empty($bp)) {
@@ -56,6 +58,7 @@ class SupervisorController extends AbstractController
                     ->setName($data->name);
 
                 $org = new Organisation();
+                $org->setSupervisorCode($usercode);
                 $org
                     ->setEnabled(true)
                     ->setUuid($data->organisationUuid)
@@ -67,6 +70,12 @@ class SupervisorController extends AbstractController
 
                 $manager->persist($bp);
                 $manager->persist($org);
+            } else {
+                $org = $bp->getOrganisation();
+                if (!empty($usercode)) {
+                    $org->setCode($usercode);
+                    $manager->persist($org);
+                }
             }
 
             if ($uuid) {
