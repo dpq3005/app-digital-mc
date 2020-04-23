@@ -29,12 +29,16 @@ class SupervisorController extends AbstractController
 
         if ($request->isMethod('post')) {
             $benefitProviderUuid = $request->request->get('benefitProviderUuid');
+
+            $uuid = $request->request->get('uuid');
             $usercode = $request->request->get('usercode');
             $username = $request->request->get('username');
             $pwd = $request->request->get('password');
 
             $userRepo = $this->getDoctrine()->getRepository(User::class);
-            $bpRepo = $this->getDoctrine()->getRepository(BenefitProvider::class);
+
+            $bpRepo = $this->getDoctrine()
+                ->getRepository(BenefitProvider::class);
             $bp = $bpRepo->findOneByUuid($benefitProviderUuid);
 
             if (empty($bp)) {
@@ -46,7 +50,6 @@ class SupervisorController extends AbstractController
                 if (empty($data)) {
                     return new JsonResponse(null);
                 }
-
 
                 $bp
                     ->setEnabled(true)
@@ -66,7 +69,15 @@ class SupervisorController extends AbstractController
                 $manager->persist($org);
             }
 
-            $supervisor = $userRepo->findOneByUsername($username);
+            if ($uuid) {
+                /** @var User $supervisor */
+                $supervisor = $userRepo->findOneByUuid($uuid);
+            }
+
+            if (empty($supervisor)) {
+                /** @var User $supervisor */
+                $supervisor = $userRepo->findOneByUsername($username);
+            }
 
             if (empty($supervisor)) {
                 $supervisor = new User();
@@ -80,7 +91,16 @@ class SupervisorController extends AbstractController
             $manager->persist($supervisor);
             $manager->flush();
         }
-        return new JsonResponse(['username' => $username,
+        if ($request->isMethod('delete')) {
+            $uuid = $request->request->get('uuid');
+            /** @var User $supervisor */
+            $supervisor = $userRepo->findOneByUuid($uuid);
+            if ($supervisor) {
+                $manager->remove($supervisor);
+                $manager->flush();
+            }
+        }
+        return new JsonResponse(['uuid' => $supervisor->getUuid(), 'username' => $username,
         ]);
 //        return $this->render('security/supervisor/index.html.twig', [
 //            'controller_name' => 'SupervisorController',

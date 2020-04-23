@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Security\UserRepository")
  * @ORM\Table(name="security__user")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface
 {
@@ -20,6 +21,22 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\PreUpdate()
+     * @ORM\PrePersist()
+     */
+    public function preSave()
+    {
+        $this->initUuid();
+    }
+
+    public function initUuid()
+    {
+        if (!empty($this->uuid)) {
+            $this->uuid = uniqid();
+        }
+    }
 
     /**
      * @var string|null
@@ -47,6 +64,11 @@ class User implements UserInterface
      * @ORM\JoinColumn(name="id_organisation")
      */
     private $organisation;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $uuid;
 
     public function getId(): ?int
     {
@@ -147,5 +169,17 @@ class User implements UserInterface
     public function setPlainPassword(?string $plainPassword): void
     {
         $this->plainPassword = $plainPassword;
+    }
+
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(?string $uuid): self
+    {
+        $this->uuid = $uuid;
+
+        return $this;
     }
 }
