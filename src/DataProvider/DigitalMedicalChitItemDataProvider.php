@@ -4,11 +4,8 @@ namespace App\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\Dto\BenefitProvider\Beneficiary;
-use App\Dto\BenefitProvider\BenefitProvider;
-use App\Dto\Dmc\DigitalMedicalChit;
+use App\Dto\DigitalMedicalChit;
 use App\Entity\Dmc\MedicalChit;
-use App\EntityLegacy\ChannelPartner\ChannelPartnerBP;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class DigitalMedicalChitItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
