@@ -12,7 +12,7 @@ import {HttpService} from "../../../services/http/http.service";
 })
 export class DmcListComponent implements OnInit {
   closeResult = '';
-  private dmcCollection: DigitalMedicalChitCollection;
+  dmcCollection: DigitalMedicalChitCollection;
   items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
 
   constructor(private modalService: NgbModal, private http: HttpService) {
