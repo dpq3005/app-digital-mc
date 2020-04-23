@@ -6,6 +6,8 @@ class AbstractMessage
 {
     public $uuid;
 
+    public $createdAt;
+
     public $isEventSourcingEnabled;
 
     public function getPayload(): array

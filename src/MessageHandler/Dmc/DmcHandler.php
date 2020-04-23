@@ -34,40 +34,4 @@ class DmcHandler
 
         return $medicalChit;
     }
-
-//    protected function handleThrowable(\Throwable $exception, $context, $message, MedicalChit $medicalChit = null, $responseParams = [])
-//    {
-//
-//        $loggingManager = $this->registry->getManager('logging');
-//        $loggingManager->clear();
-//
-//        $reflection = new \ReflectionClass($this);
-//        $shortName = $reflection->getShortName();
-//
-//        $this->logger->critical($exception->getMessage().' '.$exception->getTraceAsString(), [$shortName, 'Catch'.$context]);
-//
-//        /** @var WorkerRequestLog $wrl */
-//        $wrl = $loggingManager->getRepository(WorkerRequestLog::class)->findOneByUuid($message->workerRequestUuid);
-//        $wrl->setState(WorkerRequestLog::STATE_FAILED);
-//
-//        if (array_key_exists('code', $responseParams)) {
-//            $errorCode = $responseParams['code'];
-//        } elseif (empty($errorCode = $exception->getCode())) {
-//            $errorCode = 400;
-//        };
-//
-//        $wrl->responseCode = $errorCode;
-//
-//        $wrl->responseMessage = [
-//            'objectUuid' => $medicalChit ? $medicalChit->getUuid() : null,
-//            'code' => $errorCode,
-//            'file' => $exception->getFile(),
-//            'line' => $exception->getLine(),
-//
-//            'message' => $exception->getMessage(),
-//            'trace' => $exception->getTrace()
-//        ];
-//
-//        $loggingManager->flush();
-//    }
 }

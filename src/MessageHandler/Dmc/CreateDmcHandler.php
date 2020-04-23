@@ -7,6 +7,7 @@ use App\Entity\BenefitProvider\BenefitProduct;
 use App\Entity\Dmc\MedicalChit;
 use App\Entity\EventSourcing\MedicalChitEvent;
 use App\Message\Dmc\AssociateMerchant;
+use App\Service\ThingService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -27,7 +28,13 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
 
     public function handleMessage(CreateDmc $message): MedicalChit
     {
+        if (empty($message->createdAt)) {
+            $message->createdAt = json_decode(json_encode(new \DateTime()));
+        }
+
         $medicalChit = $this->cast($message);
+        $createdAt = $medicalChit->getCreatedAt();
+
         $medicalChit->setState(MedicalChit::STATE_NEW);
 
         if (empty($productId = $medicalChit->getProductUuid())) {
@@ -37,6 +44,24 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
         $nric = $medicalChit->getBeneficiaryNric();
         $nric = preg_replace('/\s+/', '', $nric);
         $medicalChit->setBeneficiaryNric($nric);
+
+        if ($message->expireAt) {
+            $medicalChit->setExpireAt(ThingService::castDateTime($message->expireAt));
+        } elseif ($message->expireIn) {
+            $medicalChit->setExpireAt($createdAt->modify('+ '.$message->expireIn.' hours'));
+        }
+
+        if (empty($medicalChit->getExpireAt())) {
+            $expireAt = clone $createdAt;
+            $message->expireIn = 36;
+            $expireAt->modify('+ '.$message->expireIn.' hours');
+            $medicalChit->setExpireAt($expireAt);
+            $message->expireAt = json_decode(json_encode($expireAt));
+        }
+
+        if (empty($medicalChit->getExpireIn())) {
+            $medicalChit->setExpireIn($message->expireIn);
+        }
 
         return $medicalChit;
     }
@@ -60,6 +85,7 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
 
         if ($message->benefitProductUuid) {
             $benefitProduct = $manager->getRepository(BenefitProduct::class)->findOneByUuid($message->benefitProductUuid);
+
             if ($benefitProduct) {
                 $medicalChit->setBenefitProduct($benefitProduct);
             }

@@ -28,10 +28,6 @@ class MedicalChit extends AbstractThing
     {
         parent::preSave();
         $this->initCode();
-        if (empty($this->expireAt)) {
-            $this->expireAt = clone $this->createdAt;
-            $this->expireAt->modify('+ '.$this->expireIn.' hours');
-        }
     }
 
     public function initCode()
@@ -44,6 +40,17 @@ class MedicalChit extends AbstractThing
             $this->code .= '-'.ThingService::generate4DigitCode();
             $this->code .= '-'.ThingService::generate4DigitCode();
         }
+    }
+
+    public function isExpired(): bool
+    {
+        if ($this->expired) {
+            return true;
+        }
+
+        $now = new \DateTime();
+        $this->expired = $this->expireAt < $now;
+        return $this->expired;
     }
 
     /**
@@ -96,7 +103,7 @@ class MedicalChit extends AbstractThing
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $expireIn = 36;
+    private $expireIn;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)

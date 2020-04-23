@@ -6,6 +6,7 @@
 parameters:
     app.persistence.entity: '%env(resolve:APP_PERSISTENCE_ENTITY_URL)%'
     app.persistence.product: '%env(resolve:APP_PERSISTENCE_PRODUCT_URL)%'
+    app.persistence.redemption: '%env(resolve:APP_PERSISTENCE_REDEMPTION_URL)%'
 
 services:
     # default configuration for services in *this* file

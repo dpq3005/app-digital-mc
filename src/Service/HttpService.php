@@ -77,53 +77,42 @@ class HttpService
         ];
     }
 
-    public function put($resourcePath, $uuid, $data = [], $persistence = 'entity')
+    public function post($resourcePath, $postdata = [], $assoc, $persistence = 'entity')
     {
-        $acceptHeader = "accept: application/json";
-        $contentTypeHeader = "Content-Type: application/ld+json";
+        $env = $this->container->get('kernel')->getEnvironment();
 
-        // Création d'un flux
-        $opts = array(
-            'http' => array(
-                'method' => "PUT",
-                'header' =>
+        $apiEndpoint = $this->getParameter('app.persistence.'.$persistence).'/'.$resourcePath;
+
+        $error = [];
+
+        try {
+            $response = $this->httpClient->request('POST', $apiEndpoint, [
+                'verify_peer' => $env === 'prod',  // see https://php.net/context.ssl for the following options
+                'verify_host' => $env === 'prod',
+
+                'headers' =>
                     [
-                        $acceptHeader,
-                        $contentTypeHeader
+                        'Content-Type' => 'application/json',
+                        'Accept' => 'application/json'
                     ],
-                'content' => json_encode($data)
-            )
-        );
+                // defining data using a regular string
+                'body' => json_encode($postdata),
+            ]);
+            $content = $response->getContent();
+            $headers = $response->getHeaders();
+            $data = json_decode($content, $assoc);
+        } catch (HttpExceptionInterface $exception) {
+            if ($exception->getCode() === 404) {
+                if (empty($headers)) {
+                    $headers = [];
+                }
+                $data = null;
+            } else {
+                throw $exception;
+            }
+        }
 
-
-        $context = stream_context_create($opts);
-        $invoicePromise = json_decode(file_get_contents($this->getParameter('app.persistence.entity').'/'.$resourcePath.'/'.$uuid, false, $context));
-        return ['promise' => $invoicePromise, 'header' => $this->parseHeaders($http_response_header),
-        ];
-    }
-
-    public function post($resourcePath, $postdata = [], $persistence = 'entity')
-    {
-        $acceptHeader = "accept: application/json";
-        $contentTypeHeader = "Content-Type: application/ld+json";
-
-        // Création d'un flux
-        $opts = array(
-            'http' => array(
-                'method' => "POST",
-                'header' =>
-                    [
-                        $acceptHeader,
-                        $contentTypeHeader
-                    ],
-                'content' => json_encode($postdata)
-            )
-        );
-
-
-        $context = stream_context_create($opts);
-        $invoicePromise = json_decode(file_get_contents($this->getParameter('app.persistence.entity').'/'.$resourcePath, false, $context));
-        return ['promise' => $invoicePromise, 'header' => $this->parseHeaders($http_response_header),
+        return ['promise' => null, 'body' => $data, 'headers' => $headers,
         ];
     }
 
@@ -162,4 +151,31 @@ class HttpService
         }
         return $head;
     }
+
+
+    public function put($resourcePath, $uuid, $data = [], $persistence = 'entity')
+    {
+        $acceptHeader = "accept: application/json";
+        $contentTypeHeader = "Content-Type: application/ld+json";
+
+        // Création d'un flux
+        $opts = array(
+            'http' => array(
+                'method' => "PUT",
+                'header' =>
+                    [
+                        $acceptHeader,
+                        $contentTypeHeader
+                    ],
+                'content' => json_encode($data)
+            )
+        );
+
+
+        $context = stream_context_create($opts);
+        $invoicePromise = json_decode(file_get_contents($this->getParameter('app.persistence.entity').'/'.$resourcePath.'/'.$uuid, false, $context));
+        return ['promise' => $invoicePromise, 'header' => $this->parseHeaders($http_response_header),
+        ];
+    }
+
 }
