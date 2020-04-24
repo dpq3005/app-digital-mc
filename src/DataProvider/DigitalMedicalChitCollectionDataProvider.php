@@ -64,14 +64,18 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
         }
         if (($expired = $request->query->get('expired')) !== null && trim($expired) !== '') {
             $now = new \DateTime();
-            $now->modify('+1 day');
 
-            $qb->andWhere(
-                $expr->andX(
-                    $expr->eq('dmc.redeemed', $expr->literal(false)),
+            $qb->andWhere($expr->eq('dmc.redeemed', $expr->literal(false)));
+            if (boolval($expired)) {
+                $now->modify('+1 day');
+                $qb->andWhere(
                     $expr->lt('dmc.expireAt', $expr->literal($now->format('Y-m-d').' '.'00:00:00'))
-                )
-            );
+                );
+            } else {
+                $qb->andWhere(
+                    $expr->gte('dmc.expireAt', $expr->literal($now->format('Y-m-d').' '.'00:00:00'))
+                );
+            }
         }
     }
 
