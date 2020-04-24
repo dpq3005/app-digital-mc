@@ -142,6 +142,9 @@ class RedeemDmcHandler extends DmcHandler implements MessageHandlerInterface
                     $medicalChit->setRedeemed(true);
                     $manager->persist($medicalChit);
                     $manager->flush();
+                } else {
+                    $path = $this->kernel->getProjectDir().'/var/log/dmc-redemption_empty-res_'.$now->format('Ymd-His').'.txt';
+                    file_put_contents($path, json_encode([$dmcApiDto, $data]));
                 }
             }
         } catch (\Throwable $exception) {
