@@ -7,7 +7,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
 final class JWTUser extends \Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUser implements JWTUserInterface
 {
     const ROLE_SUPERVISOR = 'ROLE_SUPERVISOR';
-
+    const ROLE_MERCHANT_USER = MerchantPinUser::ROLE_USER;
 
     public function __construct($username, array $roles)
     {

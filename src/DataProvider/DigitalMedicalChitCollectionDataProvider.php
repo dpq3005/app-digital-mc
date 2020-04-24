@@ -7,14 +7,17 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\Exception\ResourceClassNotSupportedException;
 use App\Dto\DigitalMedicalChit;
 use App\Entity\Dmc\MedicalChit;
+use App\Entity\Merchant\Merchant;
 use App\Entity\Security\User;
 use App\Security\JWTUser;
+use App\Security\MerchantPinUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -54,6 +57,22 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
                 $expr->like('dmc.beneficiaryNric', $expr->literal('%'.$beneficiaryNric.'%'))
             );
         }
+        if (($redeemed = $request->query->get('redeemed')) !== null && trim($redeemed) !== '') {
+            $qb->andWhere(
+                $expr->eq('dmc.redeemed', $expr->literal(boolval($redeemed)))
+            );
+        }
+        if (($expired = $request->query->get('expired')) !== null && trim($expired) !== '') {
+            $now = new \DateTime();
+            $now->modify('+1 day');
+
+            $qb->andWhere(
+                $expr->andX(
+                    $expr->eq('dmc.redeemed', $expr->literal(false)),
+                    $expr->lt('dmc.expireAt', $expr->literal($now->format('Y-m-d').' '.'00:00:00'))
+                )
+            );
+        }
     }
 
     public function getCollection(string $resourceClass, string $operationName = null): ?\Generator
@@ -83,7 +102,22 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
             $qb->andWhere(
                 $expr->like('bp.uuid', $expr->literal($benefitProviderUuid))
             );
-        };
+        } elseif ($user instanceof JWTUser) {
+            if ($user->hasRole(MerchantPinUser::ROLE_USER)) {
+                $merchantUuid = $user->getUsername();
+                $merchantRepo = $this->registry->getRepository(Merchant::class);
+                $merchant = $merchantRepo->findOneByUuid($merchantUuid);
+                if (!empty($merchant)) {
+                    $qb->join('dmc.merchantAssignments', 'merchantAssignment')
+                        ->join('merchantAssignment.merchant', 'merchant');
+                    $qb->andWhere($expr->like('merchant.uuid', $expr->literal($merchantUuid)));
+
+                }
+            };
+        } else {
+            throw new UnauthorizedHttpException('Merchant not authenticated', 'Unauthorised Merchant!!!');
+        }
+
         $pageSize = $request->query->getInt('pageSize', 100);
         $pageIndex = $page - 1;
 

@@ -12,6 +12,7 @@ import {Product} from "../../../model/product";
 export class DmcRedeemComponent implements OnInit {
 
   dmc: DigitalMedicalChit;
+  isLoading = false;
 
   constructor(private route: ActivatedRoute, http: HttpService) {
     this.dmc = new DigitalMedicalChit();
@@ -28,7 +29,9 @@ export class DmcRedeemComponent implements OnInit {
 
   redeem() {
     let merchantUuid = localStorage.getItem('merchantUuid');
+    this.isLoading = true;
     this.dmc.redeem(merchantUuid, () => {
+      this.isLoading = false;
       console.log('done');
     });
   }

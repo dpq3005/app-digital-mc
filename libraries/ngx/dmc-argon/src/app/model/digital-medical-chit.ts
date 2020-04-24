@@ -219,6 +219,8 @@ export class DigitalMedicalChitCollection {
 
   http: HttpService = null;
 
+  queryParamStr: string = null;
+
   initServices(http: HttpService) {
     this.http = http;
   }
@@ -269,6 +271,10 @@ export class DigitalMedicalChitCollection {
       url += '&beneficiaryNric=' + this.beneficiaryNricFilter;
     }
 
+    if (this.queryParamStr !== null) {
+      url += '&' + this.queryParamStr;
+    }
+
     // if (!this.isLoading) {
     this.http.get(Endpoint.GLOBAL, [url]).pipe(catchError((err) => {
       this.isLoading = false;
@@ -288,7 +294,7 @@ export class DigitalMedicalChitCollection {
       if (callback) {
         callback();
       }
-    })
+    });
     // }
   }
 

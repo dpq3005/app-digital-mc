@@ -9,7 +9,20 @@
     <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
       <div class="card card-profile shadow">
         <div class="card-body pt-2 pt-md-4">
-          <div class="text-center">
+          <div *ngIf="isLoading" class="text-center">
+            <h3>Redemption is in progress ...</h3>
+            <div class="lds-heart">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+          <div *ngIf="!isLoading" class="text-center">
             <h3>
               {{dmc.beneficiaryName}}
             </h3>
@@ -26,7 +39,8 @@
             <hr class="my-4"/>
             <div [innerHTML]="dmc.product?dmc.product.description:''"></div>
 <!--            <a href="javascript:void(0)">Show more</a>-->
-            <div (click)="redeem()" class="btn btn-primary">Confirm and Submit Redemption</div>
+            <div *ngIf="!dmc.isRedeemed" (click)="redeem()" class="btn btn-primary">Confirm and Submit Redemption</div>
+            <h3 *ngIf="dmc.isRedeemed" (click)="redeem()" class="badge badge-success">Successfully Redeemed</h3>
           </div>
         </div>
       </div>
