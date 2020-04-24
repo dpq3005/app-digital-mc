@@ -148,7 +148,7 @@ class RedeemDmcHandler extends DmcHandler implements MessageHandlerInterface
             }
         } catch (\Throwable $exception) {
             $path = $this->kernel->getProjectDir().'/var/log/dmc-redemption-'.$now->format('Ymd-His').'.txt';
-            file_put_contents($path, json_encode([$dmcApiDto]));
+            file_put_contents($path, json_encode([$dmcApiDto]).' _______ '.$exception->getMessage().': '.$exception->getFile().': '.$exception->getLine());
         }
     }
 }
