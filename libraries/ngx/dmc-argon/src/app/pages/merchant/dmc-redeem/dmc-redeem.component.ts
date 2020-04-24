@@ -21,8 +21,15 @@ export class DmcRedeemComponent implements OnInit {
   ngOnInit(): void {
     let id = this.route.snapshot.paramMap.get('id');
     this.dmc.id = id;
-    this.dmc.load(()=>{
+    this.dmc.load(() => {
       this.dmc.product.loadByBenefitProductId();
+    });
+  }
+
+  redeem() {
+    let merchantUuid = localStorage.getItem('merchantUuid');
+    this.dmc.redeem(merchantUuid, () => {
+      console.log('done');
     });
   }
 

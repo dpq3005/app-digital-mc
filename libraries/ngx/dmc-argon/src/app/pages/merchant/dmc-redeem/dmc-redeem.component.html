@@ -24,17 +24,15 @@
               <i class="ni education_hat mr-2"></i>{{dmc.productName}}
             </div>
             <hr class="my-4"/>
-            <div [innerHTML]="dmc.product.description"></div>
+            <div [innerHTML]="dmc.product?dmc.product.description:''"></div>
 <!--            <a href="javascript:void(0)">Show more</a>-->
-            <div class="btn btn-primary">Confirm and Submit Redemption</div>
+            <div (click)="redeem()" class="btn btn-primary">Confirm and Submit Redemption</div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
-
 
 <ng-template #content let-modal>
   <div class="modal-header">

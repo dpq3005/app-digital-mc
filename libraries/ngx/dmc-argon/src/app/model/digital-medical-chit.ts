@@ -49,6 +49,21 @@ export class DigitalMedicalChit {
     return this.product;
   }
 
+  redeem(merchantId, callback?) {
+    if (merchantId !== null) {
+      let url = `digital-medical-chits/${this.id}/redeem`;
+      this.http.post(Endpoint.GLOBAL, ['digital-medical-chits', this.id, 'redeem'], {
+        uuid: this.id,
+        redeemedAtMerchantUuid: merchantId,
+      }).subscribe(res => {
+        console.log('redemption done', res);
+        if (callback) {
+          callback();
+        }
+      });
+    }
+  }
+
   save(callback?) {
     if (this.id == null) {
       this.benefitProductId = this.getProduct().benefitProductId;

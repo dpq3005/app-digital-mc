@@ -3,7 +3,7 @@
 namespace App\Controller\Redemption;
 
 use App\Dto\BenefitProduct;
-use App\Dto\Dmc\DigitalMedicalChit;
+use App\Dto\DigitalMedicalChit;
 use App\Dto\Redemption;
 use App\Entity\Dmc\MedicalChit;
 use App\Message\Dmc\RedeemDmc;

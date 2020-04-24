@@ -15,13 +15,14 @@ export class HttpService {
     this.config = configService.getConfiguration();
   }
 
-  public post(endpoint: Endpoint, pathSegments: [string], postBody: any, headers?): Observable<any> {
+  public post(endpoint: Endpoint, pathSegments: string[], postBody: any, headers?): Observable<any> {
     let url = null;
     let path = null;
     if (Array.isArray(pathSegments)) {
-      if (pathSegments.length > 0) {
-        path = pathSegments.pop();
-      }
+      path = pathSegments.join('/');
+      // if (pathSegments.length > 0) {
+      //   path = pathSegments.pop();
+      // }
     }
 
     if (path == null || typeof path == "undefined") {
