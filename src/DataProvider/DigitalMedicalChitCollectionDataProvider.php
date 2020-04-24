@@ -116,6 +116,8 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
                         ->join('merchantAssignment.merchant', 'merchant');
                     $qb->andWhere($expr->like('merchant.uuid', $expr->literal($merchantUuid)));
 
+                } else {
+                    throw new UnauthorizedHttpException('Merchant not authenticated', 'Unauthorised empty Merchant!!!');
                 }
             } else {
                 throw new UnauthorizedHttpException('Merchant not authenticated', 'Unauthorised Merchant!!!');
