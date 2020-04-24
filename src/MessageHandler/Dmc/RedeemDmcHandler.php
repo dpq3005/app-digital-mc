@@ -137,7 +137,7 @@ class RedeemDmcHandler extends DmcHandler implements MessageHandlerInterface
             $res = $this->http->post($resourcePath, $postdata, false, 'redemption');
             $data = $res['body'];
             if ($data) {
-                if (property_exists('redemptionUuid', $data)) {
+                if (property_exists($data, 'redemptionUuid')) {
                     $medicalChit->setRedemptionUuid($data['redemptionUuid']);
                     $medicalChit->setRedeemed(true);
                     $manager->persist($medicalChit);
