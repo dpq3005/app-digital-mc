@@ -219,7 +219,7 @@ export class DigitalMedicalChitCollection {
 
   http: HttpService = null;
 
-  queryParamStr: string = null;
+  queryParams: string[] = null;
 
   initServices(http: HttpService) {
     this.http = http;
@@ -227,6 +227,7 @@ export class DigitalMedicalChitCollection {
 
   constructor() {
     this.medicalChits = [];
+    this.queryParams = ['expired=0'];
   }
 
   appendItem(dmc: DigitalMedicalChit, index?) {
@@ -271,8 +272,8 @@ export class DigitalMedicalChitCollection {
       url += '&beneficiaryNric=' + this.beneficiaryNricFilter;
     }
 
-    if (this.queryParamStr !== null) {
-      url += '&' + this.queryParamStr;
+    if (this.queryParams !== null) {
+      url += '&' + this.queryParams.join('&');
     }
 
     // if (!this.isLoading) {
