@@ -145,9 +145,9 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
                 ->setBeneficiaryNric($nric ? 'XXXX'.substr($nric, -4) : null)
                 ->setProduct($medicalChit->getProductUuid());
             if (empty($merchants = $medicalChit->getMerchantUuids())) {
-                $dmc->setMerchants($merchants);
-            } else {
                 $dmc->setMerchants(null);
+            } else {
+                $dmc->setMerchants($merchants);
             }
 
             $dmc->setProductName($medicalChit->getProductName());
