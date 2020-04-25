@@ -37,7 +37,7 @@ class FindMerchant
     public function __invoke($id): Merchant
     {
         /** @var \App\Entity\Merchant\Merchant $merchantFromLocal */
-        $merchantFromLocal = $this->registry->getRepository(\App\Entity\Merchant\Merchant::class);
+        $merchantFromLocal = $this->registry->getRepository(\App\Entity\Merchant\Merchant::class)->findOneByUuid($id);
 
         $merchant = new Merchant();
 

@@ -125,9 +125,28 @@ export class DigitalMedicalChit {
     this.product.benefitProductId = this.benefitProductId;
     this.product.name = this.productName;
 
+    this.merchantIds = item.merchants;
+
     this.code = item.code;
     this.isExpired = item.expired;
     this.isRedeemed = item.redeemed;
+
+    if (this.merchantIds !== null) {
+      let merchantsLength = this.merchantIds.length;
+      this.merchants = [];
+      for (let merchantId of this.merchantIds) {
+        this.http.get(Endpoint.GLOBAL, ['merchants', merchantId]).pipe(catchError((err) => {
+          // this.isLoading = false;
+          return (err);
+        })).subscribe(res => {
+          // this.isLoading = false;
+          let merchant = new Merchant();
+          merchant.id = res.uuid;
+          merchant.name = res.name;
+          this.merchants.push(merchant);
+        })
+      }
+    }
   }
 
   load(callback?) {

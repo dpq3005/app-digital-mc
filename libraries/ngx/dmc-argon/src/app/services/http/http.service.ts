@@ -38,12 +38,12 @@ export class HttpService {
     });
   }
 
-  public get(endpoint: Endpoint, pathSegments: [string], headers?): Observable<any> {
+  public get(endpoint: Endpoint, pathSegments: string[], headers?): Observable<any> {
     let url = null;
     let path = null;
     if (Array.isArray(pathSegments)) {
       if (pathSegments.length > 0) {
-        path = pathSegments.pop();
+        path = pathSegments.join('/');
       }
     }
 
