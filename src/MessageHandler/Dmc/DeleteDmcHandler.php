@@ -37,7 +37,8 @@ class DeleteDmcHandler extends DmcHandler implements MessageHandlerInterface
             $event = new MedicalChitEvent();
             $event->action = MedicalChitEvent::EVENT_DMC_DELETED;
             $event->payload = $message->getPayload();
-            $event->medicalChit = $medicalChit;
+            $event->objectId = $medicalChit->getId();
+
             $event->objectUuid = $medicalChit->getUuid();
 
             $manager->persist($event);

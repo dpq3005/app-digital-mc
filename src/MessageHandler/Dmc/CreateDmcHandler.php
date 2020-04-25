@@ -28,6 +28,13 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
 
     public function handleMessage(CreateDmc $message): MedicalChit
     {
+        if ($message->merchantUuids) {
+            foreach ($message->merchantUuids as $merchantUuid) {
+                if (!is_string($merchantUuid)) {
+                    throw new \InvalidArgumentException('MerchangUuid must be string');
+                }
+            }
+        }
         if (empty($message->createdAt)) {
             $message->createdAt = json_decode(json_encode(new \DateTime()));
         }

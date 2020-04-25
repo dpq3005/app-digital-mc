@@ -20,6 +20,7 @@ export class DigitalMedicalChit {
   benefitProductId: string = null;
   productId = null;
   productName = null;
+  merchantIds: string[] = null;
 
   product: Product = null;
   merchants: Merchant[] = null;
@@ -68,12 +69,19 @@ export class DigitalMedicalChit {
     if (this.id == null) {
       this.benefitProductId = this.getProduct().benefitProductId;
 
+      if (this.merchants !== null) {
+        for (let i = 0; i < this.merchants.length; i++) {
+          let merchant = this.merchants[i];
+          this.merchantIds.push(merchant.id);
+        }
+      }
+
       this.http.post(Endpoint.GLOBAL, ['digital-medical-chits'], {
         beneficiaryNric: this.beneficiaryNric,
         beneficiaryName: this.beneficiaryName,
         product: this.productId,
         benefitProduct: this.benefitProductId,
-        merchants: this.merchants
+        merchants: this.merchantIds
       }).subscribe(res => {
         console.log('save done', res);
         if (callback) {
