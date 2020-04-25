@@ -165,11 +165,12 @@ export class DigitalMedicalChit {
       let item = res;
       if (callbacks) {
         if (typeof callbacks === 'function') {
+          this.populateFromApiRes(item);
           callbacks();
         } else if (callbacks.merchantLoadingCallback) {
           this.populateFromApiRes(item, callbacks.merchantLoadingCallback);
         } else {
-
+          this.populateFromApiRes(item);
         }
       } else {
         this.populateFromApiRes(item);
