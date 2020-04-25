@@ -19,6 +19,11 @@ class Merchant extends AbstractThing
      */
     private $merchantAssignments;
 
+    public function initUuid($prefix = null)
+    {
+        return;
+    }
+
     public function __construct()
     {
         parent::__construct();

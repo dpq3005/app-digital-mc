@@ -23,6 +23,10 @@ class AssociateMerchantHandler implements MessageHandlerInterface
 
     private function handleMerchant($merchantFromApi, MedicalChit $dmc, $merchantRepo)
     {
+        if (empty($merchantFromApi)) {
+            throw new \Exception('No Merchant returned from Entity Api');
+        }
+
         /** @var Merchant $m */
         if (empty($m = $merchantRepo->findOneByUuid($merchantFromApi->uuid))) {
             $m = new Merchant();
