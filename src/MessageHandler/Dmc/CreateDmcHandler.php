@@ -35,6 +35,7 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
                 }
             }
         }
+
         if (empty($message->createdAt)) {
             $message->createdAt = json_decode(json_encode(new \DateTime()));
         }

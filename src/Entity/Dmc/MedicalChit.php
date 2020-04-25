@@ -144,7 +144,7 @@ class MedicalChit extends AbstractThing
     /**
      * @ORM\Column(type="boolean", options={"default":false})
      */
-    private $merchantAssignmentsInit;
+    private $merchantAssignmentsInit = false;
 
     public function __construct()
     {
