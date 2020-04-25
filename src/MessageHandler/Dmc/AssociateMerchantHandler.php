@@ -84,7 +84,7 @@ class AssociateMerchantHandler implements MessageHandlerInterface
         } else {
             foreach ($merchantUuids as $merchantUuid) {
                 $resourcePath = 'merchants';
-                $res = $this->http->get($resourcePath, $merchantUuid);
+                $res = $this->http->get($resourcePath, $merchantUuid->uuid);
                 $merchantFromApi = $res['body'];
                 $handled = $this->handleMerchant($merchantFromApi, $dmc, $merchantRepo);
                 if (!empty($handled)) {
