@@ -18,7 +18,8 @@ use App\Controller\BenefitProvider\FindOneBeneficiaryByNric;
  *     itemOperations={"get"={
  *         "read"=false,
  *     "requirements"={"id"=".+"},
- *     }},
+ *     }
+ *     },
  *     collectionOperations={
  *     "get",
  *     "find_merchants_by_product_uuid"

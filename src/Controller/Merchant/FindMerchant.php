@@ -24,7 +24,7 @@ class FindMerchant
      * @return Merchant
      * @throws \Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface
      * @Route(
-     *     name="fetch_benefit_product",
+     *     name="find_merchant",
      *     path="/merchants/{id}",
      *     methods={"GET"},
      *     requirements={"id"=".+"},
