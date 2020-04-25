@@ -6,6 +6,7 @@ import { NotFoundComponent } from '../../pages/not-found/not-found.component';
 import {DmcListComponent as MerchantDmcListComponent} from '../../pages/merchant/dmc-list/dmc-list.component';
 import {LogoutComponent} from "../../pages/logout/logout.component";
 import {DmcRedeemComponent} from "../../pages/merchant/dmc-redeem/dmc-redeem.component";
+import {ConfirmDmcRedemptionComponent} from "../../pages/merchant/dmc-redeem/confirm-dmc-redemption/confirm-dmc-redemption.component";
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'not-found', component: NotFoundComponent},
@@ -15,6 +16,9 @@ export const AdminLayoutRoutes: Routes = [
 
   {path: 'merchant/dmc/list', component: MerchantDmcListComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
   {path: 'merchant/dmc/:id/redeem', component: DmcRedeemComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
+
+  {path: 'merchant/dmc/:id/redeem/validate-pin', component: ConfirmDmcRedemptionComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
+
   {path: 'logout', component: LogoutComponent},
 
 ];

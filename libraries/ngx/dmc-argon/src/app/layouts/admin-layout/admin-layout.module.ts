@@ -21,6 +21,7 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import { LogoutComponent } from '../../pages/logout/logout.component';
 import {JwtHelperService, JwtModule, JwtModuleOptions} from "@auth0/angular-jwt";
 import { ConfirmDmcRedemptionComponent } from '../../pages/merchant/dmc-redeem/confirm-dmc-redemption/confirm-dmc-redemption.component';
+import {SharedModule} from "../../shared/shared.module";
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { ConfirmDmcRedemptionComponent } from '../../pages/merchant/dmc-redeem/c
     NgbModule,
     ClipboardModule,
     NgSelectModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    SharedModule
   ],
   declarations: [
     DmcListComponent,

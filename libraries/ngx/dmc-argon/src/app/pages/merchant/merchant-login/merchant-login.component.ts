@@ -27,6 +27,10 @@ export class MerchantLoginComponent implements OnInit {
 
   credentials: MerchantCredentials;
 
+  isLoading: boolean = false;
+
+  errorMessage = '';
+
   ngOnInit(): void {
   }
 
@@ -34,8 +38,6 @@ export class MerchantLoginComponent implements OnInit {
     this.credentials = new MerchantCredentials();
   }
 
-  isLoading: boolean = false;
-  errorMessage = '';
 
   verify() {
     this.loginStatus = null;
