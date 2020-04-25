@@ -31,7 +31,7 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
         if ($message->merchantUuids) {
             foreach ($message->merchantUuids as $merchantUuid) {
                 if (!is_string($merchantUuid)) {
-                    throw new \InvalidArgumentException('MerchangUuid must be string');
+                    throw new \InvalidArgumentException('MerchantUuid must be string');
                 }
             }
         }

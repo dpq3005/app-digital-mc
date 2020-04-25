@@ -1,6 +1,6 @@
 import {Endpoint, HttpService} from "../services/http/http.service";
 import {concat, Observable, of, Subject} from "rxjs";
-import {catchError, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
+import {catchError, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
 import {Product} from "./product";
 import {Merchant} from "./merchant";
 
@@ -170,7 +170,13 @@ export class DigitalMedicalChit {
         tap(() => this.merchantLoading = true),
         switchMap(term => this.http.get(Endpoint.PRODUCT, ["products/" + this.productId + "/find-merchants-by-product-uuid?organisationName=" + term + "&pageSize=10"]).pipe(
           catchError(() => of([])), // empty list on error
-          tap(() => this.merchantLoading = false)
+          tap(() => this.merchantLoading = false),
+          map(merchantsFromApi => {
+            for (let merchant of merchantsFromApi) {
+              merchant.id = merchant.uuid
+            }
+            return merchantsFromApi;
+          })
         ))
       )
     );

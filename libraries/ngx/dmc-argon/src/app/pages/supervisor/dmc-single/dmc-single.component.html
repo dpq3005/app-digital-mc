@@ -125,7 +125,7 @@
                                bindLabel="name"
                                autofocus
                                bindValue="id"
-                               [(ngModel)]="dmc.merchants" name="merchant-ids">
+                               [(ngModel)]="dmc.merchantIds" name="merchant-ids">
                       <!--                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">-->
                       <!--                      <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.name}}-->
                       <!--                    </ng-template>-->
@@ -149,11 +149,19 @@
                 <button *ngIf="!isNricReady" [disabled]="dmcForm.invalid" (click)="handleNric()" type="button"
                         class="btn btn-primary mt-4">Next >>
                 </button>
-                <button *ngIf="isNricReady" type="button" class="btn btn-primary mt-4" [disabled]="dmcForm.invalid" (click)="createDmc()">
+                <button *ngIf="isNricReady" type="button" class="btn btn-primary mt-4" [disabled]="dmcForm.invalid"
+                        (click)="createDmc()">
                   Create
                 </button>
               </div>
             </form>
+            <div *ngIf="dmc.isLoading" class="text-center">
+              <h3>Please wait just a heart beat!</h3>
+              <div class="lds-heart">
+                <div></div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
