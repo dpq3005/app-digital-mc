@@ -22,7 +22,7 @@
         [infiniteScrollThrottle]="throttle"
         (scrolled)="onScrollDown($event)"
         class="row">
-        <div *ngFor="let dmc of dmcCollection.medicalChits" class="col-sm-6 col-lg-4">
+        <div *ngFor="let dmc of dmcCollection.medicalChits; trackBy: trackDmcCollection" class="col-sm-6 col-lg-4">
           <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body">
               <div class="row">
@@ -35,12 +35,16 @@
                     class="icon icon-shape {{dmc.isRedeemed?'bg-danger':(dmc.isExpired?'bg-default':'bg-success')}} text-white rounded-circle shadow">
                     <i class="fas fa-check"></i>
                   </div>
-                  <div><small> {{dmc.isRedeemed?'Utilised':(dmc.isExpired?'Expired':'Valid')}}</small></div>
+                  <div><small> {{dmc.isRedeemed ? 'Utilised' : (dmc.isExpired ? 'Expired' : 'Valid')}}</small></div>
                 </div>
               </div>
               <div class="mt-0 mb-0 text-muted text-sm">
                 <div class="text-primary mr-2"><i class="fa fa-address-card"></i> {{dmc.beneficiaryNric}}</div>
                 <div class="text-primary mr-2"><i class="fa fa-barcode"></i> {{dmc.code}}</div>
+                <div *ngFor="let merchant of dmc.merchants" class="text-primary mr-2"><i
+                  class="fa fa-prescription-bottle-alt"></i>
+                  {{merchant.name}}
+                </div>
                 <!--                <span class="text-nowrap">8 Trivex, Singapore</span>-->
               </div>
               <div *ngIf="!dmc.isRedeemed">

@@ -107,7 +107,7 @@ export class DigitalMedicalChit {
     }
   }
 
-  populateFromApiRes(item) {
+  populateFromApiRes(item, merchantCallback = null) {
     this.id = item.uuid;
     this.beneficiaryName = item.beneficiaryName;
     this.id = item.uuid;
@@ -134,22 +134,28 @@ export class DigitalMedicalChit {
     if (this.merchantIds !== null) {
       let merchantsLength = this.merchantIds.length;
       this.merchants = [];
+      if (this.merchantIds.length === 0) {
+        this.isLoading = false;
+      }
       for (let merchantId of this.merchantIds) {
         this.http.get(Endpoint.GLOBAL, ['merchants', merchantId]).pipe(catchError((err) => {
-          // this.isLoading = false;
+          this.isLoading = false;
           return (err);
         })).subscribe(res => {
-          // this.isLoading = false;
+          this.isLoading = false;
           let merchant = new Merchant();
           merchant.id = res.uuid;
           merchant.name = res.name;
           this.merchants.push(merchant);
-        })
+          if (merchantCallback) {
+            merchantCallback();
+          }
+        });
       }
     }
   }
 
-  load(callback?) {
+  load(callbacks?) {
     let url = "digital-medical-chits/" + this.id;
     this.isLoading = true;
     this.http.get(Endpoint.GLOBAL, [url]).pipe(catchError((err) => {
@@ -157,11 +163,18 @@ export class DigitalMedicalChit {
       return (err);
     })).subscribe(res => {
       let item = res;
-      this.populateFromApiRes(item);
-      this.isLoading = false;
-      if (callback) {
-        callback();
+      if (callbacks) {
+        if (typeof callbacks === 'function') {
+          callbacks();
+        } else if (callbacks.merchantLoadingCallback) {
+          this.populateFromApiRes(item, callbacks.merchantLoadingCallback);
+        } else {
+
+        }
+      } else {
+        this.populateFromApiRes(item);
       }
+
     })
     // }
   }

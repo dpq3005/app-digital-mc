@@ -29,10 +29,14 @@ export class DmcListComponent implements OnInit {
   scrollUpDistance = 2;
   direction = '';
 
-  onScrollDown(ev) {
-    console.log('scrolled down!!', ev);
+  onScrollDown($event) {
+    console.log('scrolled down!!', $event);
     this.dmcCollection.loadItemsFromNextPage();
     this.direction = 'down'
+  }
+
+  trackDmcCollection(index: number, item: DigitalMedicalChit): string {
+    return item.id;
   }
 
   confirmDelete(content, dmc: DigitalMedicalChit) {
