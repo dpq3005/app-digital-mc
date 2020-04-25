@@ -66,10 +66,12 @@ export class DigitalMedicalChit {
   }
 
   save(callback?) {
+    this.isLoading = true;
     if (this.id == null) {
       this.benefitProductId = this.getProduct().benefitProductId;
 
-      if (this.merchants !== null) {
+      if (this.merchants !== null && this.merchants.length > 0) {
+        this.merchantIds = [];
         for (let i = 0; i < this.merchants.length; i++) {
           let merchant = this.merchants[i];
           this.merchantIds.push(merchant.id);
@@ -84,6 +86,7 @@ export class DigitalMedicalChit {
         merchants: this.merchantIds
       }).subscribe(res => {
         console.log('save done', res);
+        this.isLoading = false;
         if (callback) {
           callback();
         }

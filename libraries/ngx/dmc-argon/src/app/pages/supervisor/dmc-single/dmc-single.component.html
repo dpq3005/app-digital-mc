@@ -14,7 +14,7 @@
             <div class="text-muted text-center mt-2"><h2>Create Digital Medical Chit</h2></div>
           </div>
           <div class="card-body px-lg-5 py-lg-5">
-            <form #dmcForm="ngForm" role="form">
+            <form *ngIf="!dmc.isLoading" #dmcForm="ngForm" role="form">
               <div *ngIf="!isNricReady" class="form-group">
                 <div *ngIf="loading" class="text-center">
                   <div class="lds-facebook">
