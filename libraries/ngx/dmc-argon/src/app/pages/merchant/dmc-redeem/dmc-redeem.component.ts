@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {DigitalMedicalChit} from "../../../model/digital-medical-chit";
 import {HttpService} from "../../../services/http/http.service";
 import {Product} from "../../../model/product";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-dmc-redeem',
@@ -14,7 +15,7 @@ export class DmcRedeemComponent implements OnInit {
   dmc: DigitalMedicalChit;
   isLoading = false;
 
-  constructor(private route: ActivatedRoute, http: HttpService) {
+  constructor(private modalService: NgbModal, private route: ActivatedRoute, http: HttpService) {
     this.dmc = new DigitalMedicalChit();
     this.dmc.initServices(http)
   }
@@ -30,10 +31,9 @@ export class DmcRedeemComponent implements OnInit {
   redeem() {
     let merchantUuid = localStorage.getItem('merchantUuid');
     this.isLoading = true;
-    this.dmc.redeem(merchantUuid, () => {
-      this.isLoading = false;
-      console.log('done');
-    });
+    // this.dmc.redeem(merchantUuid, () => {
+    //   this.isLoading = false;
+    //   console.log('done');
+    // });
   }
-
 }

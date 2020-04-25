@@ -120,8 +120,6 @@ class CreateDmcHandler extends DmcHandler implements MessageHandlerInterface
         }
 
 //            $conn->commit();
-        $associateMerchant = new AssociateMerchant();
-        $associateMerchant->dmcUuid = $medicalChit->getUuid();
-        $this->bus->dispatch($associateMerchant);
+
     }
 }

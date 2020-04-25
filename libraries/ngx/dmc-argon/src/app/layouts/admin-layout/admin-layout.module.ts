@@ -7,11 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ClipboardModule} from 'ngx-clipboard';
 
 import {AdminLayoutRoutes} from './admin-layout.routing';
-import {DashboardComponent} from '../../pages/dashboard/dashboard.component';
-import {IconsComponent} from '../../pages/icons/icons.component';
-import {MapsComponent} from '../../pages/maps/maps.component';
-import {UserProfileComponent} from '../../pages/user-profile/user-profile.component';
-import {TablesComponent} from '../../pages/tables/tables.component';
+
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 // import { ToastrModule } from 'ngx-toastr';
@@ -24,6 +20,7 @@ import {DmcListComponent as MerchantDmcListComponent} from '../../pages/merchant
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import { LogoutComponent } from '../../pages/logout/logout.component';
 import {JwtHelperService, JwtModule, JwtModuleOptions} from "@auth0/angular-jwt";
+import { ConfirmDmcRedemptionComponent } from '../../pages/merchant/dmc-redeem/confirm-dmc-redemption/confirm-dmc-redemption.component';
 
 @NgModule({
   imports: [
@@ -37,16 +34,12 @@ import {JwtHelperService, JwtModule, JwtModuleOptions} from "@auth0/angular-jwt"
     InfiniteScrollModule
   ],
   declarations: [
-    DashboardComponent,
-    UserProfileComponent,
-    TablesComponent,
-    IconsComponent,
-    MapsComponent,
     DmcListComponent,
     DmcSingleComponent,
     NotFoundComponent,
     MerchantDmcListComponent,
-    LogoutComponent
+    LogoutComponent,
+    ConfirmDmcRedemptionComponent
   ]
 })
 

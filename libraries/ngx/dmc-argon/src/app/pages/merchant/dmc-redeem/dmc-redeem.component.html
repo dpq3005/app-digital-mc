@@ -39,28 +39,11 @@
             <hr class="my-4"/>
             <div [innerHTML]="dmc.product?dmc.product.description:''"></div>
 <!--            <a href="javascript:void(0)">Show more</a>-->
-            <div *ngIf="!dmc.isRedeemed" (click)="redeem()" class="btn btn-primary">Confirm and Submit Redemption</div>
-            <h3 *ngIf="dmc.isRedeemed" (click)="redeem()" class="badge badge-success">Successfully Redeemed</h3>
+            <div *ngIf="!dmc.isRedeemed" (click)="redeem()" class="btn btn-primary">Confirm Redemption</div>
+            <h3 *ngIf="dmc.isRedeemed" class="badge badge-success">Successfully Redeemed</h3>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">DELETE CONFIRMATION</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="text-center">Are you sure you want to delete this medical chit?</div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="modal.close('NO')">Cancel</button>
-    <button type="button" class="btn btn-danger" (click)="modal.close('YES')">Yes, Delete it!</button>
-  </div>
-</ng-template>
-

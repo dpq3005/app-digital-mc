@@ -5,8 +5,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthLayoutRoutes} from './auth-layout.routing';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {LoginComponent} from '../../pages/login/login.component';
-import {RegisterComponent} from '../../pages/register/register.component';
 import {SupervisorLoginComponent} from '../../pages/supervisor/supervisor-login/supervisor-login.component';
 import {InterimComponent} from '../../pages/interim/interim.component';
 import {MerchantLoginComponent} from '../../pages/merchant/merchant-login/merchant-login.component';
@@ -25,8 +23,6 @@ import {HttpClientModule} from "@angular/common/http";
     // NgbModule
   ],
   declarations: [
-    LoginComponent,
-    RegisterComponent,
     SupervisorLoginComponent,
     InterimComponent,
     MerchantLoginComponent

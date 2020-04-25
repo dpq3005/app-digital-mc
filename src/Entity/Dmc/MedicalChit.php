@@ -141,6 +141,11 @@ class MedicalChit extends AbstractThing
      */
     private $redeemedAt;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $merchantAssignmentsInit;
+
     public function __construct()
     {
         parent::__construct();
@@ -366,6 +371,18 @@ class MedicalChit extends AbstractThing
     public function setRedeemedAt(?\DateTimeInterface $redeemedAt): self
     {
         $this->redeemedAt = $redeemedAt;
+
+        return $this;
+    }
+
+    public function getMerchantAssignmentsInit(): ?bool
+    {
+        return $this->merchantAssignmentsInit;
+    }
+
+    public function setMerchantAssignmentsInit(bool $merchantAssignmentsInit): self
+    {
+        $this->merchantAssignmentsInit = $merchantAssignmentsInit;
 
         return $this;
     }
