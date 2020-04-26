@@ -30,6 +30,11 @@ export class SupervisorLoginComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    var body = document.getElementsByTagName("body")[0];
+    body.classList.remove("bg-wellness");
+  }
+
   login() {
     this.loading = true;
     this.errorMessage = '';
