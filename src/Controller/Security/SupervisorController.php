@@ -100,6 +100,8 @@ class SupervisorController extends AbstractController
                 $supervisor->setPlainPassword($pwd);
             }
 
+            $supervisor->setUpdatedAt(new \DateTime());
+
             $supervisor->setRoles([User::ROLE_SUPERVISOR]);
 
             $supervisor->initUuid();
