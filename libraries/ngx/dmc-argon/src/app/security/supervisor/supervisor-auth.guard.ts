@@ -22,7 +22,7 @@ export class SupervisorAuthGuard implements CanLoad, CanActivate {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('SupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuardSupervisorAuthGuard');
+
     console.log('route', route);
     console.log('segments', segments);
     return true;

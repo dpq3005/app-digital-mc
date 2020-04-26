@@ -1,6 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
+ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  word-wrap: break-word;
+  text-overflow: inherit;
+  white-space: normal;
+}
+
+.bg-wellness
+{
+  background-image: url("assets/img/theme/bg-1.jpg") !important;
+  background-size: cover;
+}
+
 .bg-gradient-magenta
 {
   background: linear-gradient(87deg, #007802 0, #25b568 100%) !important;

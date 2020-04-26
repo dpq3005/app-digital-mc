@@ -38,7 +38,6 @@ export class MerchantLoginComponent implements OnInit {
     this.credentials = new MerchantCredentials();
   }
 
-
   verify() {
     this.loginStatus = null;
     let merchantUuid = this.route.snapshot.queryParamMap.get('uuid');

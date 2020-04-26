@@ -21,6 +21,13 @@ export class SupervisorLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    var body = document.getElementsByTagName("body")[0];
+    body.classList.remove("bg-default");
+    body.classList.add('bg-wellness');
+
+    var nav = document.getElementsByClassName('navbar-brand')[0];
+    nav.remove();
+
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['supervisor', 'dmc', 'list']);
     }

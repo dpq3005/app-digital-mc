@@ -85,4 +85,8 @@ export class SidebarComponent implements OnInit {
       this.isCollapsed = true;
     });
   }
+
+  getEntityName() {
+    return 'Digital Medical Chit';
+  }
 }

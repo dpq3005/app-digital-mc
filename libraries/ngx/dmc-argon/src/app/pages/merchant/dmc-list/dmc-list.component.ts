@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {DigitalMedicalChit, DigitalMedicalChitCollection} from "../../../model/digital-medical-chit";
 import {HttpService} from "../../../services/http/http.service";
 import {Router} from "@angular/router";
+import {Merchant} from "../../../model/merchant";
+import {AuthService} from "../../../security/auth.service";
 
 @Component({
   selector: 'app-dmc-list',
@@ -10,6 +12,8 @@ import {Router} from "@angular/router";
 })
 export class DmcListComponent implements OnInit {
   dmcCollection: DigitalMedicalChitCollection
+
+  loggedInMerchant: Merchant;
 
   throttle = 300;
   scrollDistance = 1;
@@ -20,9 +24,13 @@ export class DmcListComponent implements OnInit {
     this.dmcCollection = new DigitalMedicalChitCollection();
     this.dmcCollection.initServices(http);
     this.dmcCollection.loadItemsFromNextPage();
+    this.loggedInMerchant = new Merchant();
+    this.loggedInMerchant.initServices(http);
   }
 
   ngOnInit(): void {
+    this.loggedInMerchant.id = localStorage.getItem('merchantUuid');
+    this.loggedInMerchant.load();
   }
 
   onFilterChange(filterName, $event) {

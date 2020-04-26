@@ -139,19 +139,15 @@ export class DigitalMedicalChit {
         this.isLoading = false;
       }
       for (let merchantId of this.merchantIds) {
-        this.http.get(Endpoint.GLOBAL, ['merchants', merchantId]).pipe(catchError((err) => {
-          this.isLoading = false;
-          return (err);
-        })).subscribe(res => {
-          this.isLoading = false;
-          let merchant = new Merchant();
-          merchant.id = res.uuid;
-          merchant.name = res.name;
+        let merchant = new Merchant();
+        merchant.id = merchantId;
+        merchant.initServices(this.http);
+        merchant.load(() => {
           this.merchants.push(merchant);
           if (merchantCallback) {
             merchantCallback();
           }
-        });
+        })
       }
     }
   }
