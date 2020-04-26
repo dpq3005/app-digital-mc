@@ -25,9 +25,6 @@ export class SupervisorLoginComponent implements OnInit {
     body.classList.remove("bg-default");
     body.classList.add('bg-wellness');
 
-    var nav = document.getElementsByClassName('navbar-brand')[0];
-    nav.remove();
-
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['supervisor', 'dmc', 'list']);
     }
@@ -45,6 +42,10 @@ export class SupervisorLoginComponent implements OnInit {
       localStorage.setItem('token', jwt.token);
       localStorage.setItem('benefitProviderUuid', jwt.benefitProviderUuid);
       localStorage.setItem('credentials', JSON.stringify(this.credentials));
+
+      var body = document.getElementsByTagName("body")[0];
+      body.classList.add("bg-default");
+      body.classList.remove('bg-wellness');
       this.router.navigate(['supervisor', 'dmc', 'list']);
     });
   }
