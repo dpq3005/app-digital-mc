@@ -79,6 +79,11 @@
               "ngswConfigPath": "ngsw-config-supervisor.json"
             },
             "supervisor-dev": {
+              "assets": [
+                "src/favicon.ico",
+                "src/assets",
+                "src/manifest-supervisor.webmanifest"
+              ],
               "index": {
                 "input": "src/index-supervisor.html",
                 "output": "index.html"
