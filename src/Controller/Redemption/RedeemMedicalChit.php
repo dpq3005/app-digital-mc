@@ -13,18 +13,21 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class RedeemMedicalChit
 {
-    private $registry, $http, $bus;
+    private $registry, $http, $bus, $tokenStorage;
 
-    public function __construct(HttpService $httpService, ManagerRegistry $registry, MessageBusInterface $bus)
+    public function __construct(HttpService $httpService, ManagerRegistry $registry, MessageBusInterface $bus, TokenStorageInterface $tokenStorage)
     {
         $this->registry = $registry;
         $this->http = $httpService;
         $this->bus = $bus;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -34,6 +37,10 @@ class RedeemMedicalChit
      */
     public function __invoke($id, Request $request): Redemption
     {
+        $token = $this->tokenStorage->getToken();
+        if (empty($token)) {
+            throw new UnauthorizedHttpException('Token not found', 'Token not found');
+        }
 
         $contentJson = $request->getContent();
 
