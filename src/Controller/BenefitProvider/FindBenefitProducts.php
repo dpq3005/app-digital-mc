@@ -4,16 +4,21 @@ namespace App\Controller\BenefitProvider;
 
 use App\Dto\BenefitProduct;
 use App\Service\HttpService;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class FindBenefitProducts
 {
-    private $registry, $http;
+    private $registry, $http, $tokenStorage;
 
-    public function __construct(HttpService $httpService)
+    public function __construct(HttpService $httpService, ManagerRegistry $registry, TokenStorageInterface $tokenStorage)
     {
+        $this->registry = $registry;
         $this->http = $httpService;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -34,6 +39,14 @@ class FindBenefitProducts
      */
     public function __invoke($id)
     {
+        $token = $this->tokenStorage->getToken();
+        if (empty($token)) {
+            throw new UnauthorizedHttpException('Token not found', 'Token not found');
+        }
+        $user = $token->getUser();
+        if (empty($user)) {
+            throw new UnauthorizedHttpException('User not found', 'Empty User');
+        }
 
         $res = $this->http->get(sprintf('benefit-products?benefitProviderUuid=%s', $id), null, false, 'product');
 //        15e6f99b961376
