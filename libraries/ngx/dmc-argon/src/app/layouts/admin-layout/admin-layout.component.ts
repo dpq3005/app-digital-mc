@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SwUpdate} from "@angular/service-worker";
 
 @Component({
   selector: 'app-admin-layout',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminLayoutComponent implements OnInit {
 
-  constructor() { }
+  isUpdateMsgVisible = false;
+
+  constructor(private swUpdate: SwUpdate) {
+    swUpdate.available.subscribe(event => {
+      this.isUpdateMsgVisible = true;
+    })
+  }
 
   ngOnInit() {
   }
 
+  closeUpdateMsg() {
+    this.isUpdateMsgVisible = false;
+  }
+
+  reload() {
+    this.swUpdate.activateUpdate().then(() => document.location.reload());
+  }
 }

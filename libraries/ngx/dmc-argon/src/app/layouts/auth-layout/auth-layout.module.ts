@@ -21,6 +21,7 @@ import {HttpClientModule} from "@angular/common/http";
     SharedModule,
     HttpClientModule
     // NgbModule
+
   ],
   declarations: [
     SupervisorLoginComponent,

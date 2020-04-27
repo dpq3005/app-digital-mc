@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfigService} from "./services/config/config.service";
+import {SwUpdate} from "@angular/service-worker";
 
 @Component({
   selector: 'app-root',

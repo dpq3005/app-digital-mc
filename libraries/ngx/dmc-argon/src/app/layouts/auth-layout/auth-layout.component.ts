@@ -1,6 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpService} from "../../services/http/http.service";
+import {SwUpdate} from "@angular/service-worker";
 
 @Component({
   selector: 'app-auth-layout',
@@ -11,7 +12,12 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
   test: Date = new Date();
   public isCollapsed = true;
 
-  constructor(private router: Router, private http: HttpService) {
+  isUpdateMsgVisible = false;
+
+  constructor(private router: Router, private http: HttpService, private swUpdate: SwUpdate) {
+    swUpdate.available.subscribe(event => {
+      this.isUpdateMsgVisible = true;
+    })
   }
 
   ngOnInit() {
@@ -29,5 +35,14 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
     html.classList.remove("auth-layout");
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("bg-default");
+  }
+
+
+  closeUpdateMsg() {
+    this.isUpdateMsgVisible = false;
+  }
+
+  reload() {
+    this.swUpdate.activateUpdate().then(() => document.location.reload());
   }
 }
