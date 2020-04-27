@@ -56,6 +56,11 @@
               "serviceWorker": false
             },
             "supervisor": {
+              "assets": [
+                "src/favicon.ico",
+                "src/assets",
+                "src/manifest-supervisor.webmanifest"
+              ],
               "index": {
                 "input": "src/index-supervisor.html",
                 "output": "index.html"
@@ -75,7 +80,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": false,
+              "serviceWorker": true,
               "ngswConfigPath": "ngsw-config-supervisor.json"
             },
             "supervisor-dev": {
