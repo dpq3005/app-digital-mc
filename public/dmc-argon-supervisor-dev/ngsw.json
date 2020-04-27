@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1587952619867,
+  "timestamp": 1587954411319,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -12,7 +12,7 @@
         "/7.0640cd3ebb861ac0187f.js",
         "/common.2737d602784fc99e0b81.js",
         "/index.html",
-        "/main.075c6c2b749cfaf9bcc6.js",
+        "/main.6dfc522f554b6475159e.js",
         "/polyfills-es5.82f9c19bc706c1c8838c.js",
         "/polyfills.1a4d556ea47bbf6658df.js",
         "/runtime.a70b8ce760cafc4cede4.js",
@@ -3111,8 +3111,8 @@
     "/assets/vendor/nucleo/fonts/nucleo-icons.woff2": "64baa3293e90631d5257d6056b089ba11510d0f4",
     "/bg-1.679f3f0f1fdb7bde7ebb.jpg": "b0f2d4637b6aeb0c25c54fa36fdba96ac8e650b2",
     "/common.2737d602784fc99e0b81.js": "36b2f3b6d07af3d3d089db930ebee5dc4e67519f",
-    "/index.html": "9e12900ac5430c35fbea8c531a6aa85212e4a002",
-    "/main.075c6c2b749cfaf9bcc6.js": "23e860757780825d9d8acb2635948cba5d895409",
+    "/index.html": "b132f5ff806c1aba3c652e3e2475aafb7007b348",
+    "/main.6dfc522f554b6475159e.js": "738e5e6daf43cec11760bded508e95ec852f1f25",
     "/polyfills-es5.82f9c19bc706c1c8838c.js": "0a6d3d3d74f7e24be57589a8bb7a96aaa852717e",
     "/polyfills.1a4d556ea47bbf6658df.js": "4b17ca3ec7ab80738849315ad33484aaca9bf85c",
     "/runtime.a70b8ce760cafc4cede4.js": "07faac8a8bd0bf79335ff65555dfad327778db35",
