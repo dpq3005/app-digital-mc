@@ -41,6 +41,10 @@ class RedeemMedicalChit
         if (empty($token)) {
             throw new UnauthorizedHttpException('Token not found', 'Token not found');
         }
+        $user = $token->getUser();
+        if (empty($user)) {
+            throw new UnauthorizedHttpException('User not found', 'Empty User');
+        }
 
         $contentJson = $request->getContent();
 
