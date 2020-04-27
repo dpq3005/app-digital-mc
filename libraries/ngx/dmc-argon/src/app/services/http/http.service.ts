@@ -55,7 +55,7 @@ export class HttpService {
 
     return this.http.get(url, {
       headers: new HttpHeaders({
-        'ngsw-bypass': 'ngsw-bypass',
+        // 'ngsw-bypass': 'ngsw-bypass',
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       })
