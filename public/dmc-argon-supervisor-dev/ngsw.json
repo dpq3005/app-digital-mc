@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1587962334442,
+  "timestamp": 1587963695633,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -3112,7 +3112,7 @@
     "/assets/vendor/nucleo/fonts/nucleo-icons.woff2": "64baa3293e90631d5257d6056b089ba11510d0f4",
     "/bg-1.679f3f0f1fdb7bde7ebb.jpg": "b0f2d4637b6aeb0c25c54fa36fdba96ac8e650b2",
     "/common.2737d602784fc99e0b81.js": "36b2f3b6d07af3d3d089db930ebee5dc4e67519f",
-    "/index.html": "58ce755533dfa93ddc0cd388823faa51e18a650e",
+    "/index.html": "2c9d4a16218239f45f7c95759e6cc33265b50401",
     "/main.6dfc522f554b6475159e.js": "738e5e6daf43cec11760bded508e95ec852f1f25",
     "/manifest-supervisor.webmanifest": "ede3f1b0fdf2805f7d4d0602e0fbd64b7519e3f5",
     "/polyfills-es5.82f9c19bc706c1c8838c.js": "0a6d3d3d74f7e24be57589a8bb7a96aaa852717e",
