@@ -14,6 +14,7 @@ use App\Controller\BenefitProvider\FindBenefitProducts;
  * Class BenefitProvider
  * @package App\Dto\BenefitProvider
  * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_USER')"},
  *     itemOperations={"get"={
  *     "requirements"={"id"=".+"},
  *     }},
