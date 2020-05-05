@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Dmc\MerchantAssignmentRepository")
- * @ORM\Table(name="dmc__merchant_assignment")
+ * @ORM\Table(name="dmc__merchant_assignment",uniqueConstraints={@ORM\UniqueConstraint(name="merchant_assignment_unique", columns={"id_merchant", "id_medical_chit"})})
  */
 class MerchantAssignment extends AbstractThing
 {
