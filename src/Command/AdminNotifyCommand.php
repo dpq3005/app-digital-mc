@@ -76,12 +76,15 @@ class AdminNotifyCommand extends Command
             $email = (new Email())
                 ->from('no-reply@magenta-wellness.com')
                 ->to('sam@magenta-wellness.com')
-                //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
                 //->priority(Email::PRIORITY_HIGH)
                 ->subject('New DMC created')
                 ->html($html);
+
+            if ($cc = getenv('ADMIN_CC')) {
+                $email->cc($cc);
+            }
 
             $this->mailer->send($email);
             try {
