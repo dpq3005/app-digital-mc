@@ -146,6 +146,11 @@ class MedicalChit extends AbstractThing
      */
     private $merchantAssignmentsInit = false;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $adminNotified;
+
     public function __construct()
     {
         parent::__construct();
@@ -383,6 +388,18 @@ class MedicalChit extends AbstractThing
     public function setMerchantAssignmentsInit(bool $merchantAssignmentsInit): self
     {
         $this->merchantAssignmentsInit = $merchantAssignmentsInit;
+
+        return $this;
+    }
+
+    public function getAdminNotified(): ?bool
+    {
+        return $this->adminNotified;
+    }
+
+    public function setAdminNotified(?bool $adminNotified): self
+    {
+        $this->adminNotified = $adminNotified;
 
         return $this;
     }
