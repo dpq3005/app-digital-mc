@@ -90,12 +90,11 @@ class AdminNotifyCommand extends Command
             try {
                 $dmc->setAdminNotified(true);
                 $manager->persist($dmc);
+                $manager->flush();
             } catch (\Throwable $e) {
                 throw $e;
             }
         }
-
-        $manager->flush();
 
         return 0;
     }
