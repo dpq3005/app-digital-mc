@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Dmc\MedicalChit;
 use App\Entity\Dmc\MerchantAssignment;
+use App\Entity\Worker\AdminNotifier;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -48,23 +49,82 @@ class AdminNotifyCommand extends Command
             // ...
         }
 
+        $manager = $this->registry->getManager();
+
+        // disable expired workers first
+        $notifiers = $this->registry->getRepository(AdminNotifier::class)->findBy(['enabled' => true,
+        ]);
+
+        $now = new \DateTime();
+        $pid = getmypid();
+
+        $expiredNotifiers = [];
+        $newNotifier = null;
+
+        /** @var AdminNotifier $notifier */
+        foreach ($notifiers as $notifier) {
+            $interval = $notifier->getCreatedAt()->diff($now);
+            $diff = (int) $interval->format('%i');
+            if ($diff > 1) {
+                $expiredNotifiers[] = $notifier;
+                if ($newNotifier === null) {
+                    $newNotifier = new AdminNotifier();
+                }
+            } else {
+                $newNotifier = false;
+            }
+        }
+
+        /** @var AdminNotifier $notifier */
+        foreach ($expiredNotifiers as $notifier) {
+            posix_kill($notifier->getPid());
+            $notifier->setEnabled(false);
+            $manager->persist($notifier);
+        }
+
+        // create new notif
+        if (empty($newNotifier)) {
+            return 0;
+        }
+
+        $newNotifier->setPid($pid);
+        $newNotifier->setEnabled(true);
+        $manager->persist($newNotifier);
+        $manager->flush();
+
+        $manager->clear();
+
+        // Check if we are the only one
+        $notifiers = $this->registry->getRepository(AdminNotifier::class)->findBy(['enabled' => true,
+        ]);
+        /** @var AdminNotifier $notifier */
+        foreach ($notifiers as $notifier) {
+            if ($notifier->getId() > $newNotifier->getId()) {
+                /** @var AdminNotifier $obsoleteNotifier */
+                $obsoleteNotifier = $this->registry->getRepository(AdminNotifier::class)->find($newNotifier->getId());
+                $obsoleteNotifier->setEnabled(false);
+                $manager->persist($obsoleteNotifier);
+                $manager->flush();
+                return 0;
+            }
+        }
+
         $dmcs = $this->registry->getRepository(MedicalChit::class)->findBy([
             'adminNotified' => false,
             'merchantAssignmentsInit' => true
         ]);
 
-        $manager = $this->registry->getManager();
-
         /** @var MedicalChit $dmc */
         foreach ($dmcs as $dmc) {
             $html = '';
-            $html .= '<p><strong>Client name:</strong> '.$dmc->getBenefitProvider()->getName().'</p>';
-            $html .= '<p><strong>Worker name:</strong> '.$dmc->getBeneficiaryName().'</p>';
+            $html .= '<p><strong>Client Name:</strong> '.$dmc->getBenefitProvider()->getName().'</p>';
+            $html .= '<p><strong>Worker Name:</strong> '.$dmc->getBeneficiaryName().'</p>';
+            $html .= '<p><strong>Product Name:</strong> '.$dmc->getProductName().'</p>';
 
             if (empty($dmc->getMerchantUuids())) {
                 $html .= '<p><strong>All applicable merchants</strong></p>';
             } else {
-                $html .= '<ol>';
+                $html .= '<ol><strong>Selected Merchants:</strong>';
                 $mas = $dmc->getMerchantAssignments();
                 /** @var MerchantAssignment $ma */
                 foreach ($mas as $ma) {
@@ -86,8 +146,8 @@ class AdminNotifyCommand extends Command
                 $email->cc($cc);
             }
 
-            $this->mailer->send($email);
             try {
+                $this->mailer->send($email);
                 $dmc->setAdminNotified(true);
                 $manager->persist($dmc);
                 $manager->flush();

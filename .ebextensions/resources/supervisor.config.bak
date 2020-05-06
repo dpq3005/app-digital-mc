@@ -20,7 +20,6 @@ container_commands:
     command: "/usr/local/bin/supervisorctl restart all"
     leader_only: true
 
-
 files:
     "/opt/elasticbeanstalk/hooks/appdeploy/post/490-supervisor_install.sh":
         mode: "000755"
