@@ -61,6 +61,10 @@ class AdminNotifyCommand extends Command
         $expiredNotifiers = [];
         $newNotifier = null;
 
+        if (empty($notifiers)) {
+            $newNotifier = new AdminNotifier();
+        }
+
         /** @var AdminNotifier $notifier */
         foreach ($notifiers as $notifier) {
             $interval = $notifier->getCreatedAt()->diff($now);

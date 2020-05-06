@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Worker\AdminNotifierRepository")
+ * @ORM\Table(name="worker__admin_notifier")
  */
 class AdminNotifier extends AbstractThing
 {
