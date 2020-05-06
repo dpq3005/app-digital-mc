@@ -165,6 +165,13 @@ class AdminNotifyCommand extends Command
         $doneNotifier->setEnabled(false);
         $manager->flush();
 
+        $disabledNotifiers = $this->registry->getRepository(AdminNotifier::class)->findByEnabled(false);
+        foreach ($disabledNotifiers as $notifier) {
+            $manager->remove($notifier);
+        }
+
+        $manager->flush();
+
         return 0;
     }
 }
