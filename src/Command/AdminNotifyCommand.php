@@ -51,6 +51,15 @@ class AdminNotifyCommand extends Command
 
         $manager = $this->registry->getManager();
 
+        $firstDmc = $this->registry->getRepository(MedicalChit::class)->findOneBy([
+            'adminNotified' => false,
+            'merchantAssignmentsInit' => true
+        ]);
+
+        if (empty($firstDmc)) {
+            return 0;
+        }
+
         // disable expired workers first
         $notifiers = $this->registry->getRepository(AdminNotifier::class)->findBy(['enabled' => true,
         ]);
@@ -118,6 +127,8 @@ class AdminNotifyCommand extends Command
             'merchantAssignmentsInit' => true
         ]);
 
+        $processedDmcUuids = [];
+
         /** @var MedicalChit $dmc */
         foreach ($dmcs as $dmc) {
             $html = '';
@@ -155,6 +166,7 @@ class AdminNotifyCommand extends Command
                 $dmc->setAdminNotified(true);
                 $manager->persist($dmc);
                 $manager->flush();
+                $processedDmcUuids[] = $dmc->getUuid();
             } catch (\Throwable $e) {
                 throw $e;
             }
@@ -163,13 +175,7 @@ class AdminNotifyCommand extends Command
         /** @var AdminNotifier $doneNotifier */
         $doneNotifier = $this->registry->getRepository(AdminNotifier::class)->find($newNotifier->getId());
         $doneNotifier->setEnabled(false);
-        $manager->flush();
-
-        $disabledNotifiers = $this->registry->getRepository(AdminNotifier::class)->findByEnabled(false);
-        foreach ($disabledNotifiers as $notifier) {
-            $manager->remove($notifier);
-        }
-
+        $doneNotifier->processedDmcUuids = $processedDmcUuids;
         $manager->flush();
 
         return 0;
