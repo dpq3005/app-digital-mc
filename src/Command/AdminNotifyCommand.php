@@ -160,6 +160,11 @@ class AdminNotifyCommand extends Command
             }
         }
 
+        /** @var AdminNotifier $doneNotifier */
+        $doneNotifier = $this->registry->getRepository(AdminNotifier::class)->find($newNotifier->getId());
+        $doneNotifier->setEnabled(false);
+        $manager->flush();
+
         return 0;
     }
 }
