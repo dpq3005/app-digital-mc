@@ -9,7 +9,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 const routes: Routes =[
   {
     path: '',
-    redirectTo: 'interim',
+    redirectTo: 'supervisor/dmc/list',
     pathMatch: 'full',
   }, {
     path: '',
