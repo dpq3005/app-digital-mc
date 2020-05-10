@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1589096023221,
+  "timestamp": 1589101029808,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -1570,7 +1570,19 @@
       "patterns": []
     }
   ],
-  "dataGroups": [],
+  "dataGroups": [
+    {
+      "name": "page-cache",
+      "patterns": [
+        "\\/.*"
+      ],
+      "strategy": "freshness",
+      "maxSize": 100,
+      "maxAge": 259200000,
+      "timeoutMs": 5000,
+      "version": 1
+    }
+  ],
   "hashTable": {
     "/6.c2a639023000a09adec2.js": "9caafb84e2ffcc071b284b967d12be12480d5f90",
     "/7.bee8b58206efe942d148.js": "0f02a637ccda0c89ca6933f155061e407ff050eb",
