@@ -34,7 +34,6 @@ export class SupervisorAuthGuard implements CanLoad, CanActivate {
       if (localStorage.getItem('credentials') === null) {
         this.router.navigate(['supervisor', 'login']);
       }
-
       try {
         this.authService.reAuthenticate().pipe(catchError((err, caught): ObservableInput<any> => {
           this.router.navigate(['supervisor', 'login']);
