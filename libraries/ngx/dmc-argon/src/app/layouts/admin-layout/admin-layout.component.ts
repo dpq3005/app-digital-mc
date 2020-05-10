@@ -11,12 +11,13 @@ export class AdminLayoutComponent implements OnInit {
   isUpdateMsgVisible = false;
 
   constructor(private swUpdate: SwUpdate) {
-    swUpdate.available.subscribe(event => {
-      this.isUpdateMsgVisible = true;
-    })
+
   }
 
   ngOnInit() {
+    this.swUpdate.available.subscribe(event => {
+      this.isUpdateMsgVisible = true;
+    })
   }
 
   closeUpdateMsg() {

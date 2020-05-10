@@ -31,6 +31,10 @@ export class SupervisorAuthGuard implements CanLoad, CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.authService.isAuthenticated()) {
+      if (localStorage.getItem('credentials') === null) {
+        this.router.navigate(['supervisor', 'login']);
+      }
+
       try {
         this.authService.reAuthenticate().pipe(catchError((err, caught): ObservableInput<any> => {
           this.router.navigate(['supervisor', 'login']);
@@ -38,6 +42,7 @@ export class SupervisorAuthGuard implements CanLoad, CanActivate {
         })).subscribe(jwt => {
           localStorage.setItem('token', jwt.token);
           localStorage.setItem('benefitProviderUuid', jwt.benefitProviderUuid);
+          document.location.reload();
           return true;
         });
       } catch (exception) {
