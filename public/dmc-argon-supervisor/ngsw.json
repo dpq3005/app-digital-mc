@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1589117893499,
+  "timestamp": 1589119696619,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -1578,12 +1578,12 @@
     {
       "name": "page-cache",
       "patterns": [
-        "\\/.*"
+        "\\/",
+        "\\/supervisor\\/login"
       ],
-      "strategy": "freshness",
+      "strategy": "performance",
       "maxSize": 100,
       "maxAge": 259200000,
-      "timeoutMs": 5000,
       "version": 1
     }
   ],
@@ -3130,10 +3130,10 @@
     "/assets/vendor/nucleo/fonts/nucleo-icons.woff2": "64baa3293e90631d5257d6056b089ba11510d0f4",
     "/bg-1-600.1e5de01d7220ec5b2b0a.jpg": "d7424a21d322350bd82034cdf71949615def8577",
     "/common.2737d602784fc99e0b81.js": "36b2f3b6d07af3d3d089db930ebee5dc4e67519f",
-    "/index.html": "bd92945ae769233451faf786704069cc8a8a3abe",
+    "/index.html": "6c5ba8b59c350e8ab6080ae75fc2803e4714e467",
     "/main.9786205c815fd1e59c55.js": "3c08fe75c34a4ede9a083327172159a9adead7df",
     "/main.d763f6b2fb1295f8c9c3.js": "24d6ef8a9da3b7da67754c9f37baba135d7c5a35",
-    "/manifest-supervisor.webmanifest": "ede3f1b0fdf2805f7d4d0602e0fbd64b7519e3f5",
+    "/manifest-supervisor.webmanifest": "5ecfbdca283547648de603f83f5c5ff88751c25f",
     "/ngsw-worker.js": "3798e7f10ebdd6f55cacf4010af1fe5085cf6c16",
     "/polyfills-es5.82f9c19bc706c1c8838c.js": "0a6d3d3d74f7e24be57589a8bb7a96aaa852717e",
     "/polyfills.1a4d556ea47bbf6658df.js": "4b17ca3ec7ab80738849315ad33484aaca9bf85c",
