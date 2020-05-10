@@ -15,9 +15,6 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
   isUpdateMsgVisible = false;
 
   constructor(private router: Router, private http: HttpService, private swUpdate: SwUpdate) {
-    swUpdate.available.subscribe(event => {
-      this.isUpdateMsgVisible = true;
-    })
   }
 
   ngOnInit() {
@@ -28,6 +25,10 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
     });
+
+    this.swUpdate.available.subscribe(event => {
+      this.isUpdateMsgVisible = true;
+    })
   }
 
   ngOnDestroy() {

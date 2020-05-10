@@ -91,6 +91,17 @@ export class AuthService {
     return true;
   }
 
+  public reAuthenticate(): Observable<any> {
+    console.log('Re-authenticating');
+    let c = localStorage.getItem('credentials');
+    if (c === null) {
+      return throwError(
+        {code: 401, message: 'Credentials not found. Please login!'});
+    }
+    let credentials = Credentials.restoreFromJson(c);
+    return this.authenticate(credentials);
+  }
+
   public authenticate(credentials: Credentials): Observable<any> {
     if (credentials instanceof SupervisorCredentials) {
       let keys = credentials.getKeys();

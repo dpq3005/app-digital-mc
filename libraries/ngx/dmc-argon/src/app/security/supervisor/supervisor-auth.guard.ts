@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
   CanLoad,
   Route,
@@ -8,8 +8,9 @@ import {
   UrlTree,
   CanActivate, Router
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import {Observable, ObservableInput} from 'rxjs';
 import {AuthService} from "../auth.service";
+import {catchError} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'any'
@@ -30,7 +31,18 @@ export class SupervisorAuthGuard implements CanLoad, CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['supervisor', 'login']);
+      try {
+        this.authService.reAuthenticate().pipe(catchError((err, caught): ObservableInput<any> => {
+          this.router.navigate(['supervisor', 'login']);
+          return new Observable();
+        })).subscribe(jwt => {
+          localStorage.setItem('token', jwt.token);
+          localStorage.setItem('benefitProviderUuid', jwt.benefitProviderUuid);
+          return true;
+        });
+      } catch (exception) {
+        this.router.navigate(['supervisor', 'login']);
+      }
     }
     return true;
   }

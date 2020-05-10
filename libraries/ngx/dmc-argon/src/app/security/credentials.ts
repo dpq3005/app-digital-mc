@@ -1,3 +1,5 @@
+import {Merchant} from "../model/merchant";
+
 export abstract class Credentials {
   protected type: CredentialsType;
   protected keys: string[];
@@ -9,7 +11,7 @@ export abstract class Credentials {
       case CredentialsType.SUPERVISOR:
         return Object.assign(new SupervisorCredentials(), c);
       case CredentialsType.MERCHANT:
-        break;
+        return Object.assign(new MerchantCredentials(), c);
     }
     return null;
   }
