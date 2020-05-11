@@ -59,7 +59,8 @@
               "assets": [
                 "src/favicon.ico",
                 "src/assets",
-                "src/manifest-supervisor.webmanifest"
+                "src/manifest-supervisor.webmanifest",
+                "src/.gitattributes"
               ],
               "index": {
                 "input": "src/index-supervisor.html",

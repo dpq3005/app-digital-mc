@@ -1,0 +1,6 @@
+*.txt -lf
+*.html -lf
+*.js -lf
+*.json -lf
+*.webmanifest -lf
+*.css -lf
