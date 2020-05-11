@@ -10,8 +10,10 @@
   <ngb-alert *ngIf="isA2HSButtonVisible" type="success" (close)="closeA2HSMessage()">
     <div class="text-center">
       <span class="text-sm mr-2"><strong>Install Web App </strong></span>
-      <span (click)="add2HS()" class="btn btn-sm btn-primary">Install</span>
-      <span (click)="closeA2HSMessage()" class="btn btn-sm btn-outline-primary">Maybe later!</span>
+      <div class="d-block">
+        <span (click)="add2HS()" class="btn btn-sm btn-primary">Install</span>
+        <span (click)="closeA2HSMessage()" class="btn btn-sm btn-outline-primary">Maybe later!</span>
+      </div>
     </div>
   </ngb-alert>
   <!-- Top navbar -->
