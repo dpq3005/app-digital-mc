@@ -1,9 +1,18 @@
 <!-- Sidenav -->
 <app-sidebar></app-sidebar>
 <div class="main-content">
-  <ngb-alert *ngIf="isUpdateMsgVisible" type="info" (close)="closeUpdateMsg()">
-    <span class="text-sm mr-2"><strong>Update available... </strong></span>
-    <span (click)="reload()" class="btn btn-sm btn-primary">Reload</span>
+  <ngb-alert *ngIf="isUpdateMsgVisible" type="warning" (close)="closeUpdateMsg()">
+    <div class="text-center">
+      <span class="text-sm mr-2"><strong>Update available... </strong></span>
+      <span (click)="reload()" class="btn btn-sm btn-primary">Reload</span>
+    </div>
+  </ngb-alert>
+  <ngb-alert *ngIf="isA2HSButtonVisible" type="success" (close)="closeA2HSMessage()">
+    <div class="text-center">
+      <span class="text-sm mr-2"><strong>Install Web App </strong></span>
+      <span (click)="add2HS()" class="btn btn-sm btn-primary">Install</span>
+      <span (click)="closeA2HSMessage()" class="btn btn-sm btn-outline-primary">Maybe later!</span>
+    </div>
   </ngb-alert>
   <!-- Top navbar -->
   <app-navbar></app-navbar>
