@@ -81,6 +81,7 @@ class SupervisorController extends AbstractController
             }
 
             if ($uuid) {
+                // edit an existing user
                 /** @var User $supervisor */
                 $supervisor = $userRepo->findOneByUuid($uuid);
             }
