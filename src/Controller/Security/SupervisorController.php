@@ -86,11 +86,6 @@ class SupervisorController extends AbstractController
             }
 
             if (empty($supervisor)) {
-                /** @var User $supervisor */
-                $supervisor = $userRepo->findOneByUsername($username);
-            }
-
-            if (empty($supervisor)) {
                 $supervisor = new User();
             }
 
