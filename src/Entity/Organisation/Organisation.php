@@ -21,7 +21,7 @@ class Organisation extends  AbstractThing
         $c = Criteria::create();
         $e = Criteria::expr();
         $c->setMaxResults(1);
-        $c->where($e->eq('username', strtoupper($username)));
+        $c->where($e->eq('username', strtolower($username)));
 
         return $this->users->matching($c)->first();
     }

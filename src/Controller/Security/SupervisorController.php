@@ -90,7 +90,7 @@ class SupervisorController extends AbstractController
             }
 
             $supervisor->setOrganisation($org);
-            $supervisor->setUsername(strtoupper($username));
+            $supervisor->setUsername(strtolower($username));
             if (!empty($pwd)) {
                 $supervisor->setPlainPassword($pwd);
             }
