@@ -9,8 +9,11 @@ final class JWTUser extends \Lexik\Bundle\JWTAuthenticationBundle\Security\User\
     const ROLE_SUPERVISOR = 'ROLE_SUPERVISOR';
     const ROLE_MERCHANT_USER = MerchantPinUser::ROLE_USER;
 
-    public function __construct($username, array $roles)
+    private $organisationUuid, $ip;
+    public function __construct($username, array $roles, $organisationUuid, $ip)
     {
+        $this->organisationUuid = $organisationUuid;
+        $this->ip = $ip;
         parent::__construct($username, $roles);
     }
 
@@ -18,7 +21,9 @@ final class JWTUser extends \Lexik\Bundle\JWTAuthenticationBundle\Security\User\
     {
         return new self(
             $username,
-            $payload['roles'] // Added by default
+            $payload['roles'], // Added by default
+            $payload['organisationUuid'],
+            $payload['ip']
         );
     }
 
@@ -31,5 +36,21 @@ final class JWTUser extends \Lexik\Bundle\JWTAuthenticationBundle\Security\User\
             }
         }
         return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrganisationUuid()
+    {
+        return $this->organisationUuid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIp()
+    {
+        return $this->ip;
     }
 }

@@ -5,6 +5,7 @@ namespace App\DataPersister;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Dto\DigitalMedicalChit;
 use App\Entity\Dmc\MedicalChit;
+use App\Entity\Organisation\Organisation;
 use App\Entity\Security\User;
 use App\Message\Dmc\CreateDmc;
 use App\Message\Dmc\DeleteDmc;
@@ -67,27 +68,43 @@ class DigitalMedicalChitDataPersister implements ContextAwareDataPersisterInterf
         }
 
         $user = $this->tokenStorage->getToken()->getUser();
+        if ($user instanceof JWTUser) {
+            if ($this->authChecker->isGranted(JWTUser::ROLE_SUPERVISOR)) {
+                $uname = $user->getUsername();
+                $orgUuid = $user->getOrganisationUuid();
+                /** @var Organisation $org */
+                $org = $this->registry->getRepository(Organisation::class)->findOneByUuid($orgUuid);
 
-        if ($this->authChecker->isGranted(JWTUser::ROLE_SUPERVISOR)) {
-            $uname = $user->getUsername();
-            /** @var User $supUser
-             */
-            $supUser = $this->registry->getRepository(User::class)->findOneByUsername($uname);
-            $bp = $supUser->getOrganisation()->getBenefitProvider();
-            $message->benefitProviderUuid = $bp->getUuid();
+                if ($org) {
+//                    /** @var User $supUser
+//                     */
+//                    $supUser = $org->findOneUserByUsername($uname);
+//                    $bp = $supUser->getOrganisation()->getBenefitProvider();
+                    $bp = $org->getBenefitProvider();
+                    $message->benefitProviderUuid = $bp->getUuid();
+                } else {
+                    throw new \Exception('Org not found for uuid '.$orgUuid);
+                }
+
+            } else {
+                throw new \Exception('user does not have Supervisor role');
+            }
+
+            $message->productUuid = $productUuid;
+            $message->productName = $product->name;
+            $message->benefitProductUuid = $data->getBenefitProduct();
+            $message->beneficiaryName = $data->getBeneficiaryName();
+            $message->beneficiaryNric = $data->getBeneficiaryNric();
+            $message->merchantUuids = $data->getMerchants();
+
+            $message->isEventSourcingEnabled = true;
+            $this->bus->dispatch($message);
+
+            $data->setUuid($message->uuid);
+        } else {
+            throw new \Exception('user is not an instance of JWTUser');
         }
 
-        $message->productUuid = $productUuid;
-        $message->productName = $product->name;
-        $message->benefitProductUuid = $data->getBenefitProduct();
-        $message->beneficiaryName = $data->getBeneficiaryName();
-        $message->beneficiaryNric = $data->getBeneficiaryNric();
-        $message->merchantUuids = $data->getMerchants();
-
-        $message->isEventSourcingEnabled = true;
-        $this->bus->dispatch($message);
-
-        $data->setUuid($message->uuid);
 
         return $data;
     }

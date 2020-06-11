@@ -8,6 +8,7 @@ use ApiPlatform\Core\Exception\ResourceClassNotSupportedException;
 use App\Dto\DigitalMedicalChit;
 use App\Entity\Dmc\MedicalChit;
 use App\Entity\Merchant\Merchant;
+use App\Entity\Organisation\Organisation;
 use App\Entity\Security\User;
 use App\Security\JWTUser;
 use App\Security\MerchantPinUser;
@@ -96,18 +97,21 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
         $this->applyFilters($qb, $request);
 
         $user = $this->tokenStorage->getToken()->getUser();
-        if ($this->authChecker->isGranted(JWTUser::ROLE_SUPERVISOR)) {
-            $uRepo = $this->registry->getRepository(User::class);
-            /** @var User $mUser */
-            $mUser = $uRepo->findOneByUsername($user->getUsername());
+        if ($user instanceof JWTUser) {
+            if ($this->authChecker->isGranted(JWTUser::ROLE_SUPERVISOR)) {
+                $orgUuid = $user->getOrganisationUuid();
+                /** @var Organisation $org */
+                $org = $this->registry->getRepository(Organisation::class)->findOneByUuid($orgUuid);
 
-            $benefitProviderUuid = $mUser->getOrganisation()->getBenefitProvider()->getUuid();
+                $benefitProviderUuid = 0;
+                if ($org) {
+                    $benefitProviderUuid = $org->getBenefitProvider()->getUuid();
+                }
 
-            $qb->andWhere(
-                $expr->like('bp.uuid', $expr->literal($benefitProviderUuid))
-            );
-        } elseif ($user instanceof JWTUser) {
-            if ($user->hasRole(MerchantPinUser::ROLE_USER)) {
+                $qb->andWhere(
+                    $expr->like('bp.uuid', $expr->literal($benefitProviderUuid))
+                );
+            } elseif ($user->hasRole(MerchantPinUser::ROLE_USER)) {
                 $merchantUuid = $user->getUsername();
                 $merchantRepo = $this->registry->getRepository(Merchant::class);
                 $merchant = $merchantRepo->findOneByUuid($merchantUuid);
