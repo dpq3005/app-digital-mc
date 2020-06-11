@@ -5,6 +5,7 @@ namespace App\EventListener;
 use App\Entity\Security\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class JWTCreatedListener
 {
@@ -27,18 +28,19 @@ class JWTCreatedListener
     public function onJWTCreated(JWTCreatedEvent $event)
     {
         $request = $this->requestStack->getCurrentRequest();
-
-        /** @var User $user */
         $user = $event->getUser();
         $payload = $event->getData();
-
         if (!empty($request)) {
             $payload['ip'] = $request->getClientIp();
         } else {
             $payload['ip'] = null;
         }
 
-        $payload['organisationUuid'] = $user->getOrganisation()->getUuid();
+        if ($user instanceof UserInterface) {
+            if ($user instanceof User) {
+                $payload['organisationUuid'] = $user->getOrganisation()->getUuid();
+            }
+        }
 
         $event->setData($payload);
 //        $header = $event->getHeader();
