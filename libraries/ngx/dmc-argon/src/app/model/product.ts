@@ -6,6 +6,8 @@ export class Product extends DmcItem {
   benefitProductId: string;
   description: string;
   shortDescription: string;
+  telemedEnabled: boolean;
+  telemedPrice: number;
 
   isLoading = false;
   http: HttpService = null;
@@ -23,6 +25,8 @@ export class Product extends DmcItem {
     })).subscribe(res => {
       this.shortDescription = res.shortDescription;
       this.description = res.description;
+      this.telemedEnabled = res.telemedEnabled;
+      this.telemedPrice = res.telemedPrice;
       this.isLoading = false;
       if (callback) {
         callback();

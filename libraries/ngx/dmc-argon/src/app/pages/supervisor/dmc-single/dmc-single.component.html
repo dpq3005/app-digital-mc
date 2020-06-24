@@ -93,6 +93,14 @@
                     </div>
                   </div>
                 </div>
+
+                <div *ngIf="dmc.getProduct() != null && dmc.getProduct().telemedEnabled" class="form-group text-center">
+                  <button (click)="dmc.telemedEnabled = !dmc.telemedEnabled" type="button"
+                          class="btn-limit-mc btn btn-outline-primary">
+                    <input name="telemedEnabled" type="checkbox" [(ngModel)]="dmc.telemedEnabled" /> Enable Tele-wellness
+                  </button>
+                </div>
+
                 <div *ngIf="!showMerchantSelect" class="form-group text-center">
                   <button (click)="showMerchantSelect = true" type="button"
                           class="btn-limit-mc btn btn-outline-primary">

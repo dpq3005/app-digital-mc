@@ -9,6 +9,7 @@ export class DigitalMedicalChit {
   isDeleted: boolean = false;
   beneficiaryNric: string = null;
   beneficiaryName: string = null;
+  telemedEnabled = false;
 
   isLoading = false;
 
@@ -39,7 +40,7 @@ export class DigitalMedicalChit {
   }
 
   getProduct(): Product {
-    if (this.product === null) {
+    if (this.product === null || this.product.id != this.productId) {
       for (let i = 0; i < this.productOptions.length; i++) {
         if (this.productOptions[i].id == this.productId) {
           this.product = this.productOptions[i];
@@ -84,7 +85,8 @@ export class DigitalMedicalChit {
         beneficiaryName: this.beneficiaryName,
         product: this.productId,
         benefitProduct: this.benefitProductId,
-        merchants: this.merchantIds
+        merchants: this.merchantIds,
+        telemedEnabled: this.telemedEnabled
       }).subscribe(res => {
         console.log('save done', res);
         this.isLoading = false;
@@ -237,6 +239,8 @@ export class DigitalMedicalChit {
           p.id = res[i].productUuid;
           p.name = res[i].name;
           p.benefitProductId = res[i].uuid;
+          p.telemedPrice = res[i].telemedPrice;
+          p.telemedEnabled = res[i].telemedEnabled;
           this.productOptions.push(p);
         }
 

@@ -39,6 +39,9 @@ export class DmcSingleComponent implements OnInit {
     if (this.dmc.productId !== null) {
       this.dmc.populateMerchantOptions();
     }
+    if (!this.dmc.getProduct().telemedEnabled) {
+      this.dmc.telemedEnabled = false;
+    }
   }
 
   createDmc() {
