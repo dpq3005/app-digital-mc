@@ -58,6 +58,17 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
                 $expr->like('dmc.beneficiaryNric', $expr->literal('%'.$beneficiaryNric.'%'))
             );
         }
+        if (($telemedEnabled = $request->query->get('telemedEnabled')) !== null && trim($telemedEnabled) !== '') {
+            if (boolval($telemedEnabled)) {
+                $qb->andWhere(
+                    $expr->eq('dmc.telemedEnabled', $expr->literal(true))
+                );
+            } else {
+                $qb->andWhere(
+                    $expr->neq('dmc.telemedEnabled', $expr->literal(true))
+                );
+            }
+        }
         if (($redeemed = $request->query->get('redeemed')) !== null && trim($redeemed) !== '') {
             $qb->andWhere(
                 $expr->eq('dmc.redeemed', $expr->literal(boolval($redeemed)))
