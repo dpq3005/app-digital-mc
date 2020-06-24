@@ -48,6 +48,13 @@ class DigitalMedicalChit
     protected $productName;
 
     /**
+     * @var boolean|null
+     * @ApiProperty()
+     * @Groups("write")
+     */
+    protected $telemedEnabled = false;
+
+    /**
      * @var string|null
      * @ApiProperty()
      * @Groups("write")
@@ -112,6 +119,12 @@ class DigitalMedicalChit
      * @ApiProperty()
      */
     protected $redeemed;
+
+
+    public function isTelemedEnabled(): bool
+    {
+        return !empty($this->telemedEnabled);
+    }
 
     /**
      * @return string|null
@@ -312,4 +325,21 @@ class DigitalMedicalChit
     {
         $this->redeemedAtMerchantUuid = $redeemedAtMerchantUuid;
     }
+
+    /**
+     * @return bool|null
+     */
+    public function getTelemedEnabled(): ?bool
+    {
+        return $this->telemedEnabled;
+    }
+
+    /**
+     * @param bool|null $telemedEnabled
+     */
+    public function setTelemedEnabled(?bool $telemedEnabled): void
+    {
+        $this->telemedEnabled = $telemedEnabled;
+    }
+
 }

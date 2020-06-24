@@ -151,10 +151,20 @@ class MedicalChit extends AbstractThing
      */
     private $adminNotified = false;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $telemedEnabled;
+
     public function __construct()
     {
         parent::__construct();
         $this->merchantAssignments = new ArrayCollection();
+    }
+
+    public function isTelemedEnabled(): bool
+    {
+        return !empty($this->telemedEnabled);
     }
 
     /**
@@ -400,6 +410,18 @@ class MedicalChit extends AbstractThing
     public function setAdminNotified(?bool $adminNotified): self
     {
         $this->adminNotified = $adminNotified;
+
+        return $this;
+    }
+
+    public function getTelemedEnabled(): ?bool
+    {
+        return $this->telemedEnabled;
+    }
+
+    public function setTelemedEnabled(?bool $telemedEnabled): self
+    {
+        $this->telemedEnabled = $telemedEnabled;
 
         return $this;
     }

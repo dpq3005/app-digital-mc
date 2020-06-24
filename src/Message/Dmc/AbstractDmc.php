@@ -13,6 +13,7 @@ abstract class AbstractDmc extends AbstractMessage
     public $productUuid;
     public $productName;
     public $merchantUuids;
+    public $telemedEnabled;
 
     public $expireIn;
     public $expireAt;

@@ -45,7 +45,8 @@ final class DigitalMedicalChitItemDataProvider implements ItemDataProviderInterf
             ->setExpired($medicalChit->getExpired())
             ->setRedeemed($medicalChit->getRedeemed())
             ->setProduct($medicalChit->getProductUuid())
-            ->setProductName($medicalChit->getProductName());
+            ->setProductName($medicalChit->getProductName())
+            ->setTelemedEnabled($medicalChit->isTelemedEnabled());
         return $dmc;
     }
 }
