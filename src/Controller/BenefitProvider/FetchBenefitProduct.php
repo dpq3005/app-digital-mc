@@ -46,6 +46,9 @@ class FetchBenefitProduct
         $bproduct->setUuid($benefitProduct->uuid);
         $bproduct->setShortDescription($benefitProduct->shortDescription);
         $bproduct->setDescription($benefitProduct->description);
+        $bproduct->setTelemedPrice($benefitProduct->telemedPrice);
+        $bproduct->setTelemedEnabled($benefitProduct->telemedEnabled);
+
         return $bproduct;
     }
 }

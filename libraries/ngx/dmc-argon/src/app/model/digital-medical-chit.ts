@@ -250,7 +250,6 @@ export class DigitalMedicalChit {
 
     }
   }
-
 }
 
 export class DigitalMedicalChitCollection {

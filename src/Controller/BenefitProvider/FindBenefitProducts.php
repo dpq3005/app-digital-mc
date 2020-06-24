@@ -60,6 +60,8 @@ class FindBenefitProducts
             $bProduct->setName($benefitProduct->name);
             $bProduct->setProductUuid($benefitProduct->productUuid);
             $bProduct->setUuid($benefitProduct->uuid);
+            $bProduct->setTelemedPrice($benefitProduct->telemedPrice);
+            $bProduct->setTelemedEnabled($benefitProduct->telemedEnabled);
 
             $bProducts[] = $bProduct;
         }

@@ -54,6 +54,18 @@ class BenefitProduct
     protected $shortDescription;
 
     /**
+     * @var float|null
+     * @ApiProperty()
+     */
+    protected $telemedPrice;
+
+    /**
+     * @var boolean|null
+     * @ApiProperty()
+     */
+    protected $telemedEnabled;
+
+    /**
      * @var string|null
      * @ApiProperty()
      */
@@ -137,5 +149,37 @@ class BenefitProduct
     public function setShortDescription(?string $shortDescription): void
     {
         $this->shortDescription = $shortDescription;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTelemedPrice(): ?float
+    {
+        return $this->telemedPrice;
+    }
+
+    /**
+     * @param float|null $telemedPrice
+     */
+    public function setTelemedPrice(?float $telemedPrice): void
+    {
+        $this->telemedPrice = $telemedPrice;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getTelemedEnabled(): ?bool
+    {
+        return $this->telemedEnabled;
+    }
+
+    /**
+     * @param bool|null $telemedEnabled
+     */
+    public function setTelemedEnabled(?bool $telemedEnabled): void
+    {
+        $this->telemedEnabled = $telemedEnabled;
     }
 }
