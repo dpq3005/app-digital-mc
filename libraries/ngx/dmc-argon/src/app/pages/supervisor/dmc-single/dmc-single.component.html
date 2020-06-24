@@ -86,12 +86,14 @@
                     >
                     </ng-select>
                   </div>
+
                   <div *ngIf="productId.invalid && (productId.dirty || productId.touched)"
                        class="alert alert-danger mt-1">
                     <div *ngIf="productId.errors.required">
                       Product is required.
                     </div>
                   </div>
+
                 </div>
 
                 <div *ngIf="dmc.getProduct() != null && dmc.getProduct().telemedEnabled" class="form-group text-center">

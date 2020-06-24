@@ -118,6 +118,7 @@ export class DigitalMedicalChit {
     this.productId = item.product;
     this.productName = item.productName;
     this.benefitProductId = item.benefitProduct;
+    this.telemedEnabled = item.telemedEnabled;
 
     if (this.product === null) {
       this.product = new Product();

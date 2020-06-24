@@ -45,8 +45,15 @@
                   class="fa fa-prescription-bottle-alt"></i>
                   {{merchant.name}}
                 </div>
+                <div *ngIf="dmc.telemedEnabled" class="text-info mr-2">
+                <strong>  <i
+                  class="fa fa-camera-retro"></i> TELE-MED available
+                </strong>
+                </div>
                 <!--                <span class="text-nowrap">8 Trivex, Singapore</span>-->
+
               </div>
+
               <div *ngIf="!dmc.isRedeemed">
                 <button (click)="confirmDelete(content, dmc);" class="btn btn-danger btn-sm">DELETE</button>
               </div>
