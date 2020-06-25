@@ -1,12 +1,18 @@
 {
+    "doctrine/sql-formatter": {
+        "version": "1.1.0"
+    },
     "egulias/email-validator": {
         "version": "2.1.17"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.4"
     },
     "monolog/monolog": {
         "version": "2.0.2"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -28,6 +34,9 @@
             "version": "4.4",
             "ref": "9648db3ecae5c8a6b1a5f74715d3907124348815"
         }
+    },
+    "symfony/browser-kit": {
+        "version": "v5.0.10"
     },
     "symfony/cache": {
         "version": "v5.0.7"
@@ -51,8 +60,14 @@
             "./config/bootstrap.php"
         ]
     },
+    "symfony/css-selector": {
+        "version": "v5.0.10"
+    },
     "symfony/dependency-injection": {
         "version": "v5.0.7"
+    },
+    "symfony/dom-crawler": {
+        "version": "v5.0.10"
     },
     "symfony/dotenv": {
         "version": "v5.0.7"
@@ -154,6 +169,21 @@
             "./config/packages/test/monolog.yaml"
         ]
     },
+    "symfony/phpunit-bridge": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "6d0e35f749d5f4bfe1f011762875275cd3f9874f"
+        },
+        "files": [
+            "./.env.test",
+            "./bin/phpunit",
+            "./phpunit.xml.dist",
+            "./tests/bootstrap.php"
+        ]
+    },
     "symfony/polyfill-intl-idn": {
         "version": "v1.15.0"
     },
@@ -162,6 +192,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.15.0"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.17.1"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -180,6 +213,9 @@
     "symfony/service-contracts": {
         "version": "v2.0.1"
     },
+    "symfony/test-pack": {
+        "version": "v1.0.6"
+    },
     "symfony/var-dumper": {
         "version": "v5.0.7"
     },
@@ -188,5 +224,8 @@
     },
     "symfony/yaml": {
         "version": "v5.0.7"
+    },
+    "webimpress/safe-writer": {
+        "version": "2.0.1"
     }
 }

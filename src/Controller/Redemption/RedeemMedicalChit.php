@@ -6,7 +6,9 @@ use App\Dto\BenefitProduct;
 use App\Dto\DigitalMedicalChit;
 use App\Dto\Redemption;
 use App\Entity\Dmc\MedicalChit;
+use App\Entity\Merchant\Merchant;
 use App\Message\Dmc\RedeemDmc;
+use App\Security\MerchantPinUser;
 use App\Service\HttpService;
 use App\Service\ThingService;
 use Doctrine\ORM\EntityManager;
@@ -70,6 +72,16 @@ class RedeemMedicalChit
         $medicalChit = $dmcRepo->findOneByUuid($id);
         if (empty($medicalChit)) {
             throw new NotFoundHttpException('Empty medicalChit');
+        }
+
+        $merchantRepo = $this->registry->getRepository(Merchant::class);
+        $merchant = $merchantRepo->findOneByUuid($user->getUsername());
+        if (empty($merchant)) {
+            throw new NotFoundHttpException('Empty Merchant');
+        }
+
+        if ($user instanceof MerchantPinUser) {
+            $medicalChit->has($user->getUsername());
         }
 
         $r = new Redemption();

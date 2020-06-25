@@ -9,6 +9,7 @@ use App\Entity\EventSourcing\MedicalChitEvent;
 use App\Service\ThingService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +52,14 @@ class MedicalChit extends AbstractThing
         $now = new \DateTime();
         $this->expired = $this->expireAt < $now;
         return $this->expired;
+    }
+
+    public function hasMerchantId($id)
+    {
+        $c = Criteria::create();
+        $e = Criteria::expr();
+        $c->andWhere($e->eq('merchant', $id));
+        return $this->merchantAssignments->matching($c)->count() > 0;
     }
 
     /**
