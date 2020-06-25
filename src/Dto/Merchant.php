@@ -22,7 +22,7 @@ use App\Controller\BenefitProvider\FindOneBeneficiaryByNric;
  *     },
  *     collectionOperations={
  *     "get",
- *     "find_merchants_by_product_uuid"
+ *     "find_merchants_by_product_uuid"={"route_name"="find_merchants_by_product_uuid", "method"="GET"}
  *     }
  * )
  * @ApiFilter(SimpleDtoFilter::class, properties={"organisationName": "exact"})

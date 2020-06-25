@@ -69,8 +69,10 @@ class RedeemDmcHandler extends DmcHandler implements MessageHandlerInterface
         $bp = $medicalChit->getBenefitProvider();
 
         $merchantRepo = $this->registry->getRepository(Merchant::class);
+
         /** @var Merchant $redeemedAtMerchant */
         $redeemedAtMerchant = $merchantRepo->findOneByUuid($medicalChit->getRedeemedAtMerchantUuid());
+
         if (empty($redeemedAtMerchant)) {
             throw new NotFoundHttpException('Merchant not found');
         } else {

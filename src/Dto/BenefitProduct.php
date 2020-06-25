@@ -22,7 +22,7 @@ use App\Controller\BenefitProvider\FindBenefitProducts;
  *     }},
  *     collectionOperations={
  *     "get",
- *     "find_benefit_products"
+ *     "find_benefit_products"={"route_name"="find_benefit_products", "method"="GET"}
  *     }
  * )
  * @ApiFilter(SimpleDtoFilter::class, properties={"organisationUuid": "exact"})

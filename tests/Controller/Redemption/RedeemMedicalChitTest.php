@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RedeemMedicalChitTest extends WebTestCase
 {
-    public function testSomething()
+    public function testRedeem()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/digital-medical-chits/{id}/redeem');
 
         $this->assertResponseIsSuccessful();
 //        $this->assertSelectorTextContains('h1', 'Hello World');
