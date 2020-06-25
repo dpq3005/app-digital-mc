@@ -171,6 +171,26 @@ class MedicalChit extends AbstractThing
         $this->merchantAssignments = new ArrayCollection();
     }
 
+    public static function newInstance($beneficiaryNric, $beneficiaryName, $productUuid,$productName, $benefitProductUuid, $merchantUuids, $telemedEnabled)
+    {
+        $dmc = new MedicalChit();
+        $dmc->initUuid('MC');
+
+        $dmc
+            ->setBeneficiaryNric($beneficiaryNric)
+            ->setBeneficiaryName($beneficiaryName)
+            ->setProductUuid($productUuid)
+            ->setProductName($productName)
+            ->setBenefitProductUuid($benefitProductUuid)
+            ->setMerchantUuids($merchantUuids)
+            ->setTelemedEnabled($telemedEnabled)
+
+        ;
+
+//        {"beneficiaryNric":"024290123","beneficiaryName":"Binh 01  Le 001","product":"15e6f99ba31269","benefitProduct":"15e6f99b961b97","merchants":["15e6f99ba28c82"],"telemedEnabled":false}
+        return $dmc;
+    }
+
     public function isTelemedEnabled(): bool
     {
         return !empty($this->telemedEnabled);

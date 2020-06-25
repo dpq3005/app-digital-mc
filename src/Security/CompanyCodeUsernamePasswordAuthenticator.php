@@ -62,6 +62,7 @@ class CompanyCodeUsernamePasswordAuthenticator extends AbstractGuardAuthenticato
                 &&
                 array_key_exists('password', $data) && !empty($data['password']);
         }
+
         return
             !empty($request->request->get('org-code'))
             && !empty($request->request->get('username'))

@@ -9,11 +9,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class RedemptionController extends AbstractController
 {
     /**
-     * @Route("/dummy/redemption", name="dummy_redemption")
+     * @Route("/dummy/redemption/digital-medical-chits/{dmcUuid}/redeem", name="dummy_redemption")
      */
-    public function index()
+    public function dummyRedemption($dmcUuid)
     {
-        $data = ['redemptionUuid' => uniqid('TEST_'), 'dmc' => []];
+        $data = ['redemptionUuid' => uniqid('TEST_'), 'dmc' => ['uuid' => $dmcUuid]];
         return new JsonResponse($data);
     }
 }

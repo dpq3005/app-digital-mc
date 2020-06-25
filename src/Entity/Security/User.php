@@ -171,9 +171,9 @@ class User implements UserInterface
     /**
      * @param string|null $plainPassword
      */
-    public function setPlainPassword(?string $plainPassword): void
+    public function setPlainPassword(?string $plainPassword): self
     {
-        $this->plainPassword = $plainPassword;
+        $this->plainPassword = $plainPassword; return $this;
     }
 
     public function getUuid(): ?string

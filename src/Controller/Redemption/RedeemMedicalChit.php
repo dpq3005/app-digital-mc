@@ -65,6 +65,11 @@ class RedeemMedicalChit
 //        $dmc->setUuid('UUID');
 //        $dmc->setBeneficiaryName($medicalChit->getBeneficiaryName());
 
+        if ($user instanceof MerchantPinUser) {
+            // to check here;
+//            $medicalChit->hasMerchantId($user->getUsername());
+        }
+
         $this->bus->dispatch($redeemDmc);
 
         $dmcRepo = $this->registry->getRepository(MedicalChit::class);
@@ -80,9 +85,6 @@ class RedeemMedicalChit
             throw new NotFoundHttpException('Empty Merchant');
         }
 
-        if ($user instanceof MerchantPinUser) {
-            $medicalChit->has($user->getUsername());
-        }
 
         $r = new Redemption();
         $r->setUuid('UUID_'.$dmc->getBeneficiaryName().'  '.$redeemDmc->merchantUuid.' ::: '.($medicalChit->getRedeemed() ? 'true' : 'false'));

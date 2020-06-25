@@ -162,9 +162,9 @@ class DigitalMedicalChit
     /**
      * @param array|null $merchants
      */
-    public function setMerchants(?array $merchants): void
+    public function setMerchants(?array $merchants): self
     {
-        $this->merchants = $merchants;
+        $this->merchants = $merchants; return $this;
     }
 
     /**

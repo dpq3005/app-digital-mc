@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Dmc\MedicalChit;
 use App\Message\Dmc\AssociateMerchant;
+use App\Service\Merchant\MerchantAssignor;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,13 +18,12 @@ class MerchantAssignmentInitCommand extends Command
 {
     protected static $defaultName = 'merchant:assignment:init';
 
-    private $bus, $registry;
+    private $merchantAssignor;
 
-    public function __construct(ManagerRegistry $registry, MessageBusInterface $bus, string $name = null)
+    public function __construct(MerchantAssignor $merchantAssignor, string $name = null)
     {
         parent::__construct($name);
-        $this->registry = $registry;
-        $this->bus = $bus;
+        $this->merchantAssignor = $merchantAssignor;
     }
 
     protected function configure()
@@ -48,21 +48,7 @@ class MerchantAssignmentInitCommand extends Command
             // ...
         }
 
-        $dmcs = $this->registry->getRepository(MedicalChit::class)->findBy(['merchantAssignmentsInit' => false]);
-        $manager = $this->registry->getManager();
-
-        /** @var MedicalChit $medicalChit */
-        foreach ($dmcs as $medicalChit) {
-            $associateMerchant = new AssociateMerchant();
-            $associateMerchant->dmcUuid = $medicalChit->getUuid();
-            try {
-                $this->bus->dispatch($associateMerchant);
-                $medicalChit->setMerchantAssignmentsInit(true);
-                $manager->flush();
-            } catch (\Throwable $exception) {
-                throw $exception;
-            }
-        }
+        $this->merchantAssignor->initialiseMerchantAssignment();
 
         return 0;
     }
