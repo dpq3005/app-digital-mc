@@ -106,7 +106,6 @@ class DigitalMedicalChitDataPersister implements ContextAwareDataPersisterInterf
             throw new \Exception('user is not an instance of JWTUser');
         }
 
-
         return $data;
     }
 
