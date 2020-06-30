@@ -8,6 +8,7 @@ final class JWTUser extends \Lexik\Bundle\JWTAuthenticationBundle\Security\User\
 {
     const ROLE_SUPERVISOR = 'ROLE_SUPERVISOR';
     const ROLE_MERCHANT_USER = MerchantPinUser::ROLE_USER;
+    const ROLE_NRIC_USER = ApiKeyNricUser::ROLE_USER;
 
     private $organisationUuid, $ip;
     public function __construct($username, array $roles, $organisationUuid, $ip)

@@ -3,6 +3,7 @@
 namespace App\EventListener;
 
 use App\Entity\Security\User;
+use App\Security\ApiKeyNricUser;
 use App\Security\MerchantPinUser;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -40,7 +41,7 @@ class JWTCreatedListener
         if ($user instanceof UserInterface) {
             if ($user instanceof User) {
                 $payload['organisationUuid'] = $user->getOrganisation()->getUuid();
-            } elseif ($user instanceof MerchantPinUser) {
+            } elseif ($user instanceof MerchantPinUser or $user instanceof ApiKeyNricUser) {
                 $payload['organisationUuid'] = $user->organisationUuid;
             }
         }

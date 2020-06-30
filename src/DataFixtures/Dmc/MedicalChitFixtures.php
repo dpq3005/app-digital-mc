@@ -38,6 +38,8 @@ class MedicalChitFixtures extends Fixture implements DependentFixtureInterface
         $telemedEnabled = false;
 
         $dmc = $b2bDmc = CreateDmc::newInstance($beneficiaryNric, $beneficiaryName, $productUuid, $benefitProductUuid, $merchantUuids, $telemedEnabled);
+        $dmc->uuid = 'MC_5ef4af6525a2c';
+
         $dmc->benefitProviderUuid = $this->getReference(BenefitProviderFixtures::BP_B2B_EMPLOYER)->getUuid();
 
         $this->bus->dispatch($dmc);

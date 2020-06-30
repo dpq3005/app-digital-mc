@@ -2,11 +2,12 @@
 
 namespace App\Tests\Controller\Redemption;
 
+use App\Tests\Utils\Auth;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RedeemMedicalChitTest extends WebTestCase
 {
-    public function testRedeem()
+    public function testRedeemNonExistentMedicalChitAsMerchant()
     {
         $client = static::createClient();
 //        $crawler = $client->request('POST', '/supervisor-token', array(
@@ -15,44 +16,88 @@ class RedeemMedicalChitTest extends WebTestCase
 //            'password' => '123456'
 //        ), [], [], 'org-code=B2b-employer&username=b2bemployersup&password=123456');
 
-        $crawler = $client->request('POST', '/merchant-pin-token', array(), [], ['HTTP_ACCEPT' => 'application/json', 'CONTENT_TYPE' => 'application/json'], '{"uuid":"15e6f99ba28c82","pin":"123456"}');
-
-        $this->assertResponseIsSuccessful();
-
-        $jsonContent = $client->getResponse()->getContent();
-
-        if (!empty($jsonContent)) {
-            $res = json_decode($jsonContent);
-            $token = $res->token;
-        }
-
+        $token = Auth::getMerchantPinUserToken($client, 'demo-clinic', false);
         $headers = ['HTTP_AUTHORIZATION' => 'Bearer '.$token, 'HTTP_ACCEPT' => 'application/json'];
-        $crawler = $client->request('GET', '/digital-medical-chits', [], [], $headers);
-        $this->assertResponseIsSuccessful();
 
-        $jsonContent = $client->getResponse()->getContent();
-        if (!empty($jsonContent)) {
-            $dmcRes = json_decode($jsonContent);
-            $dmc = $dmcRes[0];
-        }
+        $requestPayload = json_encode(['uuid' => 'MC_NON_EXIST', 'redeemedAtMerchantUuid' => '15e6f99ba28c82', 'pin' => '123456']);
 
-        $requestPayload = json_encode(['uuid' => $dmc->uuid, 'redeemedAtMerchantUuid' => '15e6f99ba28c82', 'pin' => '123456']);
-        $crawler = $client->request('POST', "/digital-medical-chits/{$dmc->uuid}/redeem", [], [], array_merge(['CONTENT_TYPE' => 'application/json',
+        $crawler = $client->request('POST', "/digital-medical-chits/MC_NON_EXIST/redeem", [], [], array_merge(['CONTENT_TYPE' => 'application/json',
         ], $headers), $requestPayload);
-        $this->assertResponseIsSuccessful();
-        echo $client->getResponse()->getContent();
+        $isNotFound = $client->getResponse()->isNotFound();
+        $this->assertEquals(true, $isNotFound);
+    }
 
-        $crawler = $client->request('GET', "/digital-medical-chits/{$dmc->uuid}", [], [], $headers);
+    public function testRedeemAsMerchantDoctor()
+    {
+        $client = static::createClient();
+//        $crawler = $client->request('POST', '/supervisor-token', array(
+//            'org-code' => 'B2b-employer',
+//            'username' => 'b2bemployersup',
+//            'password' => '123456'
+//        ), [], [], 'org-code=B2b-employer&username=b2bemployersup&password=123456');
+
+        $token = Auth::getMerchantPinUserToken($client, 'demo-clinic', false);
+        $headers = ['HTTP_AUTHORIZATION' => 'Bearer '.$token, 'HTTP_ACCEPT' => 'application/json'];
+
+        $requestPayload = json_encode([
+            'uuid' => 'MC_5ef4af6525a2c',
+            'redeemedAtMerchantUuid' => '15e6f99ba28c82',
+            'pin' => '123456',
+            'redeemedByDoctorUuid' => 'DOC_123'
+        ]);
+
+        $crawler = $client->request('POST', "/digital-medical-chits/MC_5ef4af6525a2c/redeem", [], [], array_merge(['CONTENT_TYPE' => 'application/json',
+        ], $headers), $requestPayload);
+
+        $this->assertResponseIsSuccessful();
+
+//        echo $client->getResponse()->getContent();
+
+        $crawler = $client->request('GET', "/digital-medical-chits/MC_5ef4af6525a2c", [], [], $headers);
 
         $jsonContent = $client->getResponse()->getContent();
         $dmc = json_decode($jsonContent);
 
         $this->assertEquals(true, $dmc->redeemed);
 
-        echo $jsonContent;
+//        echo $jsonContent;
 
 //        {"uuid":"MC_5ef4a02e3d97c","redeemedAtMerchantUuid":"15e6f99ba28c82","pin":"123456"}
 
+//        $this->assertSelectorTextContains('h1', 'Hello World');
+    }
+
+    public function testRedeemAsMerchant()
+    {
+        $client = static::createClient();
+//        $crawler = $client->request('POST', '/supervisor-token', array(
+//            'org-code' => 'B2b-employer',
+//            'username' => 'b2bemployersup',
+//            'password' => '123456'
+//        ), [], [], 'org-code=B2b-employer&username=b2bemployersup&password=123456');
+
+        $token = Auth::getMerchantPinUserToken($client, 'demo-clinic', false);
+        $headers = ['HTTP_AUTHORIZATION' => 'Bearer '.$token, 'HTTP_ACCEPT' => 'application/json'];
+
+        $requestPayload = json_encode(['uuid' => 'MC_5ef4af6525a2c', 'redeemedAtMerchantUuid' => '15e6f99ba28c82', 'pin' => '123456']);
+
+        $crawler = $client->request('POST', "/digital-medical-chits/MC_5ef4af6525a2c/redeem", [], [], array_merge(['CONTENT_TYPE' => 'application/json',
+        ], $headers), $requestPayload);
+
+        $this->assertResponseIsSuccessful();
+
+//        echo $client->getResponse()->getContent();
+
+        $crawler = $client->request('GET', "/digital-medical-chits/MC_5ef4af6525a2c", [], [], $headers);
+
+        $jsonContent = $client->getResponse()->getContent();
+        $dmc = json_decode($jsonContent);
+
+        $this->assertEquals(true, $dmc->redeemed);
+
+//        echo $jsonContent;
+
+//        {"uuid":"MC_5ef4a02e3d97c","redeemedAtMerchantUuid":"15e6f99ba28c82","pin":"123456"}
 
 //        $this->assertSelectorTextContains('h1', 'Hello World');
     }

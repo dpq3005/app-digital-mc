@@ -2,7 +2,8 @@ security:
     role_hierarchy:
         ROLE_MERCHANT_USER: ROLE_USER
         ROLE_SUPERVISOR: ROLE_USER
-        ROLE_ORG_ADMIN:   [ROLE_SUPERVISOR, ROLE_MERCHANT_USER]
+        ROLE_NRIC_USER: ROLE_USER
+        ROLE_ORG_ADMIN:   [ROLE_SUPERVISOR, ROLE_MERCHANT_USER, ROLE_NRIC_USER]
         ROLE_ADMIN:       ROLE_ORG_ADMIN
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
@@ -27,6 +28,14 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        api_key_nric_login:
+            pattern:  ^/api-key/nric-token
+            stateless: true
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\ApiKeyNricAuthenticator
 
         supervisor_login:
             pattern:  ^/supervisor-token

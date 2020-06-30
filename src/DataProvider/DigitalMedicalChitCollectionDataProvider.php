@@ -10,6 +10,7 @@ use App\Entity\Dmc\MedicalChit;
 use App\Entity\Merchant\Merchant;
 use App\Entity\Organisation\Organisation;
 use App\Entity\Security\User;
+use App\Security\ApiKeyNricUser;
 use App\Security\JWTUser;
 use App\Security\MerchantPinUser;
 use Doctrine\ORM\EntityManagerInterface;
@@ -134,11 +135,13 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
                 } else {
                     throw new UnauthorizedHttpException('Merchant not authenticated', 'Unauthorised empty Merchant!!! with UUID '.$merchantUuid);
                 }
+            } elseif ($user->hasRole(ApiKeyNricUser::ROLE_USER)) {
+                $qb->andWhere($expr->like('dmc.beneficiaryNric', $expr->literal($user->getUsername())));
             } else {
                 throw new UnauthorizedHttpException('Merchant not authenticated', 'Unauthorised Merchant!!!');
             }
         } else {
-            throw new UnauthorizedHttpException('Merchant not authenticated', 'Unauthorised Merchant!!!');
+            throw new UnauthorizedHttpException('Not a JWTUser', 'Unauthorised JWT!!!');
         }
 
         $pageSize = $request->query->getInt('pageSize', 100);

@@ -165,6 +165,11 @@ class MedicalChit extends AbstractThing
      */
     private $telemedEnabled;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $redeemedByDoctorUuid;
+
     public function __construct()
     {
         parent::__construct();
@@ -451,6 +456,18 @@ class MedicalChit extends AbstractThing
     public function setTelemedEnabled(?bool $telemedEnabled): self
     {
         $this->telemedEnabled = $telemedEnabled;
+
+        return $this;
+    }
+
+    public function getRedeemedByDoctorUuid(): ?string
+    {
+        return $this->redeemedByDoctorUuid;
+    }
+
+    public function setRedeemedByDoctorUuid(?string $redeemedByDoctorUuid): self
+    {
+        $this->redeemedByDoctorUuid = $redeemedByDoctorUuid;
 
         return $this;
     }

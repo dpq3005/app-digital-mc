@@ -8,3 +8,7 @@ supervisor_token:
 merchant_pin_token:
   path: /merchant-pin-token
   methods: ['POST']
+
+api_key_nric_token:
+  path: /api-key/nric-token
+  methods: ['POST']

@@ -9,4 +9,5 @@ class RedeemDmc extends AbstractMessage
     public $uuid;
     public $merchantUuid;
     public $redeemedAt;
+    public $doctorUuid;
 }

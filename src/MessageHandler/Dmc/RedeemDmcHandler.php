@@ -40,6 +40,7 @@ class RedeemDmcHandler extends DmcHandler implements MessageHandlerInterface
         $medicalChit = $this->registry->getRepository(MedicalChit::class)->findOneByUuid($message->uuid);
 
         $medicalChit->setRedeemedAtMerchantUuid($message->merchantUuid);
+        $medicalChit->setRedeemedByDoctorUuid($message->doctorUuid);
 
         if (empty($message->redeemedAt)) {
             $message->redeemedAt = json_decode(json_encode(new \DateTime()));
