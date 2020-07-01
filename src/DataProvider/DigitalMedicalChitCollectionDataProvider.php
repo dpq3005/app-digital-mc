@@ -168,6 +168,8 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
                 $dmc->setMerchants($merchants);
             }
 
+            $benefitProviderOrg = $medicalChit->getBenefitProvider()->getOrganisation();
+
 
             $dmc->setBeneficiaryPhone($medicalChit->getBeneficiaryPhone());
             $dmc->setMedDeliveryAddress($medicalChit->getMedDeliveryAddress());
@@ -177,6 +179,8 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
             $dmc->setExpired($medicalChit->getExpired());
             $dmc->setRedeemed($medicalChit->getRedeemed());
             $dmc->setTelemedEnabled($medicalChit->isTelemedEnabled());
+            $dmc->setBenefitProviderName($benefitProviderOrg->getName());
+            $dmc->setBenefitProviderOrganisationUuid($benefitProviderOrg->getUuid());
 
             yield $dmc;
         }

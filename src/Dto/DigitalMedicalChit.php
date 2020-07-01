@@ -48,6 +48,18 @@ class DigitalMedicalChit
     protected $productName;
 
     /**
+     * @var string|null
+     * @ApiProperty()
+     */
+    protected $benefitProviderName;
+
+    /**
+     * @var string|null
+     * @ApiProperty()
+     */
+    protected $benefitProviderOrganisationUuid;
+
+    /**
      * @var boolean|null
      * @ApiProperty()
      * @Groups("write")
@@ -388,5 +400,35 @@ class DigitalMedicalChit
         $this->beneficiaryPhone = $beneficiaryPhone;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getBenefitProviderName(): ?string
+    {
+        return $this->benefitProviderName;
+    }
 
+    /**
+     * @param string|null $benefitProviderName
+     */
+    public function setBenefitProviderName(?string $benefitProviderName): void
+    {
+        $this->benefitProviderName = $benefitProviderName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBenefitProviderOrganisationUuid(): ?string
+    {
+        return $this->benefitProviderOrganisationUuid;
+    }
+
+    /**
+     * @param string|null $benefitProviderOrganisationUuid
+     */
+    public function setBenefitProviderOrganisationUuid(?string $benefitProviderOrganisationUuid): void
+    {
+        $this->benefitProviderOrganisationUuid = $benefitProviderOrganisationUuid;
+    }
 }
