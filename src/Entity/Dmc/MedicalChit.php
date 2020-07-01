@@ -170,6 +170,16 @@ class MedicalChit extends AbstractThing
      */
     private $redeemedByDoctorUuid;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $medDeliveryAddress;
+
     public function __construct()
     {
         parent::__construct();
@@ -468,6 +478,30 @@ class MedicalChit extends AbstractThing
     public function setRedeemedByDoctorUuid(?string $redeemedByDoctorUuid): self
     {
         $this->redeemedByDoctorUuid = $redeemedByDoctorUuid;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getMedDeliveryAddress(): ?string
+    {
+        return $this->medDeliveryAddress;
+    }
+
+    public function setMedDeliveryAddress(?string $medDeliveryAddress): self
+    {
+        $this->medDeliveryAddress = $medDeliveryAddress;
 
         return $this;
     }

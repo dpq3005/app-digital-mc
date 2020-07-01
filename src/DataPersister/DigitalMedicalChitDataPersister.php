@@ -85,7 +85,6 @@ class DigitalMedicalChitDataPersister implements ContextAwareDataPersisterInterf
                 } else {
                     throw new \Exception('Org not found for uuid '.$orgUuid);
                 }
-
             } else {
                 throw new \Exception('user does not have Supervisor role');
             }
@@ -97,6 +96,8 @@ class DigitalMedicalChitDataPersister implements ContextAwareDataPersisterInterf
             $message->beneficiaryNric = $data->getBeneficiaryNric();
             $message->merchantUuids = $data->getMerchants();
             $message->telemedEnabled = $data->isTelemedEnabled();
+            $message->phone = $data->getPhone();
+            $message->medDeliveryAddress = $data->getMedDeliveryAddress();
 
             $message->isEventSourcingEnabled = true;
             $this->bus->dispatch($message);

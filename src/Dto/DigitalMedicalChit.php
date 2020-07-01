@@ -84,6 +84,19 @@ class DigitalMedicalChit
     /**
      * @var string|null
      * @ApiProperty()
+     */
+    protected $phone;
+
+
+    /**
+     * @var string|null
+     * @ApiProperty()
+     */
+    protected $medDeliveryAddress;
+
+    /**
+     * @var string|null
+     * @ApiProperty()
      * @Groups("write")
      */
     protected $benefitProduct;
@@ -342,4 +355,35 @@ class DigitalMedicalChit
         $this->telemedEnabled = $telemedEnabled;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string|null $phone
+     */
+    public function setPhone(?string $phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMedDeliveryAddress(): ?string
+    {
+        return $this->medDeliveryAddress;
+    }
+
+    /**
+     * @param string|null $medDeliveryAddress
+     */
+    public function setMedDeliveryAddress(?string $medDeliveryAddress): void
+    {
+        $this->medDeliveryAddress = $medDeliveryAddress;
+    }
 }
