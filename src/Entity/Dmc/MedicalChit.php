@@ -173,12 +173,12 @@ class MedicalChit extends AbstractThing
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $phone;
+    private $medDeliveryAddress;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $medDeliveryAddress;
+    private $beneficiaryPhone;
 
     public function __construct()
     {
@@ -482,18 +482,6 @@ class MedicalChit extends AbstractThing
         return $this;
     }
 
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?string $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
     public function getMedDeliveryAddress(): ?string
     {
         return $this->medDeliveryAddress;
@@ -502,6 +490,18 @@ class MedicalChit extends AbstractThing
     public function setMedDeliveryAddress(?string $medDeliveryAddress): self
     {
         $this->medDeliveryAddress = $medDeliveryAddress;
+
+        return $this;
+    }
+
+    public function getBeneficiaryPhone(): ?string
+    {
+        return $this->beneficiaryPhone;
+    }
+
+    public function setBeneficiaryPhone(?string $beneficiaryPhone): self
+    {
+        $this->beneficiaryPhone = $beneficiaryPhone;
 
         return $this;
     }

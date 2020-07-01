@@ -96,7 +96,7 @@ class DigitalMedicalChitDataPersister implements ContextAwareDataPersisterInterf
             $message->beneficiaryNric = $data->getBeneficiaryNric();
             $message->merchantUuids = $data->getMerchants();
             $message->telemedEnabled = $data->isTelemedEnabled();
-            $message->phone = $data->getPhone();
+            $message->beneficiaryPhone = $data->getBeneficiaryPhone();
             $message->medDeliveryAddress = $data->getMedDeliveryAddress();
 
             $message->isEventSourcingEnabled = true;

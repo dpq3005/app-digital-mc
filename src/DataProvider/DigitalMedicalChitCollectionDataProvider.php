@@ -168,6 +168,9 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
                 $dmc->setMerchants($merchants);
             }
 
+
+            $dmc->setBeneficiaryPhone($medicalChit->getBeneficiaryPhone());
+            $dmc->setMedDeliveryAddress($medicalChit->getMedDeliveryAddress());
             $dmc->setProductName($medicalChit->getProductName());
             $dmc->setCode($medicalChit->getCode());
             $dmc->setCreatedAt($medicalChit->getCreatedAt());
