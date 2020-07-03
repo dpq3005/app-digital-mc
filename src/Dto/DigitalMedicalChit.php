@@ -51,6 +51,12 @@ class DigitalMedicalChit
      * @var string|null
      * @ApiProperty()
      */
+    protected $productUuid;
+
+    /**
+     * @var string|null
+     * @ApiProperty()
+     */
     protected $benefitProviderName;
 
     /**
@@ -430,5 +436,22 @@ class DigitalMedicalChit
     public function setBenefitProviderOrganisationUuid(?string $benefitProviderOrganisationUuid): void
     {
         $this->benefitProviderOrganisationUuid = $benefitProviderOrganisationUuid;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProductUuid(): ?string
+    {
+        return $this->productUuid;
+    }
+
+    /**
+     * @param string|null $productUuid
+     */
+    public function setProductUuid(?string $productUuid): self
+    {
+        $this->productUuid = $productUuid;
+        return $this;
     }
 }
