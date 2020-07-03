@@ -132,6 +132,7 @@ class RedeemDmcHandler extends DmcHandler implements MessageHandlerInterface
         $dmcApiDto['beneficiaryName'] = $medicalChit->getBeneficiaryName();
         $dmcApiDto['redeemedAtMerchantUuid'] = $medicalChit->getRedeemedAtMerchantUuid();
         $dmcApiDto['telemedEnabled'] = $medicalChit->isTelemedEnabled();
+        $dmcApiDto['telemedRedeemed'] = $medicalChit->isTelemedRedeemed();
 
         $resourcePath = sprintf('digital-medical-chits/%s/redeem', $medicalChit->getUuid());
 

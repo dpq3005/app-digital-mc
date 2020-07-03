@@ -180,6 +180,11 @@ class MedicalChit extends AbstractThing
      */
     private $beneficiaryPhone;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $telemedRedeemed = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -204,6 +209,16 @@ class MedicalChit extends AbstractThing
 
 //        {"beneficiaryNric":"024290123","beneficiaryName":"Binh 01  Le 001","product":"15e6f99ba31269","benefitProduct":"15e6f99b961b97","merchants":["15e6f99ba28c82"],"telemedEnabled":false}
         return $dmc;
+    }
+
+    public function isRedeemed(): bool
+    {
+        return !empty($this->redeemed);
+    }
+
+    public function isTelemedRedeemed(): bool
+    {
+        return !empty($this->redeemed);
     }
 
     public function isTelemedEnabled(): bool
@@ -502,6 +517,18 @@ class MedicalChit extends AbstractThing
     public function setBeneficiaryPhone(?string $beneficiaryPhone): self
     {
         $this->beneficiaryPhone = $beneficiaryPhone;
+
+        return $this;
+    }
+
+    public function getTelemedRedeemed(): ?bool
+    {
+        return $this->telemedRedeemed;
+    }
+
+    public function setTelemedRedeemed(bool $telemedRedeemed): self
+    {
+        $this->telemedRedeemed = $telemedRedeemed;
 
         return $this;
     }

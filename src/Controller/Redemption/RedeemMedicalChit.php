@@ -60,6 +60,9 @@ class RedeemMedicalChit
 
         $redeemDmc->uuid = $id;
         $redeemDmc->merchantUuid = $dmc->getRedeemedAtMerchantUuid();
+        if (property_exists($content, 'telemedRedeemed')) {
+            $redeemDmc->telemedRedeemed = $content->telemedRedeemed;
+        }
 
 //        $dmc = new DigitalMedicalChit();
 //        $dmc->setUuid('UUID');
