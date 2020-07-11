@@ -106,6 +106,12 @@ class CompanyCodeUsernamePasswordAuthenticator extends AbstractGuardAuthenticato
             // fail authentication with a custom error
 //            throw new \Exception('aaaaaaaaaaaaaaaaaaaa');
             throw new CustomUserMessageAuthenticationException('Login not valid.');
+        } else {
+            if ($bp = $org->getBenefitProvider()) {
+                if ($bp->getTelemedEnabled()) {
+                    $user->addRoleTelemedSupervisor();
+                }
+            }
         }
 
         return $user;
