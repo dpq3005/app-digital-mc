@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthService, Role} from "../../security/auth.service";
+import {AuthService} from "../../security/auth.service";
+import {Role} from "../../security/role.service";
 
 @Component({
   selector: 'app-logout',
@@ -14,7 +15,7 @@ export class LogoutComponent implements OnInit {
 
   ngOnInit(): void {
     let isSupervisor: boolean = false;
-    if (this.authService.isGranted(Role.SUPERVISOR)) {
+    if (this.authService.isGranted(Role.SUPERVISOR_DMC)) {
       isSupervisor = true;
     }
 

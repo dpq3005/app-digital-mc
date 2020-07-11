@@ -90,7 +90,9 @@ class RedeemMedicalChit
         }
 
         $r = new Redemption();
-        $r->setUuid('UUID_'.$dmc->getBeneficiaryName().'  '.$redeemDmc->merchantUuid.' ::: '.($medicalChit->getRedeemed() ? 'true' : 'false'));
+        $r->setName('UUID_'.$dmc->getBeneficiaryName().'  '.$redeemDmc->merchantUuid.' ::: '.($medicalChit->getRedeemed() ? 'true' : 'false'));
+        $r->setUuid($dmc->getRedemptionUuid());
+
 
         return $r;
     }

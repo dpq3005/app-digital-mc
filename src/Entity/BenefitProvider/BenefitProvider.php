@@ -32,6 +32,11 @@ class BenefitProvider extends AbstractThing
      */
     private $medicalChits;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $telemedEnabled;
+
     public function __construct()
     {
         parent::__construct();
@@ -77,6 +82,18 @@ class BenefitProvider extends AbstractThing
                 $medicalChit->setBenefitProvider(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTelemedEnabled(): ?bool
+    {
+        return $this->telemedEnabled;
+    }
+
+    public function setTelemedEnabled(bool $telemedEnabled): self
+    {
+        $this->telemedEnabled = $telemedEnabled;
 
         return $this;
     }

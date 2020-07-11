@@ -40,7 +40,13 @@ class JWTCreatedListener
 
         if ($user instanceof UserInterface) {
             if ($user instanceof User) {
-                $payload['organisationUuid'] = $user->getOrganisation()->getUuid();
+                $org = $user->getOrganisation();
+                $payload['organisationUuid'] = $org->getUuid();
+                if ($bp = $org->getBenefitProvider()) {
+                    if ($bp->getTelemedEnabled()) {
+                        $user->addRoleTelemedSupervisor();
+                    }
+                }
             } elseif ($user instanceof MerchantPinUser or $user instanceof ApiKeyNricUser) {
                 $payload['organisationUuid'] = $user->organisationUuid;
             }

@@ -15,6 +15,8 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'supervisor/dmc/create', component: DmcSingleComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
   {path: 'supervisor/dmc/edit/:id', component: DmcSingleComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
 
+  {path: 'supervisor/dmc/list', component: DmcListComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
+
   {path: 'merchant/dmc/list', component: MerchantDmcListComponent, canActivate: [MerchantAuthGuard]},
   {path: 'merchant/dmc/:id/redeem', component: DmcRedeemComponent, canActivate: [MerchantAuthGuard]},
 

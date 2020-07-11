@@ -6,6 +6,8 @@ import {ConfigService} from "../services/config/config.service";
 import {Configuration} from "../services/config/configuration";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
+import {Role, RoleHierarchy, RoleService} from "./role.service";
+import {createBrowserLoggingCallback} from "@angular-devkit/build-angular/src/browser";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -23,48 +25,72 @@ export class AuthService {
     this.config = configService.getConfiguration();
   }
 
-  isSupervisor: boolean = null;
+  isSupervisor: boolean = null; // For BC
+  isSupervisorDmc: boolean = null;
+  isSupervisorTelemed: boolean = null;
   isMerchantUser: boolean = null;
 
   public logout() {
     localStorage.clear();
-    this.isSupervisor = this.isMerchantUser = null;
+    this.isSupervisorDmc = this.isMerchantUser = this.isSupervisor = this.isSupervisorTelemed = null;
   }
 
-  public isGranted(role: Role) {
+  public convertRoleToPropertyString(gRole: String): String {
+    let gRoleProperty = gRole.substr("ROLE_".length);
+    let gRolePropertyParts = gRoleProperty.split("_");
+    gRoleProperty = '';
+    gRolePropertyParts.forEach(function (part) {
+      gRoleProperty += part.toUpperCase().charAt(0) + part.toLowerCase().substr(1);
+    })
+    return 'is' + gRoleProperty;
+  }
+
+  public isGranted(gRole: Role) {
+    let gRolePropertyString = this.convertRoleToPropertyString(gRole.toString());
+    let gRoleProperty = gRolePropertyString.toString();
+
+    if (this[gRoleProperty] != null) {
+      console.log('cached role ' + gRoleProperty + ' --- ' + this[gRoleProperty])
+      return this[gRoleProperty];
+    }
+
     let user = this.getUser();
-    if (role === Role.SUPERVISOR) {
-      if (this.isSupervisor !== null) {
-        return this.isSupervisor;
-      }
+    // if (gRole === Role.SUPERVISOR_DMC) {
+    //   if (this.isSupervisorDmc !== null) {
+    //     return this.isSupervisorDmc;
+    //   }
+    // }
 
-      for (let i = 0; i < user.roles.length; i++) {
-        let r = user.roles[i];
-        switch (r) {
-          case Role.SUPER_ADMIN:
-          case Role.SUPERVISOR:
-            this.isSupervisor = true;
-            return true;
-        }
+    let authService = this;
+    user.roles.every(function (uRole) {
+      if (RoleService.isGrantedAtRootLevel(uRole, gRole)) {
+        authService[gRoleProperty] = true;
+        return false;
       }
-      this.isSupervisor = false
+      if (RoleService.isGrantedAtLevel(uRole, gRole, Role.SUPER_ADMIN)) {
+        authService[gRoleProperty] = true;
+        return false;
+      }
+    });
+
+    // if (gRole === Role.MERCHANT_USER) {
+    //   if (this.isMerchantUser !== null) {
+    //     return this.isMerchantUser;
+    //   }
+    //   for (let i = 0; i < user.roles.length; i++) {
+    //     let r = user.roles[i];
+    //     if (r === Role.MERCHANT_USER) {
+    //       this.isMerchantUser = true;
+    //       return true;
+    //     }
+    //   }
+    //   this.isMerchantUser = false;
+    // }
+    console.log("WHY ", this[gRoleProperty], gRole)
+    if (this[gRoleProperty] == null) {
+      this[gRoleProperty] = false;
     }
-
-    if (role === Role.MERCHANT_USER) {
-      if (this.isMerchantUser !== null) {
-        return this.isMerchantUser;
-      }
-      for (let i = 0; i < user.roles.length; i++) {
-        let r = user.roles[i];
-        if (r === Role.MERCHANT_USER) {
-          this.isMerchantUser = true;
-          return true;
-        }
-      }
-      this.isMerchantUser = false;
-    }
-
-    return false;
+    return this[gRoleProperty];
   }
 
   public getUser() {
@@ -148,10 +174,4 @@ export class AuthService {
     return throwError(
       {code: errorCode, message: 'Invalid Credentials. Please try again!'});
   };
-}
-
-export enum Role {
-  SUPER_ADMIN = 'ROLE_SUPER_ADMIN',
-  SUPERVISOR = 'ROLE_SUPERVISOR',
-  MERCHANT_USER = 'ROLE_MERCHANT_USER',
 }

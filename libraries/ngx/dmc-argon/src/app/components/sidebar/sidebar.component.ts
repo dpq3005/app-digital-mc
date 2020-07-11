@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService, Role} from "../../security/auth.service";
+import {AuthService} from "../../security/auth.service";
+import {Role} from "../../security/role.service";
 
 declare interface RouteInfo {
   path: string;
@@ -15,7 +16,28 @@ export const ROUTES: RouteInfo[] = [
   // {path: '/dashboard', title: 'Dashboard', icon: 'ni-tv-2 text-primary', class: '', children: []},
   // {path: '/icons', title: 'Icons', icon: 'ni-planet text-blue', class: '', children: []},
   {
-    path: '#', title: 'Supervisor', icon: 'ni-planet text-blue', class: '', role: Role.SUPERVISOR, children: [
+    path: '#', title: 'Tele-Wellness', icon: 'ni-planet text-blue', class: '', role: Role.SUPERVISOR_TELEMED, children: [
+      {
+        path: '/supervisor/dmc/create',
+        title: 'Create Telemed Chit',
+        icon: 'ni-fat-add text-yellow',
+        class: '',
+        role: null,
+        children: []
+      },
+      {
+        path: '/supervisor/dmc/list',
+        title: 'Manage Telemed Chit',
+        icon: 'ni-bullet-list-67 text-red',
+        class: '',
+        role: null,
+        children: []
+      },
+
+    ]
+  },
+  {
+    path: '#', title: 'Medical Chit', icon: 'ni-planet text-blue', class: '', role: Role.SUPERVISOR_DMC, children: [
       {
         path: '/supervisor/dmc/create',
         title: 'Create Digital Medical Chit',
@@ -70,7 +92,6 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('in sidebar.ts.', this.authService.getUser());
     this.menuItems = ROUTES.filter(menuItem => {
       if (menuItem.role !== null) {
         if (this.authService.isGranted(menuItem.role)) {

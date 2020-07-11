@@ -22,6 +22,7 @@ import { LogoutComponent } from '../../pages/logout/logout.component';
 import {JwtHelperService, JwtModule, JwtModuleOptions} from "@auth0/angular-jwt";
 import { ConfirmDmcRedemptionComponent } from '../../pages/merchant/dmc-redeem/confirm-dmc-redemption/confirm-dmc-redemption.component';
 import {SharedModule} from "../../shared/shared.module";
+import {TelemedListComponent} from "../../pages/supervisor/telemed-list/telemed-list.component";
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import {SharedModule} from "../../shared/shared.module";
   declarations: [
     DmcListComponent,
     DmcSingleComponent,
+    TelemedListComponent,
     NotFoundComponent,
     MerchantDmcListComponent,
     LogoutComponent,

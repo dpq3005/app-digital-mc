@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     const ROLE_SUPERVISOR = 'ROLE_SUPERVISOR';
+    const ROLE_SUPERVISOR_TELEMED = 'ROLE_SUPERVISOR_TELEMED';
 
     /**
      * @ORM\Id()
@@ -97,6 +98,14 @@ class User implements UserInterface
         return $this;
     }
 
+    public function addRoleTelemedSupervisor()
+    {
+        if (in_array(self::ROLE_SUPERVISOR_TELEMED, $this->roles)) {
+            return;
+        }
+        $this->roles[] = self::ROLE_SUPERVISOR_TELEMED;
+    }
+
     /**
      * @see UserInterface
      */
@@ -173,7 +182,8 @@ class User implements UserInterface
      */
     public function setPlainPassword(?string $plainPassword): self
     {
-        $this->plainPassword = $plainPassword; return $this;
+        $this->plainPassword = $plainPassword;
+        return $this;
     }
 
     public function getUuid(): ?string
