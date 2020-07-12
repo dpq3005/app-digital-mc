@@ -38,7 +38,9 @@
                 </div>
               </div>
               <div class="mt-0 mb-0 text-muted text-sm">
-                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> {{telemed.beneficiaryNric}}</div>
+                <div class="text-primary mr-2"><i class="fa fa-id-badge"></i> {{telemed.beneficiaryNric}}</div>
+                <div class="text-primary mr-2"><i class="fa fa-phone"></i> {{telemed.beneficiaryPhone}}</div>
+                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> {{telemed.beneficiaryMedDeliveryAddress}}</div>
                 <div class="text-primary mr-2"><i class="fa fa-barcode"></i> {{telemed.code}}</div>
                 <div *ngFor="let merchant of telemed.merchants" class="text-primary mr-2"><i
                   class="fa fa-prescription-bottle-alt"></i>
