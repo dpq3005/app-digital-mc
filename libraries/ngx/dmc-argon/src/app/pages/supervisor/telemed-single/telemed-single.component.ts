@@ -45,10 +45,11 @@ export class TelemedSingleComponent implements OnInit {
     }
   }
 
-  createtelemed() {
+  createTelemed() {
     console.log('create telemed', this.telemed);
     this.telemed.save(() => {
-      this.router.navigate(['supervisor', 'telemed', 'list']);
+      localStorage.setItem('beneficiaryName', this.telemed.beneficiaryName);
+      this.router.navigate(['supervisor', 'telemed', 'create', 'successful']);
     });
   }
 

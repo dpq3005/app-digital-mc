@@ -24,6 +24,7 @@ import { ConfirmDmcRedemptionComponent } from '../../pages/merchant/dmc-redeem/c
 import {SharedModule} from "../../shared/shared.module";
 import {TelemedListComponent} from "../../pages/supervisor/telemed-list/telemed-list.component";
 import {TelemedSingleComponent} from "../../pages/supervisor/telemed-single/telemed-single.component";
+import { TelemedCreateSuccessfulComponent } from '../../pages/supervisor/telemed-single/telemed-create-successful/telemed-create-successful.component';
 
 @NgModule({
   imports: [
@@ -42,10 +43,12 @@ import {TelemedSingleComponent} from "../../pages/supervisor/telemed-single/tele
     DmcSingleComponent,
     TelemedListComponent,
     TelemedSingleComponent,
+    TelemedSingleComponent,
     NotFoundComponent,
     MerchantDmcListComponent,
     LogoutComponent,
-    ConfirmDmcRedemptionComponent
+    ConfirmDmcRedemptionComponent,
+    TelemedCreateSuccessfulComponent
   ]
 })
 

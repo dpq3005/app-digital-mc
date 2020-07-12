@@ -138,13 +138,14 @@
 
                 </div>
 
-                <div *ngIf="!showMerchantSelect" class="form-group text-center">
-                  <button (click)="showMerchantSelect = true" type="button"
-                          class="btn-limit-mc btn btn-outline-primary">
-                    <input type="checkbox"/> Limit this
-                    medical chit to only certain centres
-                  </button>
-                </div>
+<!--                <div *ngIf="!showMerchantSelect" class="form-group text-center">-->
+<!--                  <button (click)="showMerchantSelect = true" type="button"-->
+<!--                          class="btn-limit-mc btn btn-outline-primary">-->
+<!--                    <input type="checkbox"/> Limit this-->
+<!--                    medical chit to only certain centres-->
+<!--                  </button>-->
+<!--                </div>-->
+
                 <div *ngIf="showMerchantSelect" class="form-group">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
@@ -195,7 +196,7 @@
                         class="btn btn-primary mt-4">Next >>
                 </button>
                 <button *ngIf="isNricReady" type="button" class="btn btn-primary mt-4" [disabled]="telemedForm.invalid"
-                        (click)="createtelemed()">
+                        (click)="createTelemed()">
                   Create
                 </button>
               </div>
