@@ -8,6 +8,8 @@ import {LogoutComponent} from "../../pages/logout/logout.component";
 import {DmcRedeemComponent} from "../../pages/merchant/dmc-redeem/dmc-redeem.component";
 import {ConfirmDmcRedemptionComponent} from "../../pages/merchant/dmc-redeem/confirm-dmc-redemption/confirm-dmc-redemption.component";
 import {MerchantAuthGuard} from "../../security/merchant/merchant-auth.guard";
+import {TelemedListComponent} from "../../pages/supervisor/telemed-list/telemed-list.component";
+import {TelemedSingleComponent} from "../../pages/supervisor/telemed-single/telemed-single.component";
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'not-found', component: NotFoundComponent},
@@ -15,7 +17,8 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'supervisor/dmc/create', component: DmcSingleComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
   {path: 'supervisor/dmc/edit/:id', component: DmcSingleComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
 
-  {path: 'supervisor/dmc/list', component: DmcListComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
+  {path: 'supervisor/telemed/list', component: TelemedListComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
+  {path: 'supervisor/telemed/create', component: TelemedSingleComponent, canLoad: [SupervisorAuthGuard], canActivate: [SupervisorAuthGuard]},
 
   {path: 'merchant/dmc/list', component: MerchantDmcListComponent, canActivate: [MerchantAuthGuard]},
   {path: 'merchant/dmc/:id/redeem', component: DmcRedeemComponent, canActivate: [MerchantAuthGuard]},

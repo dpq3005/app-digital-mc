@@ -5,6 +5,7 @@ namespace App\Controller\BenefitProvider;
 use App\Dto\BenefitProduct;
 use App\Service\HttpService;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,13 +13,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class FindBenefitProducts
 {
-    private $registry, $http, $tokenStorage;
+    private $registry, $http, $tokenStorage, $requestStack;
 
-    public function __construct(HttpService $httpService, ManagerRegistry $registry, TokenStorageInterface $tokenStorage)
+    public function __construct(HttpService $httpService, ManagerRegistry $registry, TokenStorageInterface $tokenStorage, RequestStack $requestStack)
     {
         $this->registry = $registry;
         $this->http = $httpService;
         $this->tokenStorage = $tokenStorage;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -48,7 +50,7 @@ class FindBenefitProducts
             throw new UnauthorizedHttpException('User not found', 'Empty User');
         }
 
-        $res = $this->http->get(sprintf('benefit-products?benefitProviderUuid=%s', $id), null, false, 'product');
+        $res = $this->http->get(sprintf('benefit-products?benefitProviderUuid=%s&telemedEnabled=%s', $id, $this->requestStack->getCurrentRequest()->get('telemedEnabled', false)), null, false, 'product');
 //        15e6f99b961376
         $benefitProducts = $res['body'];
         if ($benefitProducts === null) {

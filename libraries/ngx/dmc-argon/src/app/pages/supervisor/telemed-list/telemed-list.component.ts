@@ -1,5 +1,4 @@
 // https://material.angular.io/cdk/scrolling/overview
-
 import {Component, OnInit} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DigitalMedicalChit, DigitalMedicalChitCollection} from "../../../model/digital-medical-chit";
@@ -12,16 +11,16 @@ import {HttpService} from "../../../services/http/http.service";
 })
 export class TelemedListComponent implements OnInit {
   closeResult = '';
-  dmcCollection: DigitalMedicalChitCollection;
+  telemedCollection: DigitalMedicalChitCollection;
   items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
 
   constructor(private modalService: NgbModal, private http: HttpService) {
-    this.dmcCollection = new DigitalMedicalChitCollection();
+    this.telemedCollection = new DigitalMedicalChitCollection(true);
   }
 
   ngOnInit(): void {
-    this.dmcCollection.initServices(this.http);
-    this.dmcCollection.loadItemsFromNextPage();
+    this.telemedCollection.initServices(this.http);
+    this.telemedCollection.loadItemsFromNextPage();
   }
 
   throttle = 300;
@@ -31,20 +30,20 @@ export class TelemedListComponent implements OnInit {
 
   onScrollDown($event) {
     console.log('scrolled down!!', $event);
-    this.dmcCollection.loadItemsFromNextPage();
+    this.telemedCollection.loadItemsFromNextPage();
     this.direction = 'down'
   }
 
-  trackDmcCollection(index: number, item: DigitalMedicalChit): string {
+  tracktelemedCollection(index: number, item: DigitalMedicalChit): string {
     return item.id;
   }
 
-  confirmDelete(content, dmc: DigitalMedicalChit) {
+  confirmDelete(content, telemed: DigitalMedicalChit) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       if (result === 'YES') {
         console.log('let s detete');
-        this.dmcCollection.deleteItem(dmc);
+        this.telemedCollection.deleteItem(telemed);
       }
       console.log('this.closeResult', this.closeResult);
     }, (reason) => {

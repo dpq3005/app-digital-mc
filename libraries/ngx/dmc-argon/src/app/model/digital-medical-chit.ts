@@ -9,6 +9,9 @@ export class DigitalMedicalChit {
   isDeleted: boolean = false;
   beneficiaryNric: string = null;
   beneficiaryName: string = null;
+  beneficiaryPhone: string = null;
+  beneficiaryMedDeliveryAddress: string = null;
+
   telemedEnabled = false;
 
   isLoading = false;
@@ -232,7 +235,7 @@ export class DigitalMedicalChit {
   populateProductOptions() {
     let uuid = localStorage.getItem('benefitProviderUuid');
     try {
-      this.http.get(Endpoint.PRODUCT, ["benefit-providers/" + uuid + "/find-benefit-products?page=1"]).subscribe((res: any) => {
+      this.http.get(Endpoint.PRODUCT, ["benefit-providers/" + uuid + "/find-benefit-products?page=1" + "&telemedEnabled=" + this.telemedEnabled]).subscribe((res: any) => {
         this.productOptions = [];
         let p: Product;
         for (let i = 0; i < res.length; i++) {
@@ -275,9 +278,10 @@ export class DigitalMedicalChitCollection {
     this.http = http;
   }
 
-  constructor() {
+  constructor(telemedEnabled = false) {
     this.medicalChits = [];
     this.queryParams = ['expired=0'];
+    this.queryParams.push('telemedEnabled=' + telemedEnabled);
   }
 
   appendItem(dmc: DigitalMedicalChit, index?) {

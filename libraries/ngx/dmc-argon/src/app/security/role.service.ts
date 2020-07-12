@@ -7,31 +7,31 @@ export enum Role {
 }
 
 export const RoleHierarchy = {
-  SUPERVISOR_ALL: [Role.SUPERVISOR_TELEMED, Role.SUPERVISOR_DMC],
+  ROLE_SUPERVISOR_ALL: [Role.SUPERVISOR_TELEMED, Role.SUPERVISOR_DMC],
   ROLE_SUPER_ADMIN: [Role.MERCHANT_USER, Role.SUPERVISOR_ALL],
 }
 
 export class RoleService {
-  static isGrantedAtRootLevel(uRole, gRole): boolean {
-    return RoleHierarchy.hasOwnProperty(uRole) && gRole == uRole;
-  }
-
-  static isGrantedAtChildren(uRole, gRole, childLevel: Role[]): boolean {
-    let granted = false;
-    childLevel.every(function (roleLevel) {
-      if (RoleService.isGrantedAtLevel(uRole, gRole, roleLevel)) {
-        granted = true;
-        return false;
+  // static isGrantedAtRootLevel(uRole, gRole): boolean {
+  //   return RoleHierarchy.hasOwnProperty(uRole) && gRole == uRole;
+  // }
+  static calculateRoleScore(role: Role, score): number {
+    Object.keys(RoleHierarchy).forEach(function (iRole) {
+      if (role.toString() == iRole.toString()) {
+        score = RoleService.calculateRoleScore(role, ++score);
       }
     });
-    return granted;
+    return score;
   }
 
-  static isGrantedAtLevel(uRole, gRole, roleLevel: Role): boolean {
-    if (!RoleHierarchy.hasOwnProperty(roleLevel)) {
-      return gRole == uRole;
+  static getRoleScore(role: Role): number {
+    if (RoleService.hasOwnProperty(role.toString())) {
+      return RoleService[role.toString()];
     }
 
-    return RoleService.isGrantedAtChildren(uRole, gRole, RoleHierarchy[roleLevel]);
+    let score = 0;
+    score = RoleService.calculateRoleScore(role, 0)
+    RoleService[role.toString()] = score;
+    return score;
   }
 }

@@ -11,10 +11,10 @@
       <div class="col-lg-6 col-md-8">
         <div class="card bg-secondary shadow border-0">
           <div class="card-header bg-transparent">
-            <div class="text-muted text-center mt-2"><h2>Create Digital Medical Chit</h2></div>
+            <div class="text-muted text-center mt-2"><h2>Create Telewellness Chit</h2></div>
           </div>
           <div class="card-body px-lg-5 py-lg-5">
-            <form *ngIf="!dmc.isLoading" #dmcForm="ngForm" role="form">
+            <form *ngIf="!telemed.isLoading" #telemedForm="ngForm" role="form">
               <div *ngIf="!isNricReady" class="form-group">
                 <div *ngIf="loading" class="text-center">
                   <div class="lds-facebook">
@@ -28,7 +28,7 @@
                     <span class="input-group-text"><i class="ni ni-badge"></i></span>
                   </div>
                   <input class="form-control" placeholder="NRIC/FIN Number (*)" type="text" required="required"
-                         name="member-nric" [(ngModel)]="dmc.beneficiaryNric" #beneficiaryNric="ngModel"/>
+                         name="member-nric" [(ngModel)]="telemed.beneficiaryNric" #beneficiaryNric="ngModel"/>
                 </div>
                 <div *ngIf="beneficiaryNric.invalid && (beneficiaryNric.dirty || beneficiaryNric.touched)"
                      class="alert alert-danger">
@@ -43,7 +43,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-badge"></i></span>
                     </div>
-                    <div class="ipt-content">{{dmc.beneficiaryNric}}</div>
+                    <div class="ipt-content">{{telemed.beneficiaryNric}}</div>
                   </div>
                 </div>
                 <div class="form-group">
@@ -52,8 +52,9 @@
                       <span class="input-group-text"><i class="ni ni-single-02"></i></span>
                     </div>
                     <input class="form-control" placeholder="Name (*)" type="text" required="required"
-                           name="member-name" [(ngModel)]="dmc.beneficiaryName" #beneficiaryName="ngModel">
+                           name="member-name" [(ngModel)]="telemed.beneficiaryName" #beneficiaryName="ngModel">
                   </div>
+
                   <div *ngIf="beneficiaryName.invalid && (beneficiaryName.dirty || beneficiaryName.touched)"
                        class="alert alert-danger">
 
@@ -69,19 +70,60 @@
 
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Hand phone Number (*)" type="text" required="required"
+                           name="member-phone" [(ngModel)]="telemed.beneficiaryPhone" #beneficiaryPhone="ngModel">
+                  </div>
+
+                  <div *ngIf="beneficiaryPhone.invalid && (beneficiaryPhone.dirty || beneficiaryPhone.touched)"
+                       class="alert alert-danger">
+
+                    <div *ngIf="beneficiaryPhone.errors.required">
+                      Phone is required.
+                    </div>
+                    <div *ngIf="beneficiaryPhone.errors.minlength">
+                      Phone must be at least 4 characters long.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Medicine delivery address (*)" type="text" required="required"
+                           name="member-med-delivery-address" [(ngModel)]="telemed.beneficiaryMedDeliveryAddress" #beneficiaryMedDeliveryAddress="ngModel">
+                  </div>
+
+                  <div *ngIf="beneficiaryMedDeliveryAddress.invalid && (beneficiaryMedDeliveryAddress.dirty || beneficiaryMedDeliveryAddress.touched)"
+                       class="alert alert-danger">
+
+                    <div *ngIf="beneficiaryMedDeliveryAddress.errors.required">
+                      Address is required.
+                    </div>
+                    <div *ngIf="beneficiaryMedDeliveryAddress.errors.minlength">
+                      Address must be at least 4 characters long.
+                    </div>
+                  </div>
+                </div>
                 <div class="form-group">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-sound-wave"></i></span>
                     </div>
-                    <ng-select (change)="onProductChange($event)" [items]="dmc.productOptions"
+                    <ng-select (change)="onProductChange($event)" [items]="telemed.productOptions"
                                placeholder="Please select a Product/Service"
                                bindLabel="name"
                                autofocus
                                bindValue="id"
                                required="required"
                                name="product-id"
-                               [(ngModel)]="dmc.productId"
+                               [(ngModel)]="telemed.productId"
                                #productId="ngModel"
                     >
                     </ng-select>
@@ -108,27 +150,27 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-building"></i></span>
                     </div>
-                    <ng-select *ngIf="dmc.merchantOptions.length >= 50" [items]="dmc.merchantOptions$ | async"
+                    <ng-select *ngIf="telemed.merchantOptions.length >= 50" [items]="telemed.merchantOptions$ | async"
                                bindLabel="name"
                                [addTag]="false"
                                [multiple]="true"
                                [hideSelected]="true"
                                [trackByFn]="trackByFn"
                                [minTermLength]="2"
-                               [loading]="dmc.merchantLoading"
+                               [loading]="telemed.merchantLoading"
                                typeToSearchText="Please enter 2 or more characters"
-                               [typeahead]="dmc.merchantOptionInput$"
-                               [(ngModel)]="dmc.merchants"
+                               [typeahead]="telemed.merchantOptionInput$"
+                               [(ngModel)]="telemed.merchants"
                                name="merchants"
                     >
                     </ng-select>
-                    <ng-select *ngIf="dmc.merchantOptions.length < 50" [items]="dmc.merchantOptions"
+                    <ng-select *ngIf="telemed.merchantOptions.length < 50" [items]="telemed.merchantOptions"
                                placeholder="Select applicable centres"
                                [multiple]="true"
                                bindLabel="name"
                                autofocus
                                bindValue="id"
-                               [(ngModel)]="dmc.merchantIds" name="merchant-ids">
+                               [(ngModel)]="telemed.merchantIds" name="merchant-ids">
                       <!--                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">-->
                       <!--                      <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.name}}-->
                       <!--                    </ng-template>-->
@@ -148,17 +190,17 @@
                 </div>
               </div>
               <div class="text-center">
-                <a routerLink="/supervisor/dmc/list" class="btn btn-default mt-4">Cancel</a>
-                <button *ngIf="!isNricReady" [disabled]="dmcForm.invalid" (click)="handleNric()" type="button"
+                <a routerLink="/supervisor/telemed/list" class="btn btn-default mt-4">Cancel</a>
+                <button *ngIf="!isNricReady" [disabled]="telemedForm.invalid" (click)="handleNric()" type="button"
                         class="btn btn-primary mt-4">Next >>
                 </button>
-                <button *ngIf="isNricReady" type="button" class="btn btn-primary mt-4" [disabled]="dmcForm.invalid"
-                        (click)="createDmc()">
+                <button *ngIf="isNricReady" type="button" class="btn btn-primary mt-4" [disabled]="telemedForm.invalid"
+                        (click)="createtelemed()">
                   Create
                 </button>
               </div>
             </form>
-            <div *ngIf="dmc.isLoading" class="text-center">
+            <div *ngIf="telemed.isLoading" class="text-center">
               <h3>Please wait just a heart beat!</h3>
               <div class="lds-heart">
                 <div></div>

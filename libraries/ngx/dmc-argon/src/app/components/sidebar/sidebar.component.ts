@@ -18,7 +18,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '#', title: 'Tele-Wellness', icon: 'ni-planet text-blue', class: '', role: Role.SUPERVISOR_TELEMED, children: [
       {
-        path: '/supervisor/dmc/create',
+        path: '/supervisor/telemed/create',
         title: 'Create Telemed Chit',
         icon: 'ni-fat-add text-yellow',
         class: '',
@@ -26,7 +26,7 @@ export const ROUTES: RouteInfo[] = [
         children: []
       },
       {
-        path: '/supervisor/dmc/list',
+        path: '/supervisor/telemed/list',
         title: 'Manage Telemed Chit',
         icon: 'ni-bullet-list-67 text-red',
         class: '',

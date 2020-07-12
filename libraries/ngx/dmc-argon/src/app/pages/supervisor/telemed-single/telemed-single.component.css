@@ -1,0 +1,21 @@
+ng-select {
+  position: relative;
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+  width: 1%;
+  margin-bottom: 0;
+}
+
+.btn-limit-mc {
+  white-space: normal;
+}
+
+.ipt-content {
+  padding-top: 5px;
+  background-color: white;
+  position: relative;
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+  width: 1%;
+  margin-bottom: 0;
+}

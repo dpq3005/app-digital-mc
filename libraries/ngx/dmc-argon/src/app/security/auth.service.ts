@@ -63,14 +63,18 @@ export class AuthService {
 
     let authService = this;
     user.roles.every(function (uRole) {
-      if (RoleService.isGrantedAtRootLevel(uRole, gRole)) {
+      if (uRole.toString() == gRole.toString()) {
         authService[gRoleProperty] = true;
         return false;
       }
-      if (RoleService.isGrantedAtLevel(uRole, gRole, Role.SUPER_ADMIN)) {
+      let uRoleScore = RoleService.getRoleScore(uRole);
+      let gRoleScore = RoleService.getRoleScore(gRole);
+      if (uRoleScore > gRoleScore) {
         authService[gRoleProperty] = true;
         return false;
       }
+
+      return true;
     });
 
     // if (gRole === Role.MERCHANT_USER) {

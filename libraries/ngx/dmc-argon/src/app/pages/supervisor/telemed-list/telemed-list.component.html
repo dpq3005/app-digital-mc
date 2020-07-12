@@ -4,8 +4,7 @@
       <div class="col">
         <div class="card card-stats mb-4 mb-xl-0">
           <div class="card-body text-center">
-            <a routerLinkActive="active" [routerLink]="'/supervisor/dmc/create'" class="btn btn-primary">Create Digital
-              Medical Chit</a>
+            <a routerLinkActive="active" [routerLink]="'/supervisor/telemed/create'" class="btn btn-primary">Create Telewellness Chit</a>
           </div>
         </div>
       </div>
@@ -22,46 +21,41 @@
         [infiniteScrollThrottle]="throttle"
         (scrolled)="onScrollDown($event)"
         class="row">
-        <div *ngFor="let dmc of dmcCollection.medicalChits; trackBy: trackDmcCollection" class="col-sm-6 col-lg-4">
+        <div *ngFor="let telemed of telemedCollection.medicalChits; trackBy: tracktelemedCollection" class="col-sm-6 col-lg-4">
           <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">{{dmc.productName}}</h5>
-                  <span class="h2 font-weight-bold mb-0">{{dmc.beneficiaryName}}</span>
+                  <h5 class="card-title text-uppercase text-muted mb-0">{{telemed.productName}}</h5>
+                  <span class="h2 font-weight-bold mb-0">{{telemed.beneficiaryName}}</span>
                 </div>
                 <div class="col-auto text-center">
                   <div
-                    class="icon icon-shape {{dmc.isRedeemed?'bg-danger':(dmc.isExpired?'bg-default':'bg-success')}} text-white rounded-circle shadow">
+                    class="icon icon-shape {{telemed.isRedeemed?'bg-danger':(telemed.isExpired?'bg-default':'bg-success')}} text-white rounded-circle shadow">
                     <i class="fas fa-check"></i>
                   </div>
-                  <div><small> {{dmc.isRedeemed ? 'Utilised' : (dmc.isExpired ? 'Expired' : 'Valid')}}</small></div>
+                  <div><small> {{telemed.isRedeemed ? 'Utilised' : (telemed.isExpired ? 'Expired' : 'Valid')}}</small></div>
                 </div>
               </div>
               <div class="mt-0 mb-0 text-muted text-sm">
-                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> {{dmc.beneficiaryNric}}</div>
-                <div class="text-primary mr-2"><i class="fa fa-barcode"></i> {{dmc.code}}</div>
-                <div *ngFor="let merchant of dmc.merchants" class="text-primary mr-2"><i
+                <div class="text-primary mr-2"><i class="fa fa-address-card"></i> {{telemed.beneficiaryNric}}</div>
+                <div class="text-primary mr-2"><i class="fa fa-barcode"></i> {{telemed.code}}</div>
+                <div *ngFor="let merchant of telemed.merchants" class="text-primary mr-2"><i
                   class="fa fa-prescription-bottle-alt"></i>
                   {{merchant.name}}
-                </div>
-                <div *ngIf="dmc.telemedEnabled" class="text-info mr-2">
-                <strong>  <i
-                  class="fa fa-camera-retro"></i> TELE-MED available
-                </strong>
                 </div>
                 <!--                <span class="text-nowrap">8 Trivex, Singapore</span>-->
 
               </div>
 
-              <div *ngIf="!dmc.isRedeemed">
-                <button (click)="confirmDelete(content, dmc);" class="btn btn-danger btn-sm">DELETE</button>
+              <div *ngIf="!telemed.isRedeemed">
+                <button (click)="confirmDelete(content, telemed);" class="btn btn-danger btn-sm">DELETE</button>
               </div>
             </div>
           </div>
         </div>
 
-        <div *ngIf="dmcCollection.isLoading" class="col-12">
+        <div *ngIf="telemedCollection.isLoading" class="col-12">
           <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body">
               <div class="row">
