@@ -172,7 +172,7 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
             $benefitProviderOrg = $medicalChit->getBenefitProvider()->getOrganisation();
 
             $dmc->setBeneficiaryPhone($medicalChit->getBeneficiaryPhone());
-            $dmc->setBeneficiaryMedDeliveryAddress($medicalChit->getMedDeliveryAddress());
+            $dmc->setBeneficiaryMedDeliveryAddress($medicalChit->getBeneficiaryMedDeliveryAddress());
             $dmc->setProductName($medicalChit->getProductName());
             $dmc->setProductUuid($medicalChit->getProductUuid());
 
