@@ -173,7 +173,7 @@ class MedicalChit extends AbstractThing
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $medDeliveryAddress;
+    private $beneficiaryMedDeliveryAddress;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -497,18 +497,6 @@ class MedicalChit extends AbstractThing
         return $this;
     }
 
-    public function getMedDeliveryAddress(): ?string
-    {
-        return $this->medDeliveryAddress;
-    }
-
-    public function setMedDeliveryAddress(?string $medDeliveryAddress): self
-    {
-        $this->medDeliveryAddress = $medDeliveryAddress;
-
-        return $this;
-    }
-
     public function getBeneficiaryPhone(): ?string
     {
         return $this->beneficiaryPhone;
@@ -531,5 +519,21 @@ class MedicalChit extends AbstractThing
         $this->telemedRedeemed = $telemedRedeemed;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBeneficiaryMedDeliveryAddress()
+    {
+        return $this->beneficiaryMedDeliveryAddress;
+    }
+
+    /**
+     * @param mixed $beneficiaryMedDeliveryAddress
+     */
+    public function setBeneficiaryMedDeliveryAddress($beneficiaryMedDeliveryAddress): void
+    {
+        $this->beneficiaryMedDeliveryAddress = $beneficiaryMedDeliveryAddress;
     }
 }

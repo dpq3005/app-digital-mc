@@ -90,6 +90,20 @@ class DigitalMedicalChit
      * @ApiProperty()
      * @Groups("write")
      */
+    protected $beneficiaryPhone;
+
+    /**
+     * @var string|null
+     * @ApiProperty()
+     * @Groups("write")
+     */
+    protected $beneficiaryMedDeliveryAddress;
+
+    /**
+     * @var string|null
+     * @ApiProperty()
+     * @Groups("write")
+     */
     protected $beneficiaryNric;
 
     /**
@@ -104,19 +118,6 @@ class DigitalMedicalChit
      * @Groups("write")
      */
     protected $product;
-
-    /**
-     * @var string|null
-     * @ApiProperty()
-     */
-    protected $beneficiaryPhone;
-
-
-    /**
-     * @var string|null
-     * @ApiProperty()
-     */
-    protected $medDeliveryAddress;
 
     /**
      * @var string|null
@@ -201,7 +202,8 @@ class DigitalMedicalChit
      */
     public function setMerchants(?array $merchants): self
     {
-        $this->merchants = $merchants; return $this;
+        $this->merchants = $merchants;
+        return $this;
     }
 
     /**
@@ -379,23 +381,6 @@ class DigitalMedicalChit
         $this->telemedEnabled = $telemedEnabled;
     }
 
-
-    /**
-     * @return string|null
-     */
-    public function getMedDeliveryAddress(): ?string
-    {
-        return $this->medDeliveryAddress;
-    }
-
-    /**
-     * @param string|null $medDeliveryAddress
-     */
-    public function setMedDeliveryAddress(?string $medDeliveryAddress): void
-    {
-        $this->medDeliveryAddress = $medDeliveryAddress;
-    }
-
     /**
      * @return string|null
      */
@@ -407,9 +392,10 @@ class DigitalMedicalChit
     /**
      * @param string|null $beneficiaryPhone
      */
-    public function setBeneficiaryPhone(?string $beneficiaryPhone): void
+    public function setBeneficiaryPhone(?string $beneficiaryPhone): self
     {
         $this->beneficiaryPhone = $beneficiaryPhone;
+        return $this;
     }
 
     /**
@@ -423,9 +409,10 @@ class DigitalMedicalChit
     /**
      * @param string|null $benefitProviderName
      */
-    public function setBenefitProviderName(?string $benefitProviderName): void
+    public function setBenefitProviderName(?string $benefitProviderName): self
     {
         $this->benefitProviderName = $benefitProviderName;
+        return $this;
     }
 
     /**
@@ -475,5 +462,22 @@ class DigitalMedicalChit
     public function setRedemptionUuid(?string $redemptionUuid): void
     {
         $this->redemptionUuid = $redemptionUuid;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBeneficiaryMedDeliveryAddress(): ?string
+    {
+        return $this->beneficiaryMedDeliveryAddress;
+    }
+
+    /**
+     * @param string|null $beneficiaryMedDeliveryAddress
+     */
+    public function setBeneficiaryMedDeliveryAddress(?string $beneficiaryMedDeliveryAddress): self
+    {
+        $this->beneficiaryMedDeliveryAddress = $beneficiaryMedDeliveryAddress;
+        return $this;
     }
 }

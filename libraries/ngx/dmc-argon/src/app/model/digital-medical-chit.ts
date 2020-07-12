@@ -238,6 +238,7 @@ export class DigitalMedicalChit {
       this.http.get(Endpoint.PRODUCT, ["benefit-providers/" + uuid + "/find-benefit-products?page=1" + "&telemedEnabled=" + this.telemedEnabled]).subscribe((res: any) => {
         this.productOptions = [];
         let p: Product;
+
         for (let i = 0; i < res.length; i++) {
           p = new Product();
           p.id = res[i].productUuid;
