@@ -89,7 +89,9 @@ export class DigitalMedicalChit {
         product: this.productId,
         benefitProduct: this.benefitProductId,
         merchants: this.merchantIds,
-        telemedEnabled: this.telemedEnabled
+        telemedEnabled: this.telemedEnabled,
+        beneficiaryPhone: this.beneficiaryPhone,
+        beneficiaryMedDeliveryAddress: this.beneficiaryMedDeliveryAddress
       }).subscribe(res => {
         console.log('save done', res);
         this.isLoading = false;

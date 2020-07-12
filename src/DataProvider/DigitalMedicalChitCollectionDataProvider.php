@@ -59,8 +59,9 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
                 $expr->like('dmc.beneficiaryNric', $expr->literal('%'.$beneficiaryNric.'%'))
             );
         }
-        if (($telemedEnabled = $request->query->get('telemedEnabled')) !== null && trim($telemedEnabled) !== '') {
-            if (boolval($telemedEnabled)) {
+        if (($telemedEnabledParam = $request->query->get('telemedEnabled')) !== null && trim($telemedEnabledParam) !== '') {
+            $telemedEnabled = filter_var($telemedEnabledParam, FILTER_VALIDATE_BOOLEAN);
+            if ($telemedEnabled) {
                 $qb->andWhere(
                     $expr->eq('dmc.telemedEnabled', $expr->literal(true))
                 );
