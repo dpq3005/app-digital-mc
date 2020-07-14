@@ -76,10 +76,11 @@ class DigitalMedicalChitCollectionDataProvider implements CollectionDataProvider
                 $expr->eq('dmc.redeemed', $expr->literal(boolval($redeemed)))
             );
         }
-        if (($expired = $request->query->get('expired')) !== null && trim($expired) !== '') {
+        if (($expiredParam = $request->query->get('expired')) !== null && trim($expiredParam) !== '') {
             $now = new \DateTime();
-
             $qb->andWhere($expr->eq('dmc.redeemed', $expr->literal(false)));
+            $expired = filter_var($expiredParam, FILTER_VALIDATE_BOOLEAN);
+
             if (boolval($expired)) {
                 $now->modify('+1 day');
                 $qb->andWhere(

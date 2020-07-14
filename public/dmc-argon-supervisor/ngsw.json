@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1594532719456,
+  "timestamp": 1594534709262,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -8,7 +8,7 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "/6.22cc3f3d8411b9feac9b.js",
+        "/6.adae39e8f71da6653717.js",
         "/7.dd77649e417ed6d7bd18.js",
         "/common.9522eca2bda488b7a5f6.js",
         "/index.html",
@@ -16,7 +16,7 @@
         "/manifest-supervisor.webmanifest",
         "/polyfills-es5.82f9c19bc706c1c8838c.js",
         "/polyfills.1a4d556ea47bbf6658df.js",
-        "/runtime.3ca5b94c3d501071bdc9.js",
+        "/runtime.1dc619e37a1442793c74.js",
         "/scripts.2db4cbc668a10a0c2a68.js",
         "/styles.12de486e480b635ede67.css"
       ],
@@ -1572,7 +1572,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/6.22cc3f3d8411b9feac9b.js": "c0e0927d41f2d2afcf430bc4e1eacd3328cf6bb5",
+    "/6.adae39e8f71da6653717.js": "8ccc8a715e386f4825a7908ba690a33b0500840f",
     "/7.dd77649e417ed6d7bd18.js": "817ae70741fb70a665df02f9595fb99aaf05ec19",
     "/assets/fonts/nucleo/nucleo-icons.eot": "b2dee001981e635c2a6709f97f707b7f799703c5",
     "/assets/fonts/nucleo/nucleo-icons.svg": "0bd4e40449c239d34bf4a1b0a770ae39140ff1f4",
@@ -3114,12 +3114,12 @@
     "/assets/vendor/nucleo/fonts/nucleo-icons.woff2": "64baa3293e90631d5257d6056b089ba11510d0f4",
     "/bg-1-600.1e5de01d7220ec5b2b0a.jpg": "d7424a21d322350bd82034cdf71949615def8577",
     "/common.9522eca2bda488b7a5f6.js": "36b2f3b6d07af3d3d089db930ebee5dc4e67519f",
-    "/index.html": "1cd3ea9e5a89e01c2f533d2564979603fca5bc63",
+    "/index.html": "5acab2bf7a50401416d725980a52d13e83b067a6",
     "/main.2e5e0a72573d6300aa48.js": "4a1ee072c31c4194f8b509be85239a8304c1fd39",
     "/manifest-supervisor.webmanifest": "c857e9f2bb1525ab61ba573fc966fe5db70701ac",
     "/polyfills-es5.82f9c19bc706c1c8838c.js": "0a6d3d3d74f7e24be57589a8bb7a96aaa852717e",
     "/polyfills.1a4d556ea47bbf6658df.js": "4b17ca3ec7ab80738849315ad33484aaca9bf85c",
-    "/runtime.3ca5b94c3d501071bdc9.js": "fe06df148b797590579363bea43d07ba52df9c04",
+    "/runtime.1dc619e37a1442793c74.js": "56091c85ca50bdf1abcdf46b8521916e2a6495bc",
     "/scripts.2db4cbc668a10a0c2a68.js": "f12b86bb2a3e24f90d80c920461d87518dba95ea",
     "/styles.12de486e480b635ede67.css": "b0050f5a95c7db29fe265ecd6537fa7ac712ab52"
   },

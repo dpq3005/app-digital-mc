@@ -43,6 +43,7 @@ class RedeemMedicalChit
         if (empty($token)) {
             throw new UnauthorizedHttpException('Token not found', 'Token not found');
         }
+
         $user = $token->getUser();
         if (empty($user)) {
             throw new UnauthorizedHttpException('User not found', 'Empty User');
@@ -92,7 +93,6 @@ class RedeemMedicalChit
         $r = new Redemption();
         $r->setName('UUID_'.$dmc->getBeneficiaryName().'  '.$redeemDmc->merchantUuid.' ::: '.($medicalChit->getRedeemed() ? 'true' : 'false'));
         $r->setUuid($dmc->getRedemptionUuid());
-
 
         return $r;
     }
