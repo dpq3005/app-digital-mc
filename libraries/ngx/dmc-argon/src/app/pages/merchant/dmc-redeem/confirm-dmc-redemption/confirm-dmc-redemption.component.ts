@@ -54,7 +54,6 @@ export class ConfirmDmcRedemptionComponent implements OnInit {
     let merchantUuid = user.username;
     credentials.uuid = merchantUuid;
     credentials.pin = this.digit1 + '' + this.digit2 + '' + this.digit3 + '' + this.digit4 + '' + this.digit5 + '' + this.digit6;
-
     this.isLoading = true;
     this.errorMessage = '';
     this.authService.authenticate(credentials).pipe(catchError((err, caught): ObservableInput<any> => {
@@ -71,6 +70,7 @@ export class ConfirmDmcRedemptionComponent implements OnInit {
         this.isRedeemed = true;
         this.isLoading = false;
         console.log('done');
+        this.router.navigate(['merchant', 'dmc', 'list']);
       });
     });
   }
