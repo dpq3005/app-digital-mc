@@ -70,7 +70,7 @@ export class ConfirmDmcRedemptionComponent implements OnInit {
         this.isRedeemed = true;
         this.isLoading = false;
         console.log('done');
-        this.router.navigate(['merchant', 'dmc', 'list']);
+        // this.router.navigate(['merchant', 'dmc', 'list']);
       });
     });
   }
