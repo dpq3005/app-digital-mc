@@ -57,7 +57,9 @@ class SupervisorController extends AbstractController
 
                 $bp
                     ->setEnabled(true)
-                    ->setName($data->name);
+                    ->setName($data->name)
+                    ->setTelemedEnabled($data->telemedEnabled)
+                ;
 
                 $org = new Organisation();
                 $org->setSupervisorCode($usercode);
@@ -65,7 +67,8 @@ class SupervisorController extends AbstractController
                     ->setEnabled(true)
                     ->setUuid($data->organisationUuid)
                     ->setName($data->name)
-                    ->setLegacyId($data->organisationLegacyId);
+                    ->setLegacyId($data->organisationLegacyId)
+                ;
 
                 $bp->setOrganisation($org);
                 $org->setBenefitProvider($bp);
